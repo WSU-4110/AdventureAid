@@ -1,6 +1,7 @@
 const express = require('express');
 const app = express();
 const port = process.env.PORT || 3000;  // Use port 3000, or set the PORT environment variable
+const mongo = require('./api/index.js');
 
 // Middleware
 app.use(express.json()); // Enable JSON parsing for incoming requests
@@ -13,4 +14,5 @@ app.get('/', (req, res) => {
 // Start the server
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
+  mongo.runDB().catch(console.dir);
 });
