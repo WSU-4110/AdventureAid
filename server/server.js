@@ -1,8 +1,8 @@
 const express = require('express');
 const { ObjectId } = require('mongodb'); // Added for handling MongoDB unique IDs
 const app = express();
-const port = process.env.PORT || 3000;
-const mongo = require('./api/index.js');
+const port = process.env.PORT || 3000;  // Use port 3000, or set the PORT environment variable
+const dbOperations = require('./api/mongoDB.js');
 
 // Middleware
 app.use(express.json()); 
@@ -74,5 +74,5 @@ app.get('/', (req, res) => {
 // Start the server
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
-  mongo.runDB().catch(console.dir);
+  dbOperations.find("UserProfiles", {name: "Dan Pop"} );
 });
