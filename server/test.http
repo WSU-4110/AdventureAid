@@ -1,0 +1,30 @@
+### Create a new user
+POST http://localhost:3000/user HTTP/1.1
+Content-Type: application/json
+
+{
+    "name": "John Doe",
+    "email": "john@example.com"
+}
+
+###
+
+### Retrieve a user by ID (replace `YOUR_USER_ID` with actual ID from the previous response)
+GET http://localhost:3000/user/YOUR_USER_ID HTTP/1.1
+
+###
+
+### Update an existing user profile (replace `YOUR_USER_ID` with actual ID)
+PUT http://localhost:3000/user/YOUR_USER_ID HTTP/1.1
+Content-Type: application/json
+
+{
+    "name": "John Updated"
+}
+
+###
+
+### Remove a user profile (replace `YOUR_USER_ID` with actual ID)
+DELETE http://localhost:3000/user/YOUR_USER_ID HTTP/1.1
+
+###
