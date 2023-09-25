@@ -1,12 +1,12 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './styles/styles.scss';
-import App from './components/boiler/App';
+import Home from './screens/home/index.js';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <App />
+    <Home />
   </React.StrictMode>
 );
 
