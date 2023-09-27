@@ -1,13 +1,25 @@
+require('dotenv').config(); // Load environment variables from the .env file
 const express = require('express'); // import express from 'express';
 const axios = require('axios'); // import axios from 'axios';
 
 const app = express(); // Create an instance of an Express app (server) 
 
-const API_KEY = process.env.bb9a81d0defd2708138195e04c2bb4c6;  // Assumes the key is stored in environment variables
+const API_KEY = process.env.OPEN_WEATHER_API_KEY;  // Assumes the key is stored in environment variables
 
 app.get('/weather/:city', async (req, res) => { // GET /weather/:city 
-    const city = req.params.city; // Extract the city from the request parameters 
-    const url = `http://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${API_KEY}&units=imperial`; // Create the URL for the API call 
+    let url; // Declare a variable to hold the URL
+    const { city, cityId, lat, lon, zipCode } = req.params; // Extract the city name from the request parameters
+    if (city) { // If the city name is provided, use it to build the URL
+        url = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${API_KEY}&units=imperial`;
+    } else if (cityId) { // If the city ID is provided, use it to build the URL
+        url = `https://api.openweathermap.org/data/2.5/weather?id=${cityId}&appid=${API_KEY}&units=imperial`;
+    } else if (lat && lon) { // If the latitude and longitude are provided, use them to build the URL
+        url = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${API_KEY}&units=imperial`;
+    } else if (zipCode) { // If the zip code is provided, use it to build the URL
+        url = `https://api.openweathermap.org/data/2.5/weather?zip=${zipCode}&appid=${API_KEY}&units=imperial`;
+    } else { // If no location information is provided, send an error message back to the client
+        res.status(400).send({ message: 'No location information provided' });
+    }
 
     try { // Try to make the API call 
         const response = await axios.get(url); // Wait for the response 
