@@ -1,5 +1,4 @@
 const express = require('express');
-
 const app = express();
 const port = process.env.PORT || 3000;  // Use port 3000, or set the PORT environment variable
 const dbOperations = require('./api/mongoDB.js');
@@ -17,4 +16,3 @@ app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
   dbOperations.find("UserProfiles", {name: "Dan Pop"} );
 });
-
