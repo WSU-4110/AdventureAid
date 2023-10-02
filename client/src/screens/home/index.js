@@ -2,6 +2,7 @@ import logo from '../../assets/img/logo.svg';
 import './index.scss';
 
 import Navbar from '../../components/navbar';
+import WeatherComponent from '../../components/weather';
 
 function App() {
   return (
@@ -22,6 +23,7 @@ function App() {
           Learn React
         </a>
       </header>
+      <WeatherComponent />
     </div>
     </>
   );
