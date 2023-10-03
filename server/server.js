@@ -1,18 +1,15 @@
+const cors = require('cors');
 const express = require('express');
 const app = express();
-const port = process.env.PORT || 3000;  
+const port = process.env.PORT || 3001;  
 const dbOperations = require('./api/mongoDB.js');
 const weatherRoutes = require('./api/weather.js');
 
 // Middleware
 app.use(express.json()); // Enable JSON parsing for incoming requests
 
-// Enabling CORS (optional but useful if your API will be accessed from different domains)
-app.use((req, res, next) => {
-    res.header("Access-Control-Allow-Origin", "*");
-    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-    next();
-});
+// Enabling CORS
+app.use(cors({ origin: 'http://localhost:3000' })); // This enables all CORS requests
 
 // Routing
 app.use('/api/weather', weatherRoutes); // Enable the weather routes for the /api/weather endpoint 

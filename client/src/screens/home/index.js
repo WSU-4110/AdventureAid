@@ -2,6 +2,7 @@ import logo from '../../assets/img/logo.svg';
 import './index.scss';
 
 import Navbar from '../../components/navbar';
+import WeatherComponent from '../../components/weather';
 import LoginPage from '../../components/login/index.js';
 
 function App() {
@@ -24,6 +25,7 @@ function App() {
           Learn React
         </a>
       </header>
+      <WeatherComponent />
 
        <LoginPage />
     </div>
