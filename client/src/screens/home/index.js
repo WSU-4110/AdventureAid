@@ -3,13 +3,16 @@ import './index.scss';
 
 import Navbar from '../../components/navbar';
 import WeatherComponent from '../../components/weather';
+import LoginPage from '../../components/login/index.js';
 import MapComponent from '../../components/maps/googlemaps';
+
 
 function App() {
   return (
     <>
     <div className="App">
     <Navbar />
+  
       <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
         <p>
@@ -25,8 +28,10 @@ function App() {
         </a>
       </header>
       <WeatherComponent />
+      <LoginPage />
       <MapComponent />
     </div>
+     
     </>
   );
 }
