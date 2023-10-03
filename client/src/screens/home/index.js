@@ -2,12 +2,14 @@ import logo from '../../assets/img/logo.svg';
 import './index.scss';
 
 import Navbar from '../../components/navbar';
+import LoginPage from '../../components/login/index.js';
 
 function App() {
   return (
     <>
     <div className="App">
     <Navbar />
+  
       <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
         <p>
@@ -22,7 +24,10 @@ function App() {
           Learn React
         </a>
       </header>
+
+       <LoginPage />
     </div>
+     
     </>
   );
 }
