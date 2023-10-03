@@ -4,6 +4,8 @@ import './index.scss';
 import Navbar from '../../components/navbar';
 import WeatherComponent from '../../components/weather';
 import LoginPage from '../../components/login/index.js';
+import MapComponent from '../../components/maps/googlemaps';
+
 
 function App() {
   return (
@@ -26,8 +28,8 @@ function App() {
         </a>
       </header>
       <WeatherComponent />
-
-       <LoginPage />
+      <LoginPage />
+      <MapComponent />
     </div>
      
     </>
