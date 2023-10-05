@@ -4,6 +4,7 @@ const app = express();
 const port = process.env.PORT || 3001;  
 const dbOperations = require('./api/mongoDB.js');
 const weatherRoutes = require('./api/weather.js');
+require("dotenv").config();
 
 // Middleware
 app.use(express.json()); // Enable JSON parsing for incoming requests
@@ -18,6 +19,13 @@ app.use('/api/weather', weatherRoutes); // Enable the weather routes for the /ap
 app.get('/', (req, res) => {
   res.send('Hello, Travel Planner!');
 });
+
+app.get('/api/googlemapsapikey', (req, res) => {
+  // Retrieve the API key from environment variables or a secure config file.
+  const apiKey = process.env.GOOGLE_MAPS_API_KEY;
+  res.json({ apiKey });
+});
+
 
 // Starting the Server
 app.listen(port, () => {

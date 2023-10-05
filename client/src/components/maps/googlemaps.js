@@ -1,16 +1,24 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { googleMapsOperations } from './googlemapsAPI';
 
 function MapComponent() {
 
-    useEffect(() => {   // funtionality in the front end components
-        const loader = googleMapsOperations.getLoader("insert api key");
-        googleMapsOperations.loadGoogleMapsScript(loader)
+    useEffect(() => {
+        // Fetch the Google Maps API key from the server.
+        fetch('http://localhost:3001/api/googlemapsapikey')
+            .then(response => response.json()) //read the body of the response and parse it as JSON, returns a promise
+            .then(data => {
+                //extract the apiKey from parsed JSON data into the googlemapAPI
+                const loader = googleMapsOperations.getLoader(data.apiKey);
+                //return googlemaps script with map loader as input
+                return googleMapsOperations.loadGoogleMapsScript(loader);   
+            })
             .then(() => {
+                //create google map object to display
                 const mapInstance = googleMapsOperations.initMap();
             })
             .catch(error => {
-                console.error("Error loading Google Maps:", error);
+                console.error("Error:", error);
             });
     }, []);
 
