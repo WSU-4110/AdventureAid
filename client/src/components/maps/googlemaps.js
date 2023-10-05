@@ -15,7 +15,8 @@ function MapComponent() {
             })
             .then(() => {
                 //create google map object to display
-                const mapInstance = googleMapsOperations.initMap();
+                googleMapsOperations.initalizeMap();
+                googleMapsOperations.showCurrentLocation();
             })
             .catch(error => {
                 console.error("Error:", error);
