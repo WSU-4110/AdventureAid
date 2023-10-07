@@ -4,7 +4,7 @@ import Helmet from 'react-helmet';
 
 import './index.scss';
 
-function LoginPage() {
+function LoginComponent() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [rememberMe, setRememberMe] = useState(false);
@@ -81,4 +81,4 @@ function LoginPage() {
   );
 }
 
-export default LoginPage;
+export default LoginComponent;
