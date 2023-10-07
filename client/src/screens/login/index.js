@@ -1,30 +1,29 @@
-import React from "react"   
-import { Container, Grid, CssBaseline} from '@mui/material';
+// LoginScreen.js
+import React from "react";
+import { CssBaseline, Grid } from '@mui/material';
 import Helmet from 'react-helmet';
 
-
-import Logo from "../../assets/img/logo.svg";
 import LoginComponent from "../../components/login";
+import './index.scss'; // Ensure your stylesheet is imported
 
-function LoginScreen() {
+function LoginScreen({ onLogin }) {
   return (
-    <Container component="main" maxWidth={false}>
+    <>
       <CssBaseline />
       <Helmet>
         <title>Login</title>
         <meta name="description" content="" />
       </Helmet>
-      <Grid container spacing={2}>
-        <Grid item xs={6}>
-            <img src={Logo} alt="logo" />
+      <Grid
+        container
+        className="hero-container" // Use the hero-container class
+      >
+        <Grid item xs="auto" className="login-component"> {/* Set item to take full width and use login-component class */}
+          <LoginComponent onLogin={onLogin} />
         </Grid>
-        <Grid item xs={6}>
-            <LoginComponent />
-            </Grid>
       </Grid>
-    </Container>
+    </>
   );
 }
-
 
 export default LoginScreen;
