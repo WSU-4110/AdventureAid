@@ -1,18 +1,21 @@
 import React, { useState } from 'react';
-import { Container, Typography, TextField, Checkbox, FormControlLabel, Button, Link, CssBaseline, Paper} from '@mui/material';
+import { Container, Box, Typography, TextField, Checkbox, FormControlLabel, Button, Link, CssBaseline, Paper} from '@mui/material';
 import Helmet from 'react-helmet';
 
+import logo from "../../assets/img/logo/logo-name1.png"
 import './index.scss';
 
-function LoginPage() {
+function LoginComponent({ onLogin }) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [rememberMe, setRememberMe] = useState(false);
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log('login');  
-    //link to home page  
+    console.log('login');
+    if (typeof onLogin === 'function') { // Now you can directly use onLogin without props.
+      onLogin(); // Call the onLogin prop function to simulate successful login
+    }
   };
 
 
@@ -23,6 +26,13 @@ function LoginPage() {
         <title>Sign in</title>
         <meta name="description" content="" />
       </Helmet>
+
+    <Box className="logo-col">
+      <Typography variant="h3" className="logo-text">
+        Welcome to
+      </Typography>
+      <img src={logo} alt="logo" className="logo-img" />
+    </Box>
 
       <Paper elevation={3} className="login-paper">
         <Typography variant="h5">Sign in</Typography>
@@ -81,4 +91,4 @@ function LoginPage() {
   );
 }
 
-export default LoginPage;
+export default LoginComponent;

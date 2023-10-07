@@ -28,7 +28,9 @@ router.get('/:city', async (req, res) => { // Define a route for GET /api/weathe
         res.send({
             city: data.name, // Extract the city name
             temperature: data.main.temp, // Extract the temperature
-            weather: data.weather[0].description // Extract the weather description
+            weather: data.weather[0].description, // Extract the weather description
+            humidity: data.main.humidity, // Extract the humidity
+            wind: data.wind.speed, // Extract the wind speed
         });
     } catch (error) {
         if (error.response) { // If the error has a response property, it's a request error 
