@@ -14,9 +14,6 @@ function App() {
     <div className="App">
     <Navbar />
       <WeatherComponent />
-      <TravelAdvisoryComponent />
-      <LoginPage />
-      <MapComponent />
     </div>
      
     </>
