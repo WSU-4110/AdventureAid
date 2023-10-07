@@ -11,11 +11,8 @@ function App() {
   return (
     <>
     <div className="App">
-      <Navbar />
+    <Navbar />
       <WeatherComponent />
-      <TravelAdvisoryComponent />
-      <MapComponent />
-
     </div>
      
     </>
