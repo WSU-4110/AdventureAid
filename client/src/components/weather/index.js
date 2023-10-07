@@ -1,14 +1,28 @@
 import React, { useEffect, useState } from 'react';
 import { Box, Typography } from '@mui/material';
+
 import SearchBar from '../searchbar/index.js';
 import SearchIcon from '@mui/icons-material/Search';
+import WaterIcon from '@mui/icons-material/Water';
+import AirIcon from '@mui/icons-material/Air';
+import ThermostatIcon from '@mui/icons-material/Thermostat';
+
+import clearSky from "../../assets/img/weather-icons/clear-sky.png"
+import clouds from "../../assets/img/weather-icons/clouds.png"
+import fewClouds from "../../assets/img/weather-icons/few-clouds.png"
+import rain from "../../assets/img/weather-icons/rain.png"
+import scatteredClouds from "../../assets/img/weather-icons/scattered-clouds.png"
+import snow from "../../assets/img/weather-icons/snow.png"
+import thunderstorm from "../../assets/img/weather-icons/thunderstorm.png"
+
 import './index.scss';
 
 function WeatherComponent() {
   const [weatherData, setWeatherData] = useState(null);
-  const [city, setCity] = useState('');
-  const [search, setSearch] = useState('');
-  const [error, setError] = useState('');
+  const [city, setCity] = useState("");
+  const [weatherImage, setWeatherImage] = useState("");
+  const [search, setSearch] = useState("");
+  const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false); 
 
   useEffect(() => {
@@ -30,6 +44,7 @@ function WeatherComponent() {
       })
       .then(data => {
         setWeatherData(data);
+        setWeatherImage(getWeatherImage(data.weather)); // Set the weather image URL
       })    
       .catch(error => {
         console.error('There has been a problem with your fetch operation:', error);
@@ -39,6 +54,23 @@ function WeatherComponent() {
         setIsLoading(false); // Set loading to false when fetch completes
       });
   }, [search]);
+
+  // Function to map weather description to image URL
+  const getWeatherImage = (weatherDescription) => {
+    const weatherImages = {
+      'clear sky': clearSky,
+      'few clouds': fewClouds,
+      'scattered clouds': scatteredClouds,
+      'broken clouds': clouds,
+      'overcast clouds': clouds,
+      'shower rain': rain,
+      'rain': rain,
+      'thunderstorm': thunderstorm,
+      'snow': snow,
+      'mist': clouds,
+    };
+    return weatherImages[weatherDescription.toLowerCase()] || '../../assets/img/weather-icons/clouds.jpeg';
+  };
 
   const handleInputChange = (event) => {
     setCity(event.target.value);
@@ -55,8 +87,8 @@ function WeatherComponent() {
         <SearchBar 
           onChange={handleInputChange} 
           value={city} 
-          label={'Enter City:'}
-          />
+          label={"Enter City:"}
+        />
         <SearchIcon className="search-icon" onClick={handleSearch} />
       </Box>
       {error ? (
@@ -64,10 +96,31 @@ function WeatherComponent() {
       ) : isLoading ? (
         <Typography>Loading weather data...</Typography> // Render loading message if isLoading is true
       ) : weatherData ? (
-            <Box>
-              <Typography>City: {weatherData.city}</Typography>
-              <Typography>Temperature: {Math.round(weatherData.temperature)}°F</Typography>
-              <Typography>Humidity: {weatherData.weather}</Typography>
+            <Box className="weather-display">
+              <Box className="left-column">
+                <img src={weatherImage} alt={weatherData.weather} />
+                <Box className="icon-row">
+                  <ThermostatIcon className="icon" />
+                  <Typography variant="h2" className="temp">
+                    {Math.round(weatherData.temperature)}°F
+                  </Typography>
+                </Box>
+                <Typography variant="h2" display={{ xs: "none", sm: "block" }}>{weatherData.city}</Typography>
+              </Box>
+              <Box className="right-column">
+                <Box className="icon-row">
+                  <WaterIcon className="icon" />
+                  <Typography variant="h2">
+                    Humidity: {weatherData.humidity}%
+                  </Typography>
+                </Box>
+                <Box className="icon-row">
+                  <AirIcon className="icon" />
+                  <Typography variant="h2">
+                    Wind: {Math.round(weatherData.wind)} mph
+                  </Typography>
+                </Box>
+              </Box>
             </Box>
       ) : null}
     </Box>
