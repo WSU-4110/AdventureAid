@@ -1,22 +1,22 @@
 import logo from '../../assets/img/logo.svg';
-import './index.scss';
+import { Box } from '@mui/material';
 
-import Navbar from '../../components/navbar';
 import WeatherComponent from '../../components/weather';
 import MapComponent from '../../components/maps/googlemaps';
 import TravelAdvisoryComponent from '../../components/travel-advisory';
 
+import './index.scss';
 
-function App() {
+
+function Home() {
   return (
     <>
-    <div className="App">
-    <Navbar />
+    <Box>
       <WeatherComponent />
-    </div>
+    </Box>
      
     </>
   );
 }
 
-export default App;
+export default Home;
