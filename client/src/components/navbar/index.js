@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { Link } from 'react-router-dom';
 import { AppBar, Toolbar, IconButton, Typography, Box, Drawer, Button, List, ListItem, ListItemButton, ListItemText } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
 
@@ -14,9 +15,9 @@ export default function Navbar() {
   const drawer = (
     <Box>
       <List>
-        {['Home', 'Lorem', 'Lorem', 'Lorem'].map((text) => (
+        {['Home', 'Destinations', 'About', 'Blog'].map((text) => (
           <ListItem key={text}>
-            <ListItemButton>
+            <ListItemButton component={Link} to={text === 'Home' ? '/' : `/${text.toLowerCase()}`}>
               <ListItemText primary={text} />
             </ListItemButton>
           </ListItem>
@@ -36,8 +37,8 @@ export default function Navbar() {
 
           {/* Desktop view - ListItems */}
           <Box sx={{ display: { xs: 'none', md: 'flex' } }} color="black" columnGap={8}>
-            {['Home', 'Lorem', 'Lorem', 'Lorem'].map((text) => (
-              <Button color="inherit" key={text}>{text}</Button>
+            {['Home', 'Destinations', 'About', 'Blog'].map((text) => (
+              <Button color="inherit" key={text} component={Link} to={text === 'Home' ? '/' : `/${text.toLowerCase()}`}>{text}</Button>
             ))}
           </Box>
 
