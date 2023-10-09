@@ -1,6 +1,6 @@
 import { Loader } from "@googlemaps/js-api-loader";
 
-let mapInstance, infoWindow;    //store the instance of the map and the information window
+let mapInstance, infoWindow, markers = [];    // store the instance of the map, information window, initialize markers array
 export const googleMapsOperations = {
     
     getLoader: function(apiKey) {
@@ -13,6 +13,26 @@ export const googleMapsOperations = {
     loadGoogleMapsScript: function(loader) {
         return loader.load();  // returns a promise which resolves when the Google Maps script is successfully loaded.
     },
+
+    addMarker: function(lat, lng) {
+        const marker = new window.google.maps.Marker({
+            position: { lat, lng },
+            map: mapInstance,
+            draggable: true, // Allow the marker to be draggable
+        });
+
+        // Add a click event listener to open an info window when the marker is clicked
+        marker.addListener("click", () => {
+            const infoWindow = new window.google.maps.InfoWindow({
+                content: `Marker Location: ${lat}, ${lng}`,
+            });
+            infoWindow.open(mapInstance, marker);
+        });
+
+        // Add the marker to the markers array 
+        markers.push(marker);
+    },
+
     initalizeMap: function() {
         mapInstance = new window.google.maps.Map(document.getElementById("map"), {  //initializes the map
             center: { lat: -34.397, lng: 150.644 },
