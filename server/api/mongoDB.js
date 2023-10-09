@@ -1,5 +1,7 @@
 const { MongoClient, ServerApiVersion } = require('mongodb');
 require('dotenv').config();
+const {hash,compare} = require('./bcheck.js');
+
 const uri = process.env.DB_URI;
 
 // Create a MongoClient with a MongoClientOptions object to set the Stable API version
@@ -10,7 +12,7 @@ const client = new MongoClient(uri, {
     deprecationErrors: true,
   }
 });
-
+let db;
 // object literal for custom database API's
 const dbOperations = {
   connect: async function() {
@@ -18,56 +20,74 @@ const dbOperations = {
       // Connect the client to the server	(optional starting in v4.7)
       await client.connect();
       // Send a ping to confirm a successful connection
-      await client.db("admin").command({ ping: 1 });
-      console.log("Pinged your deployment. You successfully connected to MongoDB!");
-
-      return true;
+      db = client.db("AdventureAid");
+      console.log("Connected to MongoDB!");
     } catch(error) {
       console.log(error);
       throw error;
-    } finally {
-      // Ensures that the client will close when you finish/error
-      await client.close();
+    } 
+    // finally {
+    //   // Ensures that the client will close when you finish/error
+    //   await client.close();
+    // }
+  },
+  login: async function(username, password) {
+    try {
+        const collection = db.collection("UserProfiles");
+        const user = await collection.findOne({ name: username });
+        if (!user) {
+            console.log("User not found");
+            return false;
+        }
+        const isMatch = await compare(password, user.password);
+        return isMatch;
+    } catch(error) {
+        console.log(error);
+        throw error;
     }
   },
   find: async function(input_collection, input_document) {
     try {
-      await client.connect();
-      
-      const db = client.db("AdventureAid");
-      var collection = db.collection(input_collection);
+        await client.connect();
+        
+        const db = client.db("AdventureAid");
+        var collection = db.collection(input_collection);
 
-      // find document in collection
-      const documents = await collection.find(input_document).toArray();
-      console.log(documents);
+        // find document in collection
+        const documents = await collection.find(input_document).toArray();
+        console.log(documents);
 
-      return documents;
+        return documents;
     } catch(error) {
-      console.log(error);
-      throw error;
+    console.log(error);
+    throw error;
     } finally {
-      await client.close();
+    await client.close();
     }
-  },
-  insert: async function(input_collection, input_document) {
-    try {
-      await client.connect();
+},
+insert: async function(input_collection, input_document) {
+  try {
+    await client.connect();
 
-      const db = client.db("AdventureAid");
-      var collection = db.collection(input_collection);
+    const db = client.db("AdventureAid");
+    var collection = db.collection(input_collection);
 
-      // insert document into db
-      const insert_result = await collection.insertOne(input_document)
-      console.log(`Document inserted with _id: ${insert_result.insertedId}`);
-
-      return true;
-    } catch(error) {
-      console.log(error);
-      throw error;
-    } finally {
-      await client.close();
+    if (input_collection === "UserProfiles" && input_document.password) {
+      input_document.password = await hash(input_document.password);
     }
-  },
+
+    // insert document into db
+    const insert_result = await collection.insertOne(input_document)
+    console.log(`Document inserted with _id: ${insert_result.insertedId}`);
+
+    return true;
+  } catch(error) {
+    console.log(error);
+    throw error;
+  } finally {
+    await client.close();
+  }
+},
   update: async function(input_collection, input_query, input_update) {
     try {
       await client.connect();
@@ -107,6 +127,7 @@ const dbOperations = {
     }
   }
 };
+dbOperations.insert("UserProfiles", {name: "cricket16", email:"cricket16@gmail.com", password:"cricket16"})
 
 /*
 Example function calls:
@@ -115,5 +136,6 @@ dbOperations.insert("UserProfiles", {name: "Harry Potter", email:"harrypottter@g
 dbOperations.update("UserProfiles", {name: "Harry Potter"}, {$set:{name: "Tom Riddle"}})
 dbOperations.delete("UserProfiles", {name: "Harry Potter"})
 */
+//dbOperations.connect();
 
 module.exports = dbOperations;
