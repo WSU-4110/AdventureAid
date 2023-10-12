@@ -8,21 +8,24 @@ import './index.scss'; // Ensure your stylesheet is imported
 
 function LoginScreen({ onLogin }) {
   return (
-    <>
-      <CssBaseline />
-      <Helmet>
+      
+      // <Container maxWidth={false} className="hero-container">
+        <>
+      <CssBaseline /><Helmet>
         <title>Login</title>
         <meta name="description" content="" />
-      </Helmet>
-      <Grid
+      </Helmet><Grid
         container
-        className="hero-container" // Use the hero-container class
+        justifyContent="center"
+        alignItems="center"
+        className="hero-container"
       >
-        <Grid item xs="auto" className="login-component"> {/* Set item to take full width and use login-component class */}
+        <Grid item xs={12} className="login-component" justifyContent="center" alignItems="center"> {/* Set item to take full width and use login-component class */}
           <LoginComponent onLogin={onLogin} />
         </Grid>
-      </Grid>
-    </>
+      </Grid></>
+   
+      
   );
 }
 
