@@ -10,6 +10,8 @@ router.get('/:city', async (req, res) => { // Define a route for GET /api/weathe
     const { city } = req.params; // Extract the city name from the request parameters
     const { cityId, lat, lon, zipCode } = req.query; // Using query parameters for additional data
 
+    // Build the URL based on the query parameters provided
+
     if (city) {
         url = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${API_KEY}&units=imperial`;
     } else if (cityId) {
@@ -22,6 +24,7 @@ router.get('/:city', async (req, res) => { // Define a route for GET /api/weathe
         return res.status(400).send({ message: 'No location information provided' });
     }
 
+    // Make the request to the OpenWeather API and return the response to the client 
     try {
         const response = await axios.get(url); // Wait for the response 
         const data = response.data; // Extract the data from the response 
@@ -32,6 +35,7 @@ router.get('/:city', async (req, res) => { // Define a route for GET /api/weathe
             humidity: data.main.humidity, // Extract the humidity
             wind: data.wind.speed, // Extract the wind speed
         });
+        // Handle errors
     } catch (error) {
         if (error.response) { // If the error has a response property, it's a request error 
             return res.status(error.response.status).send({ message: 'Error retrieving weather data', error: error.response.data });

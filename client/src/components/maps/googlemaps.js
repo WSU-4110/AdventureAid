@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react';
+import { Box } from '@mui/material';
 import { googleMapsOperations } from './googlemapsAPI';
 
 function MapComponent() {
@@ -47,7 +48,15 @@ function MapComponent() {
             });
     }, []);
 
-    return <div id="map" style={{ width: '100%', height: '700px' }}></div>;
+    return (
+    <Box
+        display="flex"
+        justifyContent="center"
+        alignItems="center"
+    >
+        <Box id="map" sx={{ width: '75%', height: '400px' }} />
+    </Box>
+    );
 }
 
 export default MapComponent;
