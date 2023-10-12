@@ -1,11 +1,10 @@
 import React, { useState } from 'react';
-import { Container, Box, Typography, TextField, Checkbox, FormControlLabel, Button, Link, CssBaseline, Paper, Grid} from '@mui/material';
+import { Container, Typography, TextField, Checkbox, FormControlLabel, Button, Link, CssBaseline, Paper} from '@mui/material';
 import Helmet from 'react-helmet';
 
-import logo from "../../assets/img/logo/logo-name1.png"
 import './index.scss';
 
-function LoginComponent({ onLogin }) {
+function LoginForm({ onLogin }) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [rememberMe, setRememberMe] = useState(false);
@@ -27,17 +26,6 @@ function LoginComponent({ onLogin }) {
         <meta name="description" content="" />
       </Helmet>
 
-    <Grid container direction="row" justify="center" alignItems="center" spacing={4}>
-        <Grid item xs={12} lg={6}>
-          <Box className="logo-col">
-            <Typography variant="h3" className="logo-text">
-              Welcome to
-            </Typography>
-            <img src={logo} alt="logo" className="logo-img" />
-          </Box>
-        </Grid>
-
-      <Grid item xs={12} lg={6} container justifyContent="center">
       <Paper elevation={3} className="login-paper">
         <Typography variant="h5">Sign in</Typography>
         <form className="login-form" onSubmit={handleSubmit}>
@@ -91,10 +79,8 @@ function LoginComponent({ onLogin }) {
           </div>
         </form>
       </Paper>
-        </Grid>
-      </Grid>
     </Container>
   );
 }
 
-export default LoginComponent;
+export default LoginForm;

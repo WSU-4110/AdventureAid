@@ -7,7 +7,7 @@ function About() {
   return (
     <>
       <Box>
-        <Typography variant="h1" textAlign="center">
+        <Typography variant="h1" fontSize={{ xs: "3rem", md: "5rem" }} textAlign="center">
           About
         </Typography>
       </Box>

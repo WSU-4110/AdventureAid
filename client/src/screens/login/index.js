@@ -1,9 +1,12 @@
 // LoginScreen.js
 import React from "react";
-import { CssBaseline, Grid } from '@mui/material';
+import { CssBaseline, Grid, Box, Typography } from '@mui/material';
 import Helmet from 'react-helmet';
 
-import LoginComponent from "../../components/login";
+import LoginForm from "../../components/login";
+
+import logo from "../../assets/img/logo/logo-name1.png"
+
 import './index.scss'; // Ensure your stylesheet is imported
 
 function LoginScreen({ onLogin }) {
@@ -16,10 +19,18 @@ function LoginScreen({ onLogin }) {
       </Helmet>
       <Grid
         container
-        className="hero-container" // Use the hero-container class
+        className="hero-container" 
       >
-        <Grid item xs="auto" className="login-component"> {/* Set item to take full width and use login-component class */}
-          <LoginComponent onLogin={onLogin} />
+        <Grid item>
+          <Box className="logo-col">
+            <Typography variant="h3" className="logo-text">
+              Welcome to
+            </Typography>
+            <img src={logo} alt="logo" className="logo-img" />
+          </Box>
+        </Grid>
+        <Grid item xs="auto" className="login-component"> 
+          <LoginForm onLogin={onLogin} />
         </Grid>
       </Grid>
     </>
