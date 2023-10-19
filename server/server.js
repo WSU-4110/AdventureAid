@@ -3,8 +3,10 @@ const express = require('express');
 const app = express();
 const port = process.env.PORT || 3001;  
 const dbOperations = require('./api/mongoDB.js');
+const flightStatusRoutes = require('./api/flightStatus.js');
 const weatherRoutes = require('./api/weather.js');
 require("dotenv").config();
+
 
 // Middleware
 app.use(express.json()); // Enable JSON parsing for incoming requests
@@ -14,6 +16,7 @@ app.use(cors({ origin: 'http://localhost:3000' })); // This enables all CORS req
 
 // Routing
 app.use('/api/weather', weatherRoutes); // Enable the weather routes for the /api/weather endpoint 
+app.use('/api/flightStatus', flightStatusRoutes); // Enable the flight status routes for the /api/flightStatus endpoint
 
 // Root Endpoint
 app.get('/', (req, res) => {
