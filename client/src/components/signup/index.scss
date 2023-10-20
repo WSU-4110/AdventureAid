@@ -1,0 +1,55 @@
+.logo-col {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  .logo-text {
+    font-size: 3rem;
+    font-weight: 500;
+    color: white;
+    @media(max-width: 600px) {
+      font-size: 1.5rem;
+    }
+  }
+  .logo-img {
+    width: 400px;
+    @media(max-width: 600px) {
+      width: 200px;
+    }
+  }
+}
+
+.login-paper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+  max-width: 400px;
+  background-color: #f1f3f5 !important;
+  @media(max-width: 600px) {
+    max-width: 300px;
+  }
+}
+
+.login-form {
+  width: 100%;
+  margin-top: 8px;
+}
+
+.submit-button {
+  margin: 24px 0 16px;
+}
+
+.checkbox-label {
+  font-size: 0.875rem;
+}
+
+.forgot-password {
+  text-align: right;
+  background-color: transparent;
+  a {
+    text-decoration: none;
+    font-size: 0.875rem;
+    color: #3f51b5;
+  }
+}
