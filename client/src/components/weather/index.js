@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Box, Typography } from '@mui/material';
+import { Box, Typography, Button } from '@mui/material';
 
 import SearchBar from '../searchbar/index.js';
 import SearchIcon from '@mui/icons-material/Search';
@@ -24,6 +24,7 @@ function WeatherComponent() {
   const [search, setSearch] = useState("");
   const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false); 
+  const [temperatureUnit, setTemperatureUnit] = useState('F'); // Default to Fahrenheit
 
   useEffect(() => {
     if (!search) return;
@@ -80,7 +81,20 @@ function WeatherComponent() {
     setSearch(city);
   };
 
+  const handleTemperatureUnitChange = () => {
+    // switch between Celsius and Fahrenheit
+    setTemperatureUnit(temperatureUnit === 'C' ? 'F' : 'C');
+  };
 
+  const convertTemperature = (temperature) => {
+    // convert temperature 
+    if (temperatureUnit === 'C') {
+      return Math.round((temperature - 32) * (5 / 9)) + '°C';
+    } else {
+      return Math.round(temperature) + '°F';
+    }
+  };
+  
   return (
     <Box className="card">
       <Box className="search-container">
@@ -102,7 +116,7 @@ function WeatherComponent() {
                 <Box className="icon-row">
                   <ThermostatIcon className="icon" />
                   <Typography variant="h2" className="temp">
-                    {Math.round(weatherData.temperature)}°F
+                  {convertTemperature(weatherData.temperature)}
                   </Typography>
                 </Box>
                 <Typography variant="h2" display={{ xs: "none", sm: "block" }}>{weatherData.city}</Typography>
@@ -123,6 +137,11 @@ function WeatherComponent() {
               </Box>
             </Box>
       ) : null}
+
+      {/* Button to switch between Celsius and Fahrenheit */}
+      <Button onClick={handleTemperatureUnitChange}> 
+        {temperatureUnit === 'C' ? 'Fahrenheit' : 'Celsius'}
+      </Button>
     </Box>
   );
 }

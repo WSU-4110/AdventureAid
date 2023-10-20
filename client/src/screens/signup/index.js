@@ -3,20 +3,20 @@ import React from "react";
 import { CssBaseline, Grid, Box, Typography } from '@mui/material';
 import Helmet from 'react-helmet';
 
-import LoginForm from "../../components/login";
+import SignupForm from "../../components/signup";
 
 import logo from "../../assets/img/logo/logo-name1.png"
 
 import './index.scss'; // Ensure your stylesheet is imported
 
-function LoginScreen({ onLogin }) {
+function SignUpScreen({ onLogin }) {
   return (
       
       // <Container maxWidth={false} className="hero-container">
         <>
       <CssBaseline />
       <Helmet>
-        <title>Login</title>
+        <title>Sign up</title>
         <meta name="description" content="" />
       </Helmet><Grid
         container
@@ -31,7 +31,7 @@ function LoginScreen({ onLogin }) {
           </Box>
         </Grid>
         <Grid item xs="auto" className="login-component"> 
-          <LoginForm onLogin={onLogin} />
+        <SignupForm />
         </Grid>
       </Grid></>
    
@@ -39,4 +39,4 @@ function LoginScreen({ onLogin }) {
   );
 }
 
-export default LoginScreen;
+export default SignUpScreen;

@@ -1,11 +1,10 @@
 import React, { useState } from 'react';
-import { Container, Box, Typography, TextField, Checkbox, FormControlLabel, Button, Link, CssBaseline, Paper} from '@mui/material';
+import { Container, Typography, TextField, Checkbox, FormControlLabel, Button, Link, CssBaseline, Paper} from '@mui/material';
 import Helmet from 'react-helmet';
 
-import logo from "../../assets/img/logo/logo-name1.png"
 import './index.scss';
 
-function LoginComponent({ onLogin }) {
+function LoginForm({ onLogin }) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [rememberMe, setRememberMe] = useState(false);
@@ -20,19 +19,12 @@ function LoginComponent({ onLogin }) {
 
 
   return (
-    <Container component="main" maxWidth="xs">
+    <Container component="main" maxWidth={false}>
       <CssBaseline />
       <Helmet>
         <title>Sign in</title>
         <meta name="description" content="" />
       </Helmet>
-
-    <Box className="logo-col">
-      <Typography variant="h3" className="logo-text">
-        Welcome to
-      </Typography>
-      <img src={logo} alt="logo" className="logo-img" />
-    </Box>
 
       <Paper elevation={3} className="login-paper">
         <Typography variant="h5">Sign in</Typography>
@@ -91,4 +83,4 @@ function LoginComponent({ onLogin }) {
   );
 }
 
-export default LoginComponent;
+export default LoginForm;
