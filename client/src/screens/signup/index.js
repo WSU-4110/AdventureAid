@@ -14,7 +14,8 @@ function SignUpScreen({ onLogin }) {
       
       // <Container maxWidth={false} className="hero-container">
         <>
-      <CssBaseline /><Helmet>
+      <CssBaseline />
+      <Helmet>
         <title>Sign up</title>
         <meta name="description" content="" />
       </Helmet><Grid

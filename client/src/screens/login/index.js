@@ -14,7 +14,8 @@ function LoginScreen({ onLogin }) {
       
       // <Container maxWidth={false} className="hero-container">
         <>
-      <CssBaseline /><Helmet>
+      <CssBaseline />
+      <Helmet>
         <title>Login</title>
         <meta name="description" content="" />
       </Helmet><Grid
