@@ -9,15 +9,14 @@ import Home from '../screens/home/index';
 import Destinations from '../screens/destinations';
 import About from '../screens/about';
 import Blog from '../screens/blog';
-import SignUpScreen from '../screens/signup';
 // ... import other page components
 
 export default function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
-  // const handleLogin = () => {
-  //   setIsLoggedIn(true); // Set isLoggedIn to true to simulate successful login
-  // };
+  const handleLogin = () => {
+    setIsLoggedIn(true); // Set isLoggedIn to true to simulate successful login
+  };
 
   return (
     <Router>
@@ -33,7 +32,7 @@ export default function App() {
           </Routes>
         </>
       ) : (
-        <SignUpScreen />
+        <LoginScreen onLogin={handleLogin} />
       )}
     </Router>
   );
