@@ -60,4 +60,7 @@ router.get('/flight-offers', async (req, res) => {
     }
 });
 
+// to test this endpoint, use the following URL: http://localhost:3001/api/flightSearch/flight-offers?origin=NYC&destination=LAX&departureDate=2023-10-25&adults=1
+
+
 module.exports = router;
