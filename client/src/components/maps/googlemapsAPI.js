@@ -1,5 +1,6 @@
 import { Loader } from "@googlemaps/js-api-loader";
 
+let directionsService, directionsRenderer;
 let mapInstance, infoWindow, markers = [];    // store the instance of the map, information window, initialize markers array
 export const googleMapsOperations = {
     
@@ -77,6 +78,33 @@ export const googleMapsOperations = {
         } else 
             // if browser doesn't support Geolocation
             this.handleLocationError(false, infoWindow, mapInstance.getCenter());
+        });
+    },
+    calculateAndDisplayRoute: function(start, end)
+    {
+        if (!directionsService) //check if directionsService is initialized
+            directionsService = new window.google.maps.DirectionsService();
+        if (!directionsRenderer) //check if directionsRenderer is initialized
+        {
+            directionsRenderer = new window.google.maps.DirectionsRenderer({    //create a new directionsRenderer instance
+                map: mapInstance    //associate it with the current active displayed map
+            });
+        }
+        directionsService.route({   //make request to fetch directions
+            origin: start,  //starting location
+            destination: end,   //end location
+            travelMode: window.google.maps.TravelMode.DRIVING,  //transportation type
+        }, (response, status) => {      //callback function to handle result of route request
+            if (status === "OK") { 
+                directionsRenderer.setDirections(response);
+                const routeLeg = response.routes[0].legs[0];    //extract distance and time from response
+                const distance = routeLeg.distance.text;
+                const duration = routeLeg.duration.text;  
+                document.getElementById("distance").textContent = `Distance: ${distance} `;  //Display distance
+                document.getElementById("duration").textContent = `Duration: ${duration}`;  //display duration
+            } else {
+                window.alert("Directions request failed due to " + status);
+            }
         });
     }
 }

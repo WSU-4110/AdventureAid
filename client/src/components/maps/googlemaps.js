@@ -41,7 +41,9 @@ function MapComponent() {
                     } else {
                         alert("Invalid coordinates. Please enter valid numbers.");
                     }
+                    googleMapsOperations.calculateAndDisplayRoute('Wayne State University', 'Los Angeles, CA');
                 });
+                
             })
             .catch(error => {
                 console.error("Error:", error);
@@ -51,10 +53,16 @@ function MapComponent() {
     return (
     <Box
         display="flex"
+        flexDirection="column"
         justifyContent="center"
         alignItems="center"
+        opacity= "0.5"
     >
-        <Box id="map" sx={{ width: '75%', height: '400px' }} />
+        <Box id="map" sx={{ width: '95%', height: '400px' }} />
+        <Box id="routeInfo" sx={{ marginTop: '1rem' }}>
+            <span id="distance"></span>
+            <span id="duration"></span>
+        </Box>
     </Box>
     );
 }
