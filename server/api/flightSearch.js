@@ -29,7 +29,10 @@ async function getAmadeusToken() {
 }
 
 router.get('/flight-offers', async (req, res) => {
-    const { origin, destination, departureDate, adults } = req.query;
+    const {
+        origin, destination, departureDate, adults, returnDate, children, infants,
+        travelClass, includedAirlineCodes, excludedAirlineCodes,  nonStop, currencyCode, maxPrice, max
+    } = req.query;
 
     if (!origin || !destination || !departureDate || !adults) {
         return res.status(400).send({ message: 'Required parameters: origin, destination, departureDate.' });
@@ -42,7 +45,18 @@ router.get('/flight-offers', async (req, res) => {
         return res.status(500).send({ message: 'Failed to authenticate with Amadeus', error: error.message });
     }
 
-    const url = `https://test.api.amadeus.com/v2/shopping/flight-offers?originLocationCode=${origin}&destinationLocationCode=${destination}&departureDate=${departureDate}&adults=${adults}`;
+    let url = `https://test.api.amadeus.com/v2/shopping/flight-offers?originLocationCode=${origin}&destinationLocationCode=${destination}&departureDate=${departureDate}&adults=${adults}`;
+
+    if (returnDate) url += `&returnDate=${returnDate}`;
+    if (children) url += `&children=${children}`;
+    if (infants) url += `&infants=${infants}`;
+    if (travelClass) url += `&travelClass=${travelClass.toUpperCase()}`;
+    if (includedAirlineCodes) url += `&includedAirlineCodes=${includedAirlineCodes}`; // This option ensures that the system will only consider these airlines
+    if(excludedAirlineCodes) url += `&excludedAirlineCodes=${excludedAirlineCodes}`; // This option ensures that the system will not consider these airlines.
+    if (nonStop) url += `&nonStop=${nonStop}`; // This option ensures that the system will only consider direct flights.
+    if (currencyCode) url += `&currencyCode=${currencyCode}`; // the preferred currency for the flight offers
+    if (maxPrice) url += `&maxPrice=${maxPrice}`; // the maximum price for the flight offers
+    if (max) url += `&max=${max}`; // the maximum number of flight offers to return
 
     try {
         const flightOffersResponse = await axios.get(url, {
