@@ -5,9 +5,20 @@ const port = process.env.PORT || 3001;
 const dbOperations = require('./api/mongoDB.js');
 const flightStatusRoutes = require('./api/flightStatus.js');
 const weatherRoutes = require('./api/weather.js');
+const mongoose = require('mongoose');
+const signupRoute = require('./routes/signupRoute');
 const flightSearchRoutes = require('./api/flightSearch.js');
 require("dotenv").config();
+const User = require('./schemas/signupdata');
 
+/*dbOperations.connect(process.env.DB_UEI, {
+  useNewUrlParser: true,
+  useCreateIndex: true,
+  useUnifiedTopology: true,
+  useFindAndModify: false
+}).then(()=>{
+  console.log('Successful');
+}).catch((err) => console.log('No Connection'));*/
 
 // Middleware
 app.use(express.json()); // Enable JSON parsing for incoming requests
@@ -20,6 +31,7 @@ app.use('/api/weather', weatherRoutes); // Enable the weather routes for the /ap
 app.use('/api/flightStatus', flightStatusRoutes); // Enable the flight status routes for the /api/flightStatus endpoint
 app.use('/api/flightSearch', flightSearchRoutes); // Enable the flight search routes for the /api/flightSearch endpoint
 
+app.use('/routes',signupRoute);
 // Root Endpoint
 app.get('/', (req, res) => {
   res.send('Hello, Travel Planner!');
@@ -31,7 +43,15 @@ app.get('/api/googlemapsapikey', (req, res) => {
   res.json({ apiKey });
 });
 
-
+dbOperations.connect()
+  .then(() => {
+    console.log(`Server is running on port ${port}`);
+    app.listen(port);  // Start the server after ensuring the database is connected.
+  })
+  .catch(error => {
+    console.error('Error while connecting:', error);
+  });
+/*
 // Starting the Server
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
@@ -51,3 +71,4 @@ app.listen(port, () => {
       console.error('Error while connecting or performing operation:', error);
     });
 });
+*/

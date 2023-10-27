@@ -12,6 +12,7 @@ const client = new MongoClient(uri, {
     deprecationErrors: true,
   }
 });
+
 let db;
 // object literal for custom database API's
 const dbOperations = {
@@ -19,9 +20,9 @@ const dbOperations = {
     try {
       // Connect the client to the server	(optional starting in v4.7)
       await client.connect();
-      // Send a ping to confirm a successful connection
+      
       db = client.db("AdventureAid");
-      console.log("Connected to MongoDB!");
+      //console.log("Connected to MongoDB!");
     } catch(error) {
       console.log(error);
       throw error;
@@ -39,8 +40,8 @@ const dbOperations = {
             console.log("User not found");
             return false;
         }
-        const isMatch = await compare(password, user.password);
-        return isMatch;
+        const match = await compare(password, user.password);
+        return match;
     } catch(error) {
         console.log(error);
         throw error;
@@ -48,7 +49,7 @@ const dbOperations = {
   },
   find: async function(input_collection, input_document) {
     try {
-        await client.connect();
+        //await client.connect();
         
         const db = client.db("AdventureAid");
         var collection = db.collection(input_collection);
@@ -62,16 +63,17 @@ const dbOperations = {
     console.log(error);
     throw error;
     } finally {
-    await client.close();
+    //await client.close();
     }
 },
 insert: async function(input_collection, input_document) {
   try {
-    await client.connect();
+    //await client.connect();
 
     const db = client.db("AdventureAid");
     var collection = db.collection(input_collection);
 
+    // password will hash it before storing
     if (input_collection === "UserProfiles" && input_document.password) {
       input_document.password = await hash(input_document.password);
     }
@@ -85,12 +87,12 @@ insert: async function(input_collection, input_document) {
     console.log(error);
     throw error;
   } finally {
-    await client.close();
+    //await client.close();
   }
 },
   update: async function(input_collection, input_query, input_update) {
     try {
-      await client.connect();
+      //await client.connect();
 
       const db = client.db("AdventureAid");
       var collection = db.collection(input_collection);
@@ -104,12 +106,12 @@ insert: async function(input_collection, input_document) {
       console.log(error);
       throw error;
     } finally {
-      await client.close();
+     // await client.close();
     }
   },
   delete: async function(input_collection, input_document) {
     try {
-      await client.connect();
+      //await client.connect();
 
       const db = client.db("AdventureAid");
       var collection = db.collection(input_collection);
@@ -123,11 +125,11 @@ insert: async function(input_collection, input_document) {
       console.log(error);
       throw error;
     } finally {
-      await client.close();
+      //await client.close();
     }
   }
 };
-dbOperations.insert("UserProfiles", {name: "cricket16", email:"cricket16@gmail.com", password:"cricket16"})
+//dbOperations.insert("UserProfiles", {name: "cricket16", email:"cricket16@gmail.com", password:"cricket16"})
 
 /*
 Example function calls:
