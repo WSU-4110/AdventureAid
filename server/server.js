@@ -3,9 +3,9 @@ const express = require('express');
 const app = express();
 const port = process.env.PORT || 3001;  
 const dbOperations = require('./api/mongoDB.js');
-const flightStatusRoutes = require('./api/flightStatus.js');
-const weatherRoutes = require('./api/weather.js');
-const flightSearchRoutes = require('./api/flightSearch.js');
+const flightStatusRoutes = require('./api/Flight/flightStatus.js');
+const weatherRoutes = require('./api/Weather/weather.js');
+const flightSearchRoutes = require('./api/Flight/flightSearch.js');
 require("dotenv").config();
 
 
