@@ -3,11 +3,12 @@ const express = require('express');
 const app = express();
 const port = process.env.PORT || 3001;  
 const dbOperations = require('./api/mongoDB.js');
-const flightStatusRoutes = require('./api/flightStatus.js');
-const weatherRoutes = require('./api/weather.js');
+const flightStatusRoutes = require('./api/Flight/flightStatus.js');
+const weatherRoutes = require('./api/Weather/weather.js');
 const mongoose = require('mongoose');
 const signupRoute = require('./routes/signupRoute');
-const flightSearchRoutes = require('./api/flightSearch.js');
+const flightSearchRoutes = require('./api/Flight/flightSearch.js');
+const hotelListRoutes = require('./api/Hotels/hotelList.js');
 require("dotenv").config();
 const User = require('./schemas/signupdata');
 
@@ -30,7 +31,7 @@ app.use(cors({ origin: 'http://localhost:3000' })); // This enables all CORS req
 app.use('/api/weather', weatherRoutes); // Enable the weather routes for the /api/weather endpoint 
 app.use('/api/flightStatus', flightStatusRoutes); // Enable the flight status routes for the /api/flightStatus endpoint
 app.use('/api/flightSearch', flightSearchRoutes); // Enable the flight search routes for the /api/flightSearch endpoint
-
+app.use('/api/hotelList', hotelListRoutes); // Enable the hotel list routes for the /api/hotelList endpoint
 app.use('/routes',signupRoute);
 // Root Endpoint
 app.get('/', (req, res) => {

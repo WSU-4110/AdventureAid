@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Box, Typography, Button } from '@mui/material';
+import { googleMapsOperations } from '../maps/googlemapsAPI.js';
 
 import SearchBar from '../searchbar/index.js';
 import SearchIcon from '@mui/icons-material/Search';
@@ -28,7 +29,7 @@ function WeatherComponent() {
 
   useEffect(() => {
     if (!search) return;
-
+    googleMapsOperations.displayGoogleMaps();
     setError('');
     setWeatherData(null);
     setIsLoading(true); // Set loading to true when fetch starts
@@ -79,6 +80,7 @@ function WeatherComponent() {
 
   const handleSearch = () => {
     setSearch(city);
+    googleMapsOperations.searchLocation(city);
   };
 
   const handleTemperatureUnitChange = () => {
@@ -142,6 +144,19 @@ function WeatherComponent() {
       <Button onClick={handleTemperatureUnitChange}> 
         {temperatureUnit === 'C' ? 'Fahrenheit' : 'Celsius'}
       </Button>
+      <Box
+        display="flex"
+        flexDirection="column"
+        justifyContent="center"
+        alignItems="center"
+        opacity= "0.5"
+      >
+        <Box id="map" sx={{ width: '95%', height: '500px' }} />
+        <Box id="routeInfo" sx={{ marginTop: '1rem' }}>
+            <span id="distance"></span>
+            <span id="duration"></span>
+        </Box>
+    </Box>
     </Box>
   );
 }
