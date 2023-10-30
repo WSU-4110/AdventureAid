@@ -3,11 +3,53 @@ import { Loader } from "@googlemaps/js-api-loader";
 let directionsService, directionsRenderer;
 let mapInstance, infoWindow, markers = [];    // store the instance of the map, information window, initialize markers array
 export const googleMapsOperations = {
-    
+    displayGoogleMaps: function() {
+        // Fetch the Google Maps API key from the server.
+        fetch('http://localhost:3001/api/googlemapsapikey')
+            .then(response => response.json())
+            .then(data => {
+                const loader = googleMapsOperations.getLoader(data.apiKey);
+                return googleMapsOperations.loadGoogleMapsScript(loader);   
+            })
+            .then(() => {
+                // Initialize the map and assign it to mapInstance
+                mapInstance = googleMapsOperations.initalizeMap();
+                googleMapsOperations.showCurrentLocation();
+
+                const addMarkerButton = document.createElement("button");
+                addMarkerButton.textContent = "Add Marker";
+                addMarkerButton.classList.add("custom-map-control-button");
+               
+                // Check if mapInstance.controls exists before adding the button
+                if (mapInstance.controls) {
+                    mapInstance.controls[window.google.maps.ControlPosition.TOP_RIGHT].push(addMarkerButton);
+                } else {
+                    console.error("mapInstance.controls is undefined");
+                }
+        
+                // Event listener to add markers when the button is clicked
+                addMarkerButton.addEventListener("click", () => {
+                    // Prompt the user for latitude and longitude
+                    const lat = parseFloat(prompt("Enter Latitude:"));
+                    const lng = parseFloat(prompt("Enter Longitude:"));
+        
+                    // Check if valid coordinates are entered
+                    if (!isNaN(lat) && !isNaN(lng)) {
+                        googleMapsOperations.addMarker(lat, lng);
+                    } else {
+                        alert("Invalid coordinates. Please enter valid numbers.");
+                    }
+                });
+            })
+            .catch(error => {
+                console.error("Error:", error);
+            });
+    },
     getLoader: function(apiKey) {
         return new Loader({
             apiKey: apiKey,
-            version: "weekly"
+            version: "weekly",
+            libraries: ["places"]
             // ...additionalOptions,
         });
     },
@@ -29,15 +71,15 @@ export const googleMapsOperations = {
             });
             infoWindow.open(mapInstance, marker);
         });
-
+        
         // Add the marker to the markers array 
         markers.push(marker);
     },
 
     initalizeMap: function() {
         mapInstance = new window.google.maps.Map(document.getElementById("map"), {  //initializes the map
-            center: { lat: -34.397, lng: 150.644 },
-            zoom: 8,
+            center: { lat: 40.730610, lng: -73.935242 },
+            zoom: 12,
         });
         return mapInstance; // returns the created map instance
     },
@@ -52,7 +94,6 @@ export const googleMapsOperations = {
     },
     showCurrentLocation: function() {
         infoWindow = new window.google.maps.InfoWindow();   //initialize the infoWindow instance
-
         const locationButton = document.createElement("button");    //create new button element
         locationButton.textContent = "Pan to Current Location";
         locationButton.classList.add("custom-map-control-button");
@@ -78,6 +119,18 @@ export const googleMapsOperations = {
         } else 
             // if browser doesn't support Geolocation
             this.handleLocationError(false, infoWindow, mapInstance.getCenter());
+        });
+    },
+    searchLocation: function(searchInput) {
+        const placesService = new window.google.maps.places.PlacesService(mapInstance);
+        placesService.textSearch({ query: searchInput }, (results, status) => {
+            if (status === window.google.maps.places.PlacesServiceStatus.OK) {
+                const place = results[0];
+                mapInstance.setCenter(place.geometry.location);
+                googleMapsOperations.addMarker(place.geometry.location.lat(), place.geometry.location.lng());
+            } else {
+                console.error('Place not found:', status);
+            }
         });
     },
     calculateAndDisplayRoute: function(start, end)
