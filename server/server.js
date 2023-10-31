@@ -37,18 +37,13 @@ app.get('/api/googlemapsapikey', (req, res) => {
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
   
-  // Ensure MongoDB is connected before performing operations.
-  dbOperations.connect()
-    .then(() => {
-      // Perform MongoDB operations here after successful connection.
-      return dbOperations.find("UserProfiles", {name: "Dan Pop"});
-    })
-    .then(result => {
+  dbOperations.find("UserProfiles", {name: "Test guy"})
+  .then(result => {
       // Handle the result of the find operation here.
       console.log(result);
-    })
-    .catch(error => {
+  })
+  .catch(error => {
       // Handle connection or operation errors here.
       console.error('Error while connecting or performing operation:', error);
-    });
+  });
 });
