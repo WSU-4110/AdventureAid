@@ -11,15 +11,18 @@ const flightSearchRoutes = require('./api/Flight/flightSearch.js');
 const hotelListRoutes = require('./api/Hotels/hotelList.js');
 require("dotenv").config();
 const User = require('./schemas/signupdata');
+const db = require('./api/mongoDB');
+db.connect
 
-/*dbOperations.connect(process.env.DB_UEI, {
+dbOperations.connect(process.env.DB_URI, {
   useNewUrlParser: true,
   useCreateIndex: true,
   useUnifiedTopology: true,
   useFindAndModify: false
-}).then(()=>{
+})
+.then(()=>{
   console.log('Successful');
-}).catch((err) => console.log('No Connection'));*/
+}).catch((err) => console.log('No Connection'));
 
 // Middleware
 app.use(express.json()); // Enable JSON parsing for incoming requests
