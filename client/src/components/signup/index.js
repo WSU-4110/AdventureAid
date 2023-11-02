@@ -73,6 +73,7 @@ function SignupForm({ onLogin }) {
             autoFocus
             value={firstName}
             onChange={(e) => setFirstName(e.target.value)}
+            className='custom-textfield'
           />
 
            <TextField
@@ -87,6 +88,7 @@ function SignupForm({ onLogin }) {
             autoFocus
             value={lastName}
             onChange={(e) => setLastName(e.target.value)}
+            className='custom-textfield'
           />
           <TextField
             variant="outlined"
@@ -100,6 +102,7 @@ function SignupForm({ onLogin }) {
             autoFocus
             value={email}
             onChange={(e) => setEmail(e.target.value)}
+            className='custom-textfield'
           />
           <TextField
             variant="outlined"
