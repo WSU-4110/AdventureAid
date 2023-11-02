@@ -29,7 +29,10 @@ export default function Navbar() {
 
   return (
     <Box>
-      <AppBar className="app-bar" position="static">
+      <AppBar
+       className="app-bar" 
+       position="static"
+      >
         <Toolbar>
           {/* Logo on the left */}
           <Typography color="black" variant="h6" noWrap textAlign="left" component="div" sx={{ flexGrow: 1 }}>

@@ -143,4 +143,8 @@ function handleError(res, error) {
 
 module.exports = router;
 
-// test using url: http://localhost:3001/api/hotelList/hotels/by-city?cityCode=NYC
+//search hotel by geocode: http://localhost:3001/api/hotelList/hotels/by-geocode?latitude=40.7128&longitude=-74.0060
+// search hotel by city: http://localhost:3001/api/hotelList/hotels/by-city?cityCode=NYC
+// search hotel by hotelId: http://localhost:3001/api/hotelList/hotels/by-hotels?hotelId=HJNYCCTB
+// search with some more: http://localhost:3001/api/hotelList/hotels/by-city?cityCode=YOUR_CITY_CODE&radius=YOUR_RADIUS&radiusUnit=YOUR_RADIUS_UNIT&chainCodes=YOUR_CHAIN_CODES&amenities=YOUR_AMENITIES&ratings=YOUR_RATINGS&hotelSource=YOUR_HOTEL_SOURCE
+// search with some more: http://localhost:3001/api/hotelList/hotels/by-geocode?latitude=YOUR_LATITUDE&longitude=YOUR_LONGITUDE&radius=YOUR_RADIUS&radiusUnit=YOUR_RADIUS_UNIT&chainCodes=YOUR_CHAIN_CODES&amenities=YOUR_AMENITIES&ratings=YOUR_RATINGS&hotelSource=YOUR_HOTEL_SOURCE

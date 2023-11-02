@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 
-import Navbar from '../components/navbar/index';
 
 import LoginScreen from '../screens/login/index';
 import SignUpScreen from '../screens/signup';
@@ -24,7 +23,6 @@ export default function App() {
     <Router>
       {isLoggedIn ? (
         <>
-          <Navbar />
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/destinations" element={<Destinations />} />

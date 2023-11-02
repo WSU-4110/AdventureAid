@@ -4,97 +4,100 @@ const {hash,compare} = require('./bcheck.js');
 
 const uri = process.env.DB_URI;
 
-// Create a MongoClient with a MongoClientOptions object to set the Stable API version
-const client = new MongoClient(uri, {
-  serverApi: {
-    version: ServerApiVersion.v1,
-    strict: true,
-    deprecationErrors: true,
+//singleton class for mongoClient
+class MongoDBClient {
+  constructor() {
+    if (!MongoDBClient.instance) { //check if there is an existing instance of MongoDBClient
+      this._client = new MongoClient(uri, {
+        serverApi: {
+          version: ServerApiVersion.v1,
+          strict: true,
+          deprecationErrors: true,
+        }
+      });
+      MongoDBClient.instance = this;
+    }
+    //ensuring that only one instance is returned every time a new MongoDBClient is instantiated
+    return MongoDBClient.instance;
   }
-});
 
-let db;
+  async getClient() {
+    try {
+      await this._client.connect();
+      console.log("Connected to MongoDB.");
+    } catch (err) {
+      if (err.message !== 'MongoClient is already connected') {
+        throw err;
+      }
+      // If the error is because the client is already connected, just continue.
+    }
+    return this._client;
+  }
+}
+
+const instance = new MongoDBClient();
+Object.freeze(instance);
+
 // object literal for custom database API's
 const dbOperations = {
   connect: async function() {
     try {
       // Connect the client to the server	(optional starting in v4.7)
-      await client.connect();
-      
-      db = client.db("AdventureAid");
-      //console.log("Connected to MongoDB!");
+      const client = await instance.getClient();
+      return client.db("AdventureAid");
     } catch(error) {
       console.log(error);
       throw error;
     } 
-    // finally {
-    //   // Ensures that the client will close when you finish/error
-    //   await client.close();
-    // }
   },
   login: async function(username, password) {
     try {
-        const collection = db.collection("UserProfiles");
-        const user = await collection.findOne({ name: username });
-        if (!user) {
-            console.log("User not found");
-            return false;
-        }
-        const match = await compare(password, user.password);
-        return match;
+      const db = await dbOperations.connect();
+      const collection = db.collection("UserProfiles");
+      const user = await collection.findOne({ name: username });
+      if (!user) {
+        console.log("User not found");
+        return false;
+      }
+      const isMatch = await compare(password, user.password);
+      return isMatch;
     } catch(error) {
-        console.log(error);
-        throw error;
+      console.log(error);
+      throw error;
     }
   },
   find: async function(input_collection, input_document) {
     try {
-        //await client.connect();
-        
-        const db = client.db("AdventureAid");
-        var collection = db.collection(input_collection);
-
-        // find document in collection
-        const documents = await collection.find(input_document).toArray();
-        console.log(documents);
-
-        return documents;
+      const db = await dbOperations.connect();
+      const collection = db.collection(input_collection);
+      // find document in collection
+      const documents = await collection.find(input_document).toArray();
+      console.log(documents);
+      return documents;
     } catch(error) {
-    console.log(error);
-    throw error;
-    } finally {
-    //await client.close();
+      console.log(error);
+      throw error;
     }
 },
 insert: async function(input_collection, input_document) {
   try {
-    //await client.connect();
-
-    const db = client.db("AdventureAid");
+    const db = await dbOperations.connect();
     var collection = db.collection(input_collection);
-
-    // password will hash it before storing
     if (input_collection === "UserProfiles" && input_document.password) {
       input_document.password = await hash(input_document.password);
     }
-
     // insert document into db
     const insert_result = await collection.insertOne(input_document)
     console.log(`Document inserted with _id: ${insert_result.insertedId}`);
-
     return true;
   } catch(error) {
     console.log(error);
     throw error;
-  } finally {
-    //await client.close();
   }
 },
   update: async function(input_collection, input_query, input_update) {
     try {
-      //await client.connect();
-
-      const db = client.db("AdventureAid");
+      const db = await dbOperations.connect();
       var collection = db.collection(input_collection);
 
       // update document in db
@@ -105,27 +108,19 @@ insert: async function(input_collection, input_document) {
     } catch(error) {
       console.log(error);
       throw error;
-    } finally {
-     // await client.close();
     }
   },
   delete: async function(input_collection, input_document) {
     try {
-      //await client.connect();
-
-      const db = client.db("AdventureAid");
+      const db = await dbOperations.connect();
       var collection = db.collection(input_collection);
-
       // delete document from collection
       const delete_result = await collection.deleteOne(input_document)
       console.log(`${delete_result.deletedCount} document(s) deleted.`);
-
       return true;
     } catch(error) {
       console.log(error);
       throw error;
-    } finally {
-      //await client.close();
     }
   }
 };
