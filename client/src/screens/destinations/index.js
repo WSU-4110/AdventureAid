@@ -1,5 +1,6 @@
-import { Box, Typography } from '@mui/material';
+import { Container, Grid } from '@mui/material';
 
+import Navbar from '../../components/navbar';
 import Map from "../../components/maps/googlemaps.js"
 
 import './index.scss';
@@ -8,13 +9,19 @@ import './index.scss';
 function Destinations() {
   return (
     <>
-      <Box>
-        <Typography variant="h1" fontSize={{ xs: "3rem", md: "5rem" }} textAlign="center">
-          Destinations
-        </Typography>
-        <Map />
-      </Box>
-
+      <Container maxWidth={false} className='container'>
+        <Grid container
+          direction="column"
+          spacing={4}
+        >
+          <Grid item mt="1rem">
+            <Navbar />
+          </Grid>
+          <Grid item>
+            <Map />
+          </Grid>
+        </Grid>
+      </Container>
     </>
   );
 }

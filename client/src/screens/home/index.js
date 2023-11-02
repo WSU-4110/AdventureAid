@@ -1,18 +1,26 @@
-import { Box } from '@mui/material';
+import { Container, Grid } from '@mui/material';
 
+import Navbar from '../../components/navbar';
 import WeatherComponent from '../../components/weather';
 import './index.scss';
-import MapComponent from '../../components/maps/googlemaps';
 
 
 function Home() {
   return (
     <>
-    <Box>
-      <WeatherComponent />
-      <MapComponent />
-    </Box>
-     
+      <Container maxWidth={false} className='container'>
+        <Grid container
+          direction="column"
+          spacing={4}    
+        >
+          <Grid item mt="1rem">
+            <Navbar />
+          </Grid>
+          <Grid item>
+            <WeatherComponent />
+          </Grid>
+        </Grid>
+      </Container>
     </>
   );
 }
