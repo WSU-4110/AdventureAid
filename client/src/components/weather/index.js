@@ -144,19 +144,6 @@ function WeatherComponent() {
       <Button onClick={handleTemperatureUnitChange}> 
         {temperatureUnit === 'C' ? 'Fahrenheit' : 'Celsius'}
       </Button>
-      <Box
-        display="flex"
-        flexDirection="column"
-        justifyContent="center"
-        alignItems="center"
-        opacity= "0.5"
-      >
-        <Box id="map" sx={{ width: '95%', height: '500px' }} />
-        <Box id="routeInfo" sx={{ marginTop: '1rem' }}>
-            <span id="distance"></span>
-            <span id="duration"></span>
-        </Box>
-    </Box>
     </Box>
   );
 }
