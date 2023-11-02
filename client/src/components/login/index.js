@@ -41,6 +41,7 @@ function LoginForm({ onLogin }) {
             autoFocus
             value={email}
             onChange={(e) => setEmail(e.target.value)}
+            className="custom-textfield"
           />
           <TextField
             variant="outlined"
@@ -54,6 +55,7 @@ function LoginForm({ onLogin }) {
             autoComplete="current-password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
+            className="custom-textfield"
           />
           <FormControlLabel
             control={
@@ -65,15 +67,9 @@ function LoginForm({ onLogin }) {
             }
             label={<Typography className="checkbox-label">Remember me</Typography>}
           />
-          <Button
-            type="submit"
-            fullWidth
-            variant="contained"
-            color="primary"
-            className="submit-button"
-          >
-            Sign In
-          </Button>
+          <Button variant="contained" className="custom-button" onClick={handleSubmit}>
+          Sign In
+        </Button>
           <div className="forgot-password">
             <Link href="#">Forgot password?</Link>
           </div>

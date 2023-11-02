@@ -32,8 +32,9 @@ export default function App() {
           </Routes>
         </>
       ) : (
-        // <LoginScreen onLogin={handleLogin} />
-        <SignUpScreen />
+        
+        <LoginScreen onLogin={handleLogin} />
+        // <SignUpScreen />
       )}
     </Router>
   );
