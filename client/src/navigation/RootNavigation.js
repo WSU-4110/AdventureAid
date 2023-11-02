@@ -3,6 +3,8 @@ import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 
 
 import LoginScreen from '../screens/login/index';
+import SignUpScreen from '../screens/signup';
+
 
 import Home from '../screens/home/index';
 import Destinations from '../screens/destinations';
@@ -30,7 +32,8 @@ export default function App() {
           </Routes>
         </>
       ) : (
-        <LoginScreen onLogin={handleLogin} />
+        // <LoginScreen onLogin={handleLogin} />
+        <SignUpScreen />
       )}
     </Router>
   );
