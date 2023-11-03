@@ -59,5 +59,5 @@ app.get('/api/googlemapsapikey', (req, res) => {
 // Starting the Server
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
-  dbOperations.insert("UserProfiles", {email:"harrypottter@gmail.com", password:"magic123"})
+  //dbOperations.insert("UserProfiles", {email:"harrypottter@gmail.com", password:"magic123"})
 });
