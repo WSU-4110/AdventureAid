@@ -18,7 +18,7 @@ router.post('/signup', (req, res) => {
             return res.status(422).json({error: "Please Use different email(Exists)"});
         }
 
-        const newuser = new User({firstname,lastname,email,password});
+        const newuser = new User({firstname,lastname,email,password,cpassword});
         newuser.save().then(()=>{
             res.status(200).json({error: "profile Register success"});
         }).catch((err)=> res.status(500).json({error: "Registration Failed"}));

@@ -122,6 +122,21 @@ insert: async function(input_collection, input_document) {
       console.log(error);
       throw error;
     }
+  },
+  deleteAll: async function(input_collection) {
+    try {
+      const db = await dbOperations.connect();
+      var collection = db.collection(input_collection);
+      
+      // delete all documents from the collection
+      const delete_result = await collection.deleteMany({}); // passing an empty object will match all documents
+      
+      console.log(`${delete_result.deletedCount} document(s) deleted.`);
+      return true;
+    } catch(error) {
+      console.log(error);
+      throw error;
+    }
   }
 };
 //dbOperations.insert("UserProfiles", {name: "cricket16", email:"cricket16@gmail.com", password:"cricket16"})
