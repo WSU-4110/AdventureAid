@@ -17,6 +17,10 @@ const signupSchema = new mongoose.Schema({
     password:{
         type:String,
         require:true
+    },
+    cpassword:{
+        type:String,
+        require:true
     }
 });
 

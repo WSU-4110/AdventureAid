@@ -47,7 +47,7 @@ app.get('/api/googlemapsapikey', (req, res) => {
   res.json({ apiKey });
 });
 
-dbOperations.connect()
+/*dbOperations.connect()
   .then(() => {
     console.log(`Server is running on port ${port}`);
     app.listen(port);  // Start the server after ensuring the database is connected.
@@ -55,19 +55,9 @@ dbOperations.connect()
   .catch(error => {
     console.error('Error while connecting:', error);
   });
-/*
+*/
 // Starting the Server
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
-  
-  dbOperations.find("UserProfiles", {name: "Test guy"})
-  .then(result => {
-      // Handle the result of the find operation here.
-      console.log(result);
-  })
-  .catch(error => {
-      // Handle connection or operation errors here.
-      console.error('Error while connecting or performing operation:', error);
-  });
+  dbOperations.insert("UserProfiles", {email:"harrypottter@gmail.com", password:"magic123"})
 });
-*/
