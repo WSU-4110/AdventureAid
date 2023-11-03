@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Box, Typography, Button } from '@mui/material';
-import { googleMapsOperations } from '../maps/googlemapsAPI.js';
+//import { googleMapsOperations } from '../maps/googlemapsAPI.js';
 
 import SearchBar from '../searchbar/index.js';
 import SearchIcon from '@mui/icons-material/Search';
@@ -29,7 +29,7 @@ function WeatherComponent() {
 
   useEffect(() => {
     if (!search) return;
-    googleMapsOperations.displayGoogleMaps();
+    //googleMapsOperations.displayGoogleMaps();
     setError('');
     setWeatherData(null);
     setIsLoading(true); // Set loading to true when fetch starts
@@ -80,7 +80,7 @@ function WeatherComponent() {
 
   const handleSearch = () => {
     setSearch(city);
-    googleMapsOperations.searchLocation(city);
+    //googleMapsOperations.searchLocation(city);
   };
 
   const handleTemperatureUnitChange = () => {
