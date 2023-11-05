@@ -5,7 +5,7 @@ import Helmet from 'react-helmet';
 
 import LoginForm from "../../components/login";
 
-import logo from "../../assets/img/logo/logo-name1.png"
+// import logo from "../../assets/img/logo/logo-name1.png"
 
 import './index.scss'; // Ensure your stylesheet is imported
 
@@ -52,7 +52,7 @@ function LoginScreen({ onLogin }) {
           </Grid>
 
         <Grid item xs="auto" className="login-component"> 
-          <LoginForm onLogin={onLogin} />
+          <LoginForm onLogin={onLogin} navigate={navigate} />
         </Grid>
       </Grid></>
    

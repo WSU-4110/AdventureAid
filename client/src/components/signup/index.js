@@ -1,6 +1,7 @@
 
 import React, { useState } from 'react';
-import { Container, Typography, TextField, Checkbox, FormControlLabel, Button, Link, CssBaseline, Paper} from '@mui/material';
+import { Container, Box, Typography, TextField, Checkbox, FormControlLabel, Button, Link as MuiLink, CssBaseline, Paper } from '@mui/material';
+import { Link } from 'react-router-dom'; // Import Link from react-router-domimport Helmet from 'react-helmet';
 import Helmet from 'react-helmet';
 
 import './index.scss';
@@ -151,6 +152,10 @@ function SignupForm({ onLogin }) {
           >
             Make my Account!
           </Button>
+          <Box className="navigate-to-login">
+            <Typography variant="body2">Already have an account?</Typography>
+            <Link to="/login">Login here</Link>
+          </Box>
           {/* <div className="forgot-password">
             <Link href="#">Forgot password?</Link>
           </div> */}
