@@ -4,7 +4,7 @@ import Helmet from 'react-helmet';
 
 import './index.scss';
 
-function LoginForm({ onLogin }) {
+function LoginForm({ onLogin, navigate }) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [rememberMe, setRememberMe] = useState(false);
@@ -14,6 +14,7 @@ function LoginForm({ onLogin }) {
     console.log('login');
     if (typeof onLogin === 'function') { // Now you can directly use onLogin without props.
       onLogin(); // Call the onLogin prop function to simulate successful login
+      navigate('/'); // Navigate to the home page
     }
   };
 
