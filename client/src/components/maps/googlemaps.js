@@ -4,7 +4,7 @@ import { googleMapsOperations } from './googlemapsAPI';
 
 function MapComponent() {
     useEffect(() => {
-        googleMapsOperations.displayGoogleMaps();        
+        googleMapsOperations.displayGoogleMaps();   
     }, []);
 
     return (
