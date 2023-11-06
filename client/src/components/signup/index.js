@@ -1,7 +1,7 @@
 
 import React, { useState } from 'react';
 import { Container, Box, Typography, TextField, Checkbox, FormControlLabel, Button, Link as MuiLink, CssBaseline, Paper } from '@mui/material';
-import { Link } from 'react-router-dom'; // Import Link from react-router-domimport Helmet from 'react-helmet';
+import { Link, useNavigate } from 'react-router-dom'; 
 import Helmet from 'react-helmet';
 
 import './index.scss';
@@ -14,9 +14,9 @@ function SignupForm({ onLogin }) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setComfirmPassword] = useState('');
+  const [passwordError, setPasswordError] = useState('');
 
-    const [passwordError, setPasswordError] = useState('');
-
+  const navigate = useNavigate();
 
 
     function checkPassword() {
@@ -38,6 +38,7 @@ function SignupForm({ onLogin }) {
     if (typeof onLogin === 'function') {
       onLogin();
     }
+    navigate('/login'); // Navigate to the home page
   };
 
 
