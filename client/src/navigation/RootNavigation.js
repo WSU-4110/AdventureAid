@@ -1,10 +1,8 @@
 import React, { useState } from 'react';
 import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
 
-
 import LoginScreen from '../screens/login/index';
 import SignUpScreen from '../screens/signup';
-
 
 import Home from '../screens/home/index';
 import Destinations from '../screens/destinations';
@@ -22,22 +20,20 @@ export default function App() {
   return (
     <Router>
       {isLoggedIn ? (
-        <>
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/destinations" element={<Destinations />} />
-            <Route path="/about" element={<About />} />
-            <Route path="/blog" element={<Blog />} />
-            {/* ... add other routes here */}
-          </Routes>
-        </>
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/destinations" element={<Destinations />} />
+          <Route path="/about" element={<About />} />
+          <Route path="/blog" element={<Blog />} />
+          {/* ... add other routes here */}
+        </Routes>
       ) : (
-        
-          <Routes>
-            <Route path="/login" element={<LoginScreen onLogin={handleLogin} />} />
-            <Route path="/signup" element={<SignUpScreen />} />
-            {/* <Route path="" element={<Navigate to="" />} /> */}
-          </Routes>
+        <Routes>
+          <Route path="/login" element={<LoginScreen onLogin={handleLogin} />} />
+          <Route path="/signup" element={<SignUpScreen />} />
+          {/* Redirect to /signup if no other route is matched */}
+          <Route path="*" element={<Navigate to="/signup" replace />} />
+        </Routes>
       )}
     </Router>
   );
