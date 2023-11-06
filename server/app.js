@@ -14,7 +14,7 @@ app.get('/signup', (req, res)=>{
     res.send('Hello Registration world');
 })
 
-const PORT = process.env.PORT || 3002;
+const PORT = process.env.PORT || 3001;
 app.listen(PORT, () => {
     console.log(`Server started on port ${PORT}`);
 });

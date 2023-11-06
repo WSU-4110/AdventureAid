@@ -1,15 +1,55 @@
+
 const express = require('express');
 const router = express.Router();
+const {signup} = require('../userdata')
+
+
+router.post('/signup',signup);
+router.get('/signupdata',(req,res)=>{
+    res.send('Hello World');
+});
+module.exports = router;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*const express = require('express');
+const router = express.Router();
 const User = require('../schemas/signupdata');
+const dbOperations = require('../api/mongoDB.js');
+
 require('../api/mongoDB');
 router.get('/',(req , res)=>{
     res.send('Hello from server');
 });
 router.post('/signup', (req, res) => {
-   // console.log(req.body); //needs for testing
+   console.log(req.body); //needs for testing
     //res.json({message:req.body})//for checking the json format
-    const { firstname,lastname, email, password } = req.body;
-    if(!firstname || !lastname || !email || !password){
+    const { firstname,lastname, email, password, cpassword } = req.body;
+    if(!firstname || !lastname || !email || !password || !cpassword){
         return res.status(422).json({error: "Please Complete all feilds"});
     }
     User.findOne({email:email})//findone is a mongodb function
@@ -19,12 +59,14 @@ router.post('/signup', (req, res) => {
         }
 
         const newuser = new User({firstname,lastname,email,password,cpassword});
+
         newuser.save().then(()=>{
             res.status(200).json({error: "profile Register success"});
+            dbOperations.insert("UserProfiles", newUser )
         }).catch((err)=> res.status(500).json({error: "Registration Failed"}));
     }).catch(err => {console.log(err);})
 });
-/*router.post('/signup', async (req, res) => {
+router.post('/signup', async (req, res) => {
     const { firstname,lastname, email, password } = req.body;
 
     try {
@@ -42,5 +84,6 @@ router.post('/signup', (req, res) => {
     } catch (err) {
         res.status(500).json({ error: err.message });
     }
-});*/
-module.exports = router;
+});
+module.exports = router;*/
+
