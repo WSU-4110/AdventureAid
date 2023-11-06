@@ -1,17 +1,17 @@
 import { Container, Grid } from '@mui/material';
 import Navbar from '../../components/navbar';
 import Map from "../../components/maps/googlemaps.js"
-import PlacesAutocomplete from '../../components/autocomplete/autocomplete.js';
+import SimpleSearchBar from '../../components/autocomplete/autocomplete.js';
 import './index.scss';
 import React, { useState } from 'react';
 
 
 function Destinations() {
-  //share user place search between the PlacesAutocomplete and Map components for combined functionality
-  const [searchInput, setSearchInput] = useState('');
-  const handlePlaceSelected = (place) => {
-    setSearchInput(place);
-  };
+    // Share user place search between the SimpleSearchBar and MapComponent components for combined functionality
+    const [searchInput, setSearchInput] = useState('');
+    const handleSearch = (input) => {
+      setSearchInput(input);
+    };
 
   return (
     <>
@@ -24,7 +24,7 @@ function Destinations() {
             <Navbar />
           </Grid>
           <Grid item>
-            <PlacesAutocomplete onPlaceSelected={handlePlaceSelected}/>
+            <SimpleSearchBar onSearch={handleSearch}/>
             <Map searchInput={searchInput}/> 
           </Grid>
         </Grid>

@@ -3,15 +3,13 @@ import { Loader } from "@googlemaps/js-api-loader";
 let loaderInstance = null;
 let directionsService, directionsRenderer;
 let mapInstance, infoWindow, markers = [];    // store the instance of the map, information window, initialize markers array
-
 export const googleMapsOperations = {
     displayGoogleMaps: function() {
         // Fetch the Google Maps API key from the server.
         fetch('http://localhost:3001/api/googlemapsapikey')
             .then(response => response.json())
             .then(data => {
-                const loader = googleMapsOperations.getLoader(data.apiKey);
-                return googleMapsOperations.loadGoogleMapsScript(loader);   
+                return this.getLoaderAndLoadGoogleMapsScript(data.apiKey)   
             })
             .then(() => {
                 // Initialize the map and assign it to mapInstance
@@ -50,16 +48,6 @@ export const googleMapsOperations = {
                 console.error("Error:", error);
             });
     },
-    getLoader: function(apiKey) {
-        return new Loader({
-            apiKey: apiKey,
-            version: "weekly",
-            libraries: ["places"]
-            // ...additionalOptions,
-        });
-    },
-    loadGoogleMapsScript: function(loader) {
-        return loader.load();  // returns a promise which resolves when the Google Maps script is successfully loaded.
     getLoaderAndLoadGoogleMapsScript: function(apiKey) {
         if (!loaderInstance){
             loaderInstance = new Loader({
@@ -71,9 +59,6 @@ export const googleMapsOperations = {
         }
         return loaderInstance.load();
     },
-
-
-
     addMarker: function(lat, lng) {
         const marker = new window.google.maps.Marker({
             position: { lat, lng },
@@ -93,8 +78,6 @@ export const googleMapsOperations = {
         markers.push(marker);
     },
 
-
-
     initalizeMap: function() {    
         mapInstance = new window.google.maps.Map(document.getElementById("map"), {  //initializes the map
             center: { lat: 40.730610, lng: -73.935242 },
@@ -103,9 +86,6 @@ export const googleMapsOperations = {
         return mapInstance; // returns the created map instance
         
     },
-
-
-
     handleLocationError: function(browserHasGeolocation, infoWindow, pos) {
         infoWindow.setPosition(pos);
         infoWindow.setContent(
@@ -115,9 +95,6 @@ export const googleMapsOperations = {
         );
         infoWindow.open(mapInstance);
     },
-
-
-
     showCurrentLocation: function() {
         infoWindow = new window.google.maps.InfoWindow();   //initialize the infoWindow instance
         const locationButton = document.createElement("button");    //create new button element
@@ -147,9 +124,6 @@ export const googleMapsOperations = {
             this.handleLocationError(false, infoWindow, mapInstance.getCenter());
         });
     },
-
-
-
     searchLocation: function(searchInput) {
         const placesService = new window.google.maps.places.PlacesService(mapInstance);
         placesService.textSearch({ query: searchInput }, (results, status) => {
