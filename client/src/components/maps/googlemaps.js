@@ -1,11 +1,21 @@
-import React, { useEffect } from 'react';
+import React, { useContext, useEffect, useRef } from 'react';
 import { Box } from '@mui/material';
 import { googleMapsOperations } from './googlemapsAPI';
 
-function MapComponent() {
+function MapComponent({searchInput}) {
+
+    const mapInstanceRef = useRef(null);
+
     useEffect(() => {
         googleMapsOperations.displayGoogleMaps();   
     }, []);
+
+    useEffect(() => {
+        // This effect runs when searchInput changes
+        if (searchInput && mapInstanceRef.current) {
+            googleMapsOperations.searchLocation(searchInput);
+        }
+    }, [searchInput]);
 
     return (
     <Box
