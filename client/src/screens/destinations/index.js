@@ -4,13 +4,18 @@ import Map from "../../components/maps/googlemaps.js"
 import SimpleSearchBar from '../../components/autocomplete/autocomplete.js';
 import './index.scss';
 import React, { useState } from 'react';
+import MapComponent from '../../components/maps/googlemaps.js';
 
 
 function Destinations() {
     // Share user place search between the SimpleSearchBar and MapComponent components for combined functionality
-    const [searchInput, setSearchInput] = useState('');
-    const handleSearch = (input) => {
-      setSearchInput(input);
+    const [searchPlaceInput, setPlaceSearchInput] = useState('');
+    const [searchLocationInput, setLocationSearchInput] = useState('');
+    const handlePlaceSearch = (input) => {
+      setPlaceSearchInput(input);
+    };
+    const handleLocationSearch = (input) => {
+      setLocationSearchInput(input);
     };
 
   return (
@@ -24,8 +29,8 @@ function Destinations() {
             <Navbar />
           </Grid>
           <Grid item>
-            <SimpleSearchBar onSearch={handleSearch}/>
-            <Map searchInput={searchInput}/> 
+            <SimpleSearchBar onPlaceSearch={handlePlaceSearch} onLocationSearch={handleLocationSearch} />
+            <MapComponent searchPlaceInput={searchPlaceInput} searchLocationInput={searchLocationInput} />
           </Grid>
         </Grid>
       </Container>

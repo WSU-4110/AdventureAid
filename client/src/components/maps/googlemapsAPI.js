@@ -125,9 +125,23 @@ export const googleMapsOperations = {
         });
     },
     searchLocation: function(searchInput) {
+        // check if there is already an initialized mapInstance
+        if (!mapInstance) {
+            console.error('Map has not been initialized.');
+            return;
+        }
+
+        const request = {
+            query: searchInput
+        }
+
         const placesService = new window.google.maps.places.PlacesService(mapInstance);
-        placesService.textSearch({ query: searchInput }, (results, status) => {
+        placesService.textSearch(request, (results, status) => {
             if (status === window.google.maps.places.PlacesServiceStatus.OK) {
+                // Clear out the old markers.
+                markers.forEach(marker => marker.setMap(null));
+                markers = [];
+
                 const place = results[0];
                 mapInstance.setCenter(place.geometry.location);
                 googleMapsOperations.addMarker(place.geometry.location.lat(), place.geometry.location.lng());
@@ -189,9 +203,16 @@ export const googleMapsOperations = {
 
     calculateAndDisplayRoute: function(start, end)
     {
-        if (!directionsService) //check if directionsService is initialized
+        // check if there is already an initialized mapInstance
+        if (!mapInstance) {
+            console.error('Map has not been initialized.');
+            return;
+        }
+        //check if directionsService is initialized
+        if (!directionsService) 
             directionsService = new window.google.maps.DirectionsService();
-        if (!directionsRenderer) //check if directionsRenderer is initialized
+        //check if directionsRenderer is initialized
+        if (!directionsRenderer) 
         {
             directionsRenderer = new window.google.maps.DirectionsRenderer({    //create a new directionsRenderer instance
                 map: mapInstance    //associate it with the current active displayed map

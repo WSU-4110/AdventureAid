@@ -2,7 +2,7 @@ import React, { useEffect, useRef } from 'react';
 import { Box } from '@mui/material';
 import { googleMapsOperations } from './googlemapsAPI';
 
-function MapComponent({searchInput}) {
+function MapComponent({searchPlaceInput, searchLocationInput}) {
 
     const mapInstanceRef = useRef(null);
 
@@ -44,23 +44,25 @@ function MapComponent({searchInput}) {
                     });
                     //googleMapsOperations.findPlaces("tacos in Seattle");
                     //setTimeout(() => googleMapsOperations.findPlaces("Burgers in Sterling Heights"), 3000);
-
                 } catch (error) {
                     console.error("Error:", error);
                 }
             }
         }
-    
+        
         initializeMap();
     }, []);
     
 
     useEffect(() => {
         // This effect runs when searchInput changes
-        if (searchInput && mapInstanceRef.current) {
-            googleMapsOperations.findPlaces(searchInput);
+        if (searchPlaceInput && mapInstanceRef.current) {
+            googleMapsOperations.findPlaces(searchPlaceInput);
         }
-    }, [searchInput]);
+        if (searchLocationInput && mapInstanceRef.current) {
+            googleMapsOperations.searchLocation(searchLocationInput);
+        }
+    }, [searchPlaceInput, searchLocationInput]);
 
 
     return (
