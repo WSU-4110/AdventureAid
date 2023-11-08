@@ -42,7 +42,7 @@ export const googleMapsOperations = {
                         alert("Invalid coordinates. Please enter valid numbers.");
                     }
                 });
-                googleMapsOperations.findPlaces("detroit");
+                googleMapsOperations.findPlaces("taco bell in detroit");
             })
             .catch(error => {
                 console.error("Error:", error);
@@ -137,34 +137,46 @@ export const googleMapsOperations = {
             }
         });
     },
-
     findPlaces: async function(query) {
         // Make sure the mapInstance is already initialized before calling this function.
-    if (!mapInstance) {
-        console.error('Map has not been initialized.');
-        return;
-    }
+        if (!mapInstance) {
+            console.error('Map has not been initialized.');
+            return;
+        }
 
-    const { places } = window.google.maps;
-    const request = {
-        query: query, // Example query
-        fields: ['name', 'geometry'], // Specify the return fields
-        openNow: true
-    };
+        const { places } = window.google.maps;
+        const request = {
+            query: query, // Example query
+            fields: ['name', 'geometry', 'formatted_address'], // Specify the return fields
+            openNow: true
+        };
 
-    const service = new places.PlacesService(mapInstance);
-    
-    service.textSearch(request, (results, status) => {
-        if (status === places.PlacesServiceStatus.OK && results) {
-            // Clear out the old markers.
-            markers.forEach(marker => marker.setMap(null));
-            markers = [];
+        const service = new places.PlacesService(mapInstance);
+        
+        service.textSearch(request, (results, status) => {
+            if (status === places.PlacesServiceStatus.OK && results) {
+                // Clear out the old markers.
+                markers.forEach(marker => marker.setMap(null));
+                markers = [];
 
-            // Create a bounds object to fit all search results.
-            const bounds = new window.google.maps.LatLngBounds();
+                // Create a bounds object to fit all search results.
+                const bounds = new window.google.maps.LatLngBounds();
 
-            results.forEach(place => {
-                if (!place.geometry || !place.geometry.location) return;
+                results.forEach(place => {
+                    if (!place.geometry || !place.geometry.location) return;
+
+                    // Define the content for the info window
+                    const contentString = `
+                    <div>
+                        <h3>${place.name}</h3>
+                        <p>${place.formatted_address}</p>
+                    </div>
+                `;
+
+                // Create an info window for each marker
+                const infoWindow = new window.google.maps.InfoWindow({
+                    content: contentString
+                });
 
                 // Create a marker for each place found
                 const marker = new window.google.maps.Marker({
@@ -173,21 +185,37 @@ export const googleMapsOperations = {
                     position: place.geometry.location
                 });
 
+                    // Add a click listener to the marker to open the info window
+                marker.addListener('click', () => {
+                    // Close previously opened info window if any
+                    if (window.prevInfoWindow) {
+                        window.prevInfoWindow.close();
+                    }
+                    infoWindow.open({
+                        anchor: marker,
+                        map: mapInstance,
+                        shouldFocus: false
+                    });
+                    // Keep track of the open info window
+                    window.prevInfoWindow = infoWindow;
+                });
+
                 // Add the marker to the array of markers
                 markers.push(marker);
 
                 // Extend the bounds to include the location of this place
                 bounds.extend(place.geometry.location);
-            });
 
-            // Adjust the map bounds to show all markers
-            mapInstance.fitBounds(bounds);
-        } else {
-            console.error('Place not found:', status);
-        }
-    });
+                });
+
+                // Adjust the map bounds to show all markers
+                mapInstance.fitBounds(bounds);
+
+            } else {
+                console.error('Place not found:', status);
+            }
+        });
     },
-
     calculateAndDisplayRoute: function(start, end)
     {
         if (!directionsService) //check if directionsService is initialized
