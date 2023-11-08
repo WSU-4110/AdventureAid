@@ -13,15 +13,45 @@ function SignupForm({ onLogin }) {
 
   const navigate = useNavigate();
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async(e) => {
     e.preventDefault();
     console.log('attempting singup');
 
-    if (typeof onLogin === 'function') {
-      onLogin();
+  setError('');
+
+  //post method implement
+  try {
+    const response = await fetch('http://localhost:3001/api/signup', { // postman method tried on this link http://localhost:3001/api/signup
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        email,
+        password,
+      }),
+    });
+
+    const data = await response.json();
+
+    if (response.ok) {
+      console.log('Signup successful', data);
+      // Call onLogin function if it exists, otherwise navigate to login page
+      if (typeof onLogin === 'function') {
+        onLogin(data); // Pass any needed data to onLogin
+      } else {
+        navigate('/login'); // Navigate to the login page
+      }
+    } else {
+      // If the server response was not ok, handle errors
+      setError(data.message || 'Failed to sign up. Please try again.');
     }
-    navigate('/login'); // Navigate to the home page
-  };
+  } catch (error) {
+    // If there was an error sending the request, handle it here
+    console.error('There was an error submitting the form', error);
+    setError('Network error, please try again later.');
+  }
+};
 
   return (
     <Container component="main" maxWidth={false}>
