@@ -1,8 +1,8 @@
-
+const bcrypt = require('bcrypt');
 const express = require('express');
 const router = express.Router();
 const {signup} = require('../userdata');
-const { login } = require('../api/mongoDB');
+//const { login } = require('../api/mongoDB');
 
 
 router.post('/signup',signup);
