@@ -1,0 +1,11 @@
+.blog-container {
+  background-image: url("/assets/img/home/hero2.jpg");
+  background-size: cover;
+  min-height: 105vh;
+  @media (max-width: 900px) {
+    min-height: 120vh;
+  }
+  @media (max-width: 600px) {
+    min-height: 200vh;
+  }
+}

@@ -1,0 +1,59 @@
+.card {
+  width: 280px; // adjust width as necessary
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s ease-in-out;
+
+  &:hover {
+    transform: translateY(-5px);
+  }
+
+  .card-image-container {
+    width: 100%;
+    height: 160px; // adjust height as necessary
+
+    .card-image {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+  }
+
+  .card-content {
+    padding: 16px;
+    background-color: white;
+
+    .card-title {
+      margin: 0;
+      color: #333;
+      font-size: 1.1em;
+    }
+
+    .card-description {
+      color: #666;
+      font-size: 0.9em;
+    }
+
+    .card-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 12px;
+
+      .card-author {
+        color: #333;
+        font-weight: bold;
+      }
+
+      .card-stats {
+
+        .card-likes,
+        .card-views {
+          margin-left: 8px;
+          font-size: 0.9em;
+        }
+      }
+    }
+  }
+}
