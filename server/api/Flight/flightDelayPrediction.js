@@ -29,7 +29,23 @@ async function getAmadeusToken() {
 }
 
 router.get('/', async (req, res) => {
-   
+    const {
+        originLocationCode, destinationLocationCode, departureDate, departureTime,
+        arrivalDate, arrivalTime, aircraftCode, carrierCode, flightNumber, duration
+    } = req.query;
+
+    // Validate required parameters
+    if (!originLocationCode || !destinationLocationCode || !departureDate || !departureTime || 
+        !arrivalDate || !arrivalTime || !aircraftCode || !carrierCode || !flightNumber || !duration) {
+        return res.status(400).send({ message: 'Required parameters are missing.' });
+    }
+
+    let token;
+    try {
+        token = await getAmadeusToken();
+    } catch (error) {
+        return res.status(500).send({ message: 'Failed to authenticate with Amadeus', error: error.message });
+    }
 });
 
 module.exports = router;
