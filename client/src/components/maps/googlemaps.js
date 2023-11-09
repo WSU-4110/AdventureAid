@@ -71,6 +71,7 @@ function MapComponent({searchPlaceInput, searchLocationInput}) {
         flexDirection="column"
         justifyContent="center"
         alignItems="center"
+        marginY="3rem"
         opacity= "0.5"
     >
         <Box id="map" sx={{ width: '75%', height: '400px' }} />
