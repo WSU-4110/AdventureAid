@@ -1,9 +1,11 @@
 import { Container, Grid } from '@mui/material';
 
+
 import Navbar from '../../components/navbar';
+import WeatherComponent from '../../components/weather';
 import Map from "../../components/maps/googlemaps.js"
 
-import './index.scss';
+import "./index.scss";
 
 
 function Destinations() {
@@ -16,6 +18,9 @@ function Destinations() {
         >
           <Grid item mt="1rem">
             <Navbar />
+          </Grid>
+          <Grid item>
+            <WeatherComponent />
           </Grid>
           <Grid item>
             <Map />
