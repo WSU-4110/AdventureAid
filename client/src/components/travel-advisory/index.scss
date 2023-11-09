@@ -1,0 +1,22 @@
+@import url('https://fonts.googleapis.com/css2?family=Agbalumo&display=swap');
+
+.travel-advisory-container {
+  width: fit-content;
+  margin: 2rem auto;
+  .searchbar {
+    padding: 10px;
+    border-radius: 20px;
+    border: none;
+  }
+  .travel-advisory-text-container {
+    .text {
+      font-size: 1.25rem;
+      color: black;
+      font-weight: bold;
+      font-family: 'Agbalumo', cursive;
+      @media(max-width: 600px) {
+        font-size: 1rem;
+      }
+    }
+  }
+}
