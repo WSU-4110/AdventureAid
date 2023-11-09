@@ -4,7 +4,7 @@ import './index.scss'; // make sure to create a corresponding SCSS file
 
 const CardComponent = ({ imageUrl, title, description, author, likes, views }) => {
   return (
-    <div className="card">
+    <div className="blog-card">
       <div className="card-image-container">
         <img src={imageUrl} alt={title} className="card-image" />
       </div>
