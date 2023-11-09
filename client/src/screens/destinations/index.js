@@ -1,8 +1,11 @@
 import { Container, Grid } from '@mui/material';
+
+
 import Navbar from '../../components/navbar';
+import WeatherComponent from '../../components/weather';
 import Map from "../../components/maps/googlemaps.js"
 import SimpleSearchBar from '../../components/autocomplete/autocomplete.js';
-import './index.scss';
+import "./index.scss";
 import React, { useState } from 'react';
 import MapComponent from '../../components/maps/googlemaps.js';
 
@@ -27,6 +30,12 @@ function Destinations() {
         >
           <Grid item mt="1rem">
             <Navbar />
+          </Grid>
+          <Grid item>
+            <WeatherComponent />
+          </Grid>
+          <Grid item>
+            <WeatherComponent />
           </Grid>
           <Grid item>
             <SimpleSearchBar onPlaceSearch={handlePlaceSearch} onLocationSearch={handleLocationSearch} />

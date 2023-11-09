@@ -1,97 +1,69 @@
-
 import React, { useState } from 'react';
-import { Container, Box, Typography, TextField, Checkbox, FormControlLabel, Button, Link as MuiLink, CssBaseline, Paper } from '@mui/material';
+import { Container, Typography, TextField, Button, CssBaseline, Paper, Box } from '@mui/material';
 import { Link, useNavigate } from 'react-router-dom'; 
 import Helmet from 'react-helmet';
-
 import './index.scss';
 
 function SignupForm({ onLogin }) {
 
 
-  const [firstName, setFirstName] = useState('');
-  const [lastName, setLastName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [confirmPassword, setComfirmPassword] = useState('');
-  const [passwordError, setPasswordError] = useState('');
+  const [error, setError] = useState('');
 
   const navigate = useNavigate();
 
-
-    function checkPassword() {
-    if (password !== confirmPassword) {
-      setPasswordError('Passwords do not match');
-      return false;
-    }
-    setPasswordError('');  // Reset the error message if passwords match
-    return true;
-  }
-
-
-
-    const handleSubmit = (e) => {
+  const handleSubmit = async(e) => {
     e.preventDefault();
-    if (!checkPassword()) return;
+    console.log('attempting singup');
 
-    console.log('login');
-    if (typeof onLogin === 'function') {
-      onLogin();
+  setError('');
+
+  //post method implement
+  try {
+    const response = await fetch('http://localhost:3001/api/signup', { // postman method tried on this link http://localhost:3001/api/signup
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        email,
+        password,
+      }),
+    });
+
+    const data = await response.json();
+
+    if (response.ok) {
+      console.log('Signup successful', data);
+      // Call onLogin function if it exists, otherwise navigate to login page
+      if (typeof onLogin === 'function') {
+        onLogin(data); // Pass any needed data to onLogin
+      } else {
+        navigate('/login'); // Navigate to the login page
+      }
+    } else {
+      // If the server response was not ok, handle errors
+      setError(data.message || 'Failed to sign up. Please try again.');
     }
-    navigate('/login'); // Navigate to the home page
-  };
-
-
-
-//   function checkPassword() {
-//     if (password === confirmPassword) {
-//         return true;
-//         } else {
-//             alert('Passwords do not match!');
-//             }
-//   }
-
+  } catch (error) {
+    // If there was an error sending the request, handle it here
+    console.error('There was an error submitting the form', error);
+    setError('Network error, please try again later.');
+  }
+};
 
   return (
     <Container component="main" maxWidth={false}>
       <CssBaseline />
       <Helmet>
-        <title>Sign in</title>
-        <meta name="description" content="" />
+        <title>Sign Up</title>
+        <meta name="description" content="Signup Page" />
       </Helmet>
 
       <Paper elevation={3} className="login-paper">
         <Typography variant="h5">Sign Up</Typography>
         <form className="login-form" onSubmit={handleSubmit}>
-             <TextField
-            variant="outlined"
-            margin="normal"
-            required
-            fullWidth
-            id="First Name"
-            label="First Name"
-            name="First Name"
-            autoComplete="First Name"
-            autoFocus
-            value={firstName}
-            onChange={(e) => setFirstName(e.target.value)}
-            className='custom-textfield'
-          />
-
-           <TextField
-            variant="outlined"
-            margin="normal"
-            required
-            fullWidth
-            id="Last Name"
-            label="Last Name"
-            name="Last Name"
-            autoComplete="Last Name"
-            autoFocus
-            value={lastName}
-            onChange={(e) => setLastName(e.target.value)}
-            className='custom-textfield'
-          />
           <TextField
             variant="outlined"
             margin="normal"
@@ -112,39 +84,17 @@ function SignupForm({ onLogin }) {
             required
             fullWidth
             name="password"
-            label={passwordError ? passwordError : 'Password'}
+            label={error ? error : 'Password'}
             type="password"
             id="password"
             autoComplete="current-password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
+            className='custom-textfield'
           />
-
-           <TextField
-            variant="outlined"
-            margin="normal"
-            required
-            fullWidth
-            name="password"
-            label={passwordError ? passwordError : 'Confirm Password'}
-            type="password"
-            id="password"
-            autoComplete="current-password"
-            value={confirmPassword}
-            onChange={(e) => setComfirmPassword(e.target.value)}
-          />
-
-          {/* <FormControlLabel
-            control={
-              <Checkbox
-                value={rememberMe}
-                onChange={(e) => setRememberMe(e.target.checked)}
-                color="primary"
-              />
-            }
-            label={<Typography className="checkbox-label">Remember me</Typography>}
-          /> */}
+          
           <Button
+            style={{ marginTop: '1rem' }}
             type="submit"
             fullWidth
             variant="contained"
@@ -153,13 +103,6 @@ function SignupForm({ onLogin }) {
           >
             Make my Account!
           </Button>
-          <Box className="navigate-to-login">
-            <Typography variant="body2">Already have an account?</Typography>
-            <Link to="/login">Login here</Link>
-          </Box>
-          {/* <div className="forgot-password">
-            <Link href="#">Forgot password?</Link>
-          </div> */}
         </form>
       </Paper>
     </Container>
