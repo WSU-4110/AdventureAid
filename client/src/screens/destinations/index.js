@@ -35,9 +35,6 @@ function Destinations() {
             <WeatherComponent />
           </Grid>
           <Grid item>
-            <WeatherComponent />
-          </Grid>
-          <Grid item>
             <SimpleSearchBar onPlaceSearch={handlePlaceSearch} onLocationSearch={handleLocationSearch} />
             <MapComponent searchPlaceInput={searchPlaceInput} searchLocationInput={searchLocationInput} />
           </Grid>

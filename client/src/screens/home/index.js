@@ -2,23 +2,23 @@ import React, { useState } from 'react';
 import { Container, Grid, Box, Typography, Button } from '@mui/material';
 
 import Navbar from '../../components/navbar';
+import TravelAdvisor from '../../components/travel-advisory';
 import Calendar from '../../components/calendar';
-import WeatherComponent from '../../components/weather';
 import "./index.scss";
 
 function Home() {
   const [showCalendar, setShowCalendar] = useState(false);
 
   const handleStartPlanningClick = () => {
-    setShowCalendar(true); 
+    setShowCalendar(true); // This will now control the display of both Calendar and TravelAdvisor
   };
 
   return (
     <>
-      <Container maxWidth={false} className='container'>
+      <Container maxWidth={false} className='home-container'>
         <Grid container
           direction="column"
-          spacing={4}    
+          spacing={4}
         >
           <Grid item mt="1rem">
             <Navbar />
@@ -38,7 +38,12 @@ function Home() {
             </Typography>
           </Button>
         )}
-        {showCalendar && <Calendar />}
+        {showCalendar && (
+          <>
+            <TravelAdvisor />
+            <Calendar />
+          </>
+        )}
       </Container>
     </>
   );
