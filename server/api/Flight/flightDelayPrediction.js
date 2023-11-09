@@ -46,6 +46,29 @@ router.get('/', async (req, res) => {
     } catch (error) {
         return res.status(500).send({ message: 'Failed to authenticate with Amadeus', error: error.message });
     }
+    
+    // Construct the request URL with the parameters received from the query string
+    const url = `https://test.api.amadeus.com/v1/travel/predictions/flight-delay?originLocationCode=${originLocationCode}&destinationLocationCode=${destinationLocationCode}&departureDate=${departureDate}&departureTime=${encodeURIComponent(departureTime)}&arrivalDate=${arrivalDate}&arrivalTime=${encodeURIComponent(arrivalTime)}&aircraftCode=${aircraftCode}&carrierCode=${carrierCode}&flightNumber=${flightNumber}&duration=${duration}`;
+
+    try {
+        const flightDelayPredictionResponse = await axios.get(url, {
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        });
+        res.send(flightDelayPredictionResponse.data);
+    } catch (error) {
+        if (error.response) {
+            return res.status(error.response.status).send({ message: 'Error retrieving flight delay prediction', error: error.response.data });
+        } else {
+            return res.status(500).send({ message: 'Unknown error', error: error.message });
+        }
+    }
 });
 
+
+// To test this endpoint, construct a query with the required parameters
+
 module.exports = router;
+
+// link to test: http://localhost:3001/api/flightDelayPrediction?originLocationCode=NCE&destinationLocationCode=IST&departureDate=2020-08-01&departureTime=18%3A20%3A00&arrivalDate=2020-08-01&arrivalTime=22%3A15%3A00&aircraftCode=321&carrierCode=TK&flightNumber=1816&duration=PT31H10M
