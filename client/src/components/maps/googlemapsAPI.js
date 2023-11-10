@@ -1,5 +1,6 @@
 import { Loader } from "@googlemaps/js-api-loader";
 
+let loaderInstance = null;
 let directionsService, directionsRenderer;
 let mapInstance, infoWindow, markers = [];    // store the instance of the map, information window, initialize markers array
 export const googleMapsOperations = {
@@ -8,8 +9,7 @@ export const googleMapsOperations = {
         fetch('http://localhost:3001/api/googlemapsapikey')
             .then(response => response.json())
             .then(data => {
-                const loader = googleMapsOperations.getLoader(data.apiKey);
-                return googleMapsOperations.loadGoogleMapsScript(loader);   
+                return this.getLoaderAndLoadGoogleMapsScript(data.apiKey)   
             })
             .then(() => {
                 // Initialize the map and assign it to mapInstance
@@ -48,18 +48,17 @@ export const googleMapsOperations = {
                 console.error("Error:", error);
             });
     },
-    getLoader: function(apiKey) {
-        return new Loader({
-            apiKey: apiKey,
-            version: "weekly",
-            libraries: ["places"]
-            // ...additionalOptions,
-        });
+    getLoaderAndLoadGoogleMapsScript: function(apiKey) {
+        if (!loaderInstance){
+            loaderInstance = new Loader({
+                apiKey: apiKey,
+                version: "weekly",
+                libraries: ["places"]
+                // ...additionalOptions,
+            });
+        }
+        return loaderInstance.load();
     },
-    loadGoogleMapsScript: function(loader) {
-        return loader.load();  // returns a promise which resolves when the Google Maps script is successfully loaded.
-    },
-
     addMarker: function(lat, lng) {
         const marker = new window.google.maps.Marker({
             position: { lat, lng },
@@ -126,9 +125,23 @@ export const googleMapsOperations = {
         });
     },
     searchLocation: function(searchInput) {
+        // check if there is already an initialized mapInstance
+        if (!mapInstance) {
+            console.error('Map has not been initialized.');
+            return;
+        }
+
+        const request = {
+            query: searchInput
+        }
+
         const placesService = new window.google.maps.places.PlacesService(mapInstance);
-        placesService.textSearch({ query: searchInput }, (results, status) => {
+        placesService.textSearch(request, (results, status) => {
             if (status === window.google.maps.places.PlacesServiceStatus.OK) {
+                // Clear out the old markers.
+                markers.forEach(marker => marker.setMap(null));
+                markers = [];
+
                 const place = results[0];
                 mapInstance.setCenter(place.geometry.location);
                 googleMapsOperations.addMarker(place.geometry.location.lat(), place.geometry.location.lng());
@@ -218,9 +231,16 @@ export const googleMapsOperations = {
     },
     calculateAndDisplayRoute: function(start, end)
     {
-        if (!directionsService) //check if directionsService is initialized
+        // check if there is already an initialized mapInstance
+        if (!mapInstance) {
+            console.error('Map has not been initialized.');
+            return;
+        }
+        //check if directionsService is initialized
+        if (!directionsService) 
             directionsService = new window.google.maps.DirectionsService();
-        if (!directionsRenderer) //check if directionsRenderer is initialized
+        //check if directionsRenderer is initialized
+        if (!directionsRenderer) 
         {
             directionsRenderer = new window.google.maps.DirectionsRenderer({    //create a new directionsRenderer instance
                 map: mapInstance    //associate it with the current active displayed map

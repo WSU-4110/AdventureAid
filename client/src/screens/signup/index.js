@@ -1,42 +1,42 @@
-// LoginScreen.js
 import React from "react";
-import { CssBaseline, Grid, Box, Typography } from '@mui/material';
+import { CssBaseline, Grid, Box, Typography, Button } from '@mui/material';
 import Helmet from 'react-helmet';
 
 import SignupForm from "../../components/signup";
+import { useNavigate } from 'react-router-dom';
 
-import logo from "../../assets/img/logo/logo-name1.png"
-
-import './index.scss'; // Ensure your stylesheet is imported
+import './index.scss'; // Ensure your stylesheet is imported correctly
 
 function SignUpScreen({ onLogin }) {
+  const navigate = useNavigate();
+  const handleHaveAnAccount = () => {
+    navigate('/login');
+  }
+
   return (
-      
-      // <Container maxWidth={false} className="hero-container">
-        <>
+    <>
       <CssBaseline />
       <Helmet>
-        <title>Sign up</title>
-        <meta name="description" content="" />
-      </Helmet><Grid
-        container
-        className="hero-container" 
-      >
+        <title>Sign up - Adventure Aid</title>
+        <meta name="description" content="Join Adventure Aid and start planning your next journey!" />
+      </Helmet>
+      
+      <Grid container direction={"column"} className="hero-container">
         <Grid item>
           <Box className="logo-col">
-            <Typography variant="h3" className="logo-text">
-              Welcome to
-            </Typography>
-            <img src={logo} alt="logo" className="logo-img" />
+            <Typography variant="h5" component="h2" className="account-query" mb="2rem"> Already Have an Account? </Typography>
+            
+            
+            <Button variant="contained" onClick={handleHaveAnAccount} className="sign-in-button"> Sign in </Button>
           </Box>
         </Grid>
         <Grid item xs="auto" className="login-component"> 
-        <SignupForm />
+          <SignupForm />
         </Grid>
-      </Grid></>
-   
-      
+      </Grid>
+    </>
   );
 }
 
 export default SignUpScreen;
+

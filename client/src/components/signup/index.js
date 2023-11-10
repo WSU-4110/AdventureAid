@@ -90,8 +90,11 @@ function SignupForm({ onLogin }) {
             autoComplete="current-password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
+            className='custom-textfield'
           />
+          
           <Button
+            style={{ marginTop: '1rem' }}
             type="submit"
             fullWidth
             variant="contained"
@@ -100,13 +103,6 @@ function SignupForm({ onLogin }) {
           >
             Make my Account!
           </Button>
-          <Box className="navigate-to-login">
-            <Typography variant="body2">Already have an account?</Typography>
-            <Link to="/login">Login here</Link>
-          </Box>
-          {/* <div className="forgot-password">
-            <Link href="#">Forgot password?</Link>
-          </div> */}
         </form>
       </Paper>
     </Container>

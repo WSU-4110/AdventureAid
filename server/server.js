@@ -10,6 +10,7 @@ const weatherRoutes = require('./api/Weather/weather.js');
 //const signupRoute = require('./routes/signupRoute');
 const flightSearchRoutes = require('./api/Flight/flightSearch.js');
 const hotelListRoutes = require('./api/Hotels/hotelList.js');
+const flightDelayPrediction = require('./api/Flight/flightDelayPrediction.js');
 require("dotenv").config();
 //const User = require('./schemas/signupdata');
 
@@ -30,9 +31,8 @@ app.use('/api/weather', weatherRoutes); // Enable the weather routes for the /ap
 app.use('/api/flightStatus', flightStatusRoutes); // Enable the flight status routes for the /api/flightStatus endpoint
 app.use('/api/flightSearch', flightSearchRoutes); // Enable the flight search routes for the /api/flightSearch endpoint
 app.use('/api/hotelList', hotelListRoutes); // Enable the hotel list routes for the /api/hotelList endpoint
-//app.use('/routes',signupRoute);
 app.use('/api',userRoute);
-
+app.use('/api/flightDelayPrediction', flightDelayPrediction); // Enable the flight delay prediction routes for the /api/flightDelayPrediction endpoint
 // Root Endpoint
 app.get('/', (req, res) => {
   res.send('Hello, Travel Planner!');

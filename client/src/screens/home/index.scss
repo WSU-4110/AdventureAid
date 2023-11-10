@@ -1,5 +1,36 @@
-.container {
+@import url('https://fonts.googleapis.com/css2?family=Agbalumo&display=swap');
+
+.home-container {
   background-image: url("/assets/img/home/hero2.jpg");
   background-size: cover;
-  height: 105vh;
+  min-height: 110vh;
+  position: relative;
+  .hero-text {
+    display: flex;
+    justify-content: center;
+    color: #2c365d;
+    font-family: 'Agbalumo', cursive;
+    font-size: 3.5rem;
+    @media (max-width: 900px) {
+      font-size: 3rem;
+    }
+    @media(max-width: 600px) {
+      font-size: 2rem;
+      text-align: center;
+    }
+  }
+  .button { 
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 2rem;
+    padding: 1rem;
+    transition: all 0.3s ease-in;
+    position: absolute; 
+    left: 50%; 
+    transform: translate(-50%, -50%); 
+    @media(max-width: 600px) {
+      margin-top: 3rem;
+    }
+  }
 }

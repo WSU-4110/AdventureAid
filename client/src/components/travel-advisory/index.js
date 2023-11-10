@@ -1,10 +1,19 @@
 import React, { useEffect, useState } from 'react';
+import { Box, Typography } from '@mui/material';
+import './index.scss';
 
 function TravelAdvisoryComponent() {
   const [advisoryData, setAdvisoryData] = useState(null);
-  const countryCode = "US"; // You can change this to any valid country code or make it dynamic
+  const [countryCode, setCountryCode] = useState(''); // Default country code is empty
+  const [isLoading, setIsLoading] = useState(false); // Add a loading state
 
   useEffect(() => {
+    if (!countryCode) {
+      setAdvisoryData(null); // Reset advisory data when country code is cleared
+      return; // Do not fetch data if no country code
+    }
+
+    setIsLoading(true); // Start loading when fetch starts
     const apiUrl = `https://www.travel-advisory.info/api?countrycode=${countryCode}`;
 
     fetch(apiUrl)
@@ -21,23 +30,38 @@ function TravelAdvisoryComponent() {
       })
       .catch(error => {
         console.error('There has been a problem with your fetch operation:', error);
+      })
+      .finally(() => {
+        setIsLoading(false); // End loading when fetch is complete or has failed
       });
-  }, []); // The empty dependency array means this useEffect runs once when the component mounts
+  }, [countryCode]); // This useEffect runs when the countryCode state changes
 
   return (
-    <div>
-      {advisoryData ? (
-        <div>
-          {/* Render your advisory data here */}
-          <p>Country: {countryCode}</p>
-          <p>Advisory Score: {advisoryData.score}</p>
-          <p>Message: {advisoryData.message}</p>
-          <p>Updated: {advisoryData.updated}</p>
-        </div>
+    <Box className="travel-advisory-container">
+      <input
+        className="searchbar"
+        type="text"
+        value={countryCode}
+        onChange={e => setCountryCode(e.target.value.toUpperCase())} // Ensure country code is uppercase
+        placeholder="Enter country code"
+      />
+      {isLoading ? (
+        <Box className="travel-advisory-text-container">
+          <Typography className='text'>Loading advisory data...</Typography>
+        </Box>
+      ) : advisoryData ? (
+        <Box className="travel-advisory-text-container">
+          <Typography className='text'>Country: {countryCode}</Typography>
+          <Typography className='text'>Advisory Score: {advisoryData.score}</Typography>
+          <Typography className='text'>Message: {advisoryData.message}</Typography>
+        </Box>
       ) : (
-        <p>Loading advisory data...</p>
+        countryCode && 
+        <Box className="travel-advisory-text-container">
+          <Typography className='text'>No advisory data available.</Typography>
+        </Box>
       )}
-    </div>
+    </Box>
   );
 }
 
