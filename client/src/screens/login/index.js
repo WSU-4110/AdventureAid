@@ -36,10 +36,8 @@ function LoginScreen({ onLogin }) {
       >
         <Grid item>
           <Box className="logo-col">
-            <Button variant="h4" className="logo-text" onClick={handleNewHere}>
-              New here?
-            </Button>
-            {/* <img src={logo} alt="logo" className="logo-img" /> */}
+            <Button variant="h4" onClick={handleNewHere} className="new-here-button"> New here? </Button>
+            
           </Box>
         </Grid>
 

@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css?family=Roboto:400,500,700|Montserrat:400,700&display=swap');
+
 .hero-container {
   min-height: 100vh;
   // background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('../../assets/img/login/hero.jpg') no-repeat center center fixed;
@@ -7,7 +9,36 @@
   align-items: center;
 }
 
+
+.account-query {
+  font-family: 'Times New Roman';
+  font-size: 2rem;
+  color: white; 
+  margin-bottom: 3rem; 
+  opacity: 0.9;
+  text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.25);
+}
+
+.sign-in-button {
+  padding: 1.5rem;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 1.25rem;
+  background: linear-gradient(to right, #FF9D85, #f0856a);
+  border-radius: 50px;
+  text-transform: uppercase;
+  text-decoration:solid;
+  transition: all 0.4s ease-in-out;
+  color: white; 
+  
+
+  &:hover {
+    transform: scale(1.05);
+    background: linear-gradient(to right, #f0856a, #FF9D85);
+  }
+}
+
 .login-component {
   padding: 20px;
   border-radius: 8px;
+  box-shadow: rgba(0, 0, 0, 0.1); // Soft shadow for depth
 }
