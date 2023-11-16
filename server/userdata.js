@@ -1,7 +1,8 @@
 const User = require('./schemas/signupdata');
 const jwt = require('jsonwebtoken');
 const SK = 'HELLO';
-const bcrypt = require('bcrypt');
+const bcheck = require('./api/bcheck');
+
 
 const signup = async (req,res) => {
     const {email,password} = req.body;
@@ -13,7 +14,8 @@ const signup = async (req,res) => {
                 message: "User Already exists"
             })
         }
-        const user = new User({email,password});
+        let hashedPassword = await bcheck.hash(password);
+        const user = new User({email,password:hashedPassword});
         await user.save();
     }catch(err){
         console.log(err);
@@ -23,7 +25,7 @@ const signup = async (req,res) => {
     });
 }
 
-const login = async (req,res) => {
+const loginuser = async (req,res) => {
     const {email,password} = req.body;
     let existing,checkpassword;
     try{
@@ -33,17 +35,21 @@ const login = async (req,res) => {
                 message: "User not founds"
             })
         }
-        checkpassword = await bcrypt.compare;
+        checkpassword = await bcheck.compare(password, existing.password);
+        if (!checkpassword) {
+            return res.status(401).json({ message: "Invalid credentials." });
+        }
+        const payLoad = {
+            userEmail:existing.email,
+            userPass: existing.password
+        }
+        const accessToken = jwt.sign(payLoad,SK,{ expiresIn: '1h' });
+        return res.status(200).json({
+            message: "Logged in",
+            Token:accessToken});
     }catch(err){
         console.log(err);
     }
-    const payLoad = {
-        userEmail:existing.email,
-        userPass: existing.password
-    }
-    const accessToken = jwt.sign(payLoad,SK);
-    return res.status(200).json({
-        message: "Logged in",
-        Token:accessToken});
+    
 }
-module.exports = {signup}
+module.exports = {signup,loginuser}
