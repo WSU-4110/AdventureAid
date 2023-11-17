@@ -1,7 +1,5 @@
 const { MongoClient, ServerApiVersion } = require('mongodb');
 require('dotenv').config();
-const {hash,compare} = require('./bcheck.js');
-
 const uri = process.env.DB_URI;
 
 //singleton class for mongoClient
@@ -9,11 +7,9 @@ class MongoDBClient {
   constructor() {
     if (!MongoDBClient.instance) { //check if there is an existing instance of MongoDBClient
       this._client = new MongoClient(uri, {
-        serverApi: {
-          version: ServerApiVersion.v1,
-          strict: true,
-          deprecationErrors: true,
-        }
+        useNewUrlParser: true,
+        useUnifiedTopology: true,
+        serverApi: ServerApiVersion.v1
       });
       MongoDBClient.instance = this;
     }
@@ -22,16 +18,17 @@ class MongoDBClient {
   }
 
   async getClient() {
-    try {
-      await this._client.connect();
-      console.log("Connected to MongoDB.");
-    } catch (err) {
-      if (err.message !== 'MongoClient is already connected') {
-        throw err;
+      // ... existing connection logic for non-test environments ...
+      try {
+        await this._client.connect();
+        console.log("Connected to MongoDB.");
+      } catch (err) {
+        if (err.message !== 'MongoClient is already connected') {
+          throw err;
+        }
+        // If the error is because the client is already connected, just continue.
       }
-      // If the error is because the client is already connected, just continue.
-    }
-    return this._client;
+      return this._client;
   }
 }
 
@@ -40,11 +37,11 @@ Object.freeze(instance);
 
 // object literal for custom database API's
 const dbOperations = {
-  connect: async function() {
+  connect: async function(input_database) {
     try {
       // Connect the client to the server	(optional starting in v4.7)
       const client = await instance.getClient();
-      return client.db("AdventureAid");
+      return client.db(input_database);
     } catch(error) {
       console.log(error);
       throw error;
@@ -66,9 +63,9 @@ const dbOperations = {
       throw error;
     }
   },
-  find: async function(input_collection, input_document) {
+  find: async function(input_database, input_collection, input_document) {
     try {
-      const db = await dbOperations.connect();
+      const db = await dbOperations.connect(input_database);
       const collection = db.collection(input_collection);
       // find document in collection
       const documents = await collection.find(input_document).toArray();
@@ -78,26 +75,23 @@ const dbOperations = {
       console.log(error);
       throw error;
     }
-},
-insert: async function(input_collection, input_document) {
-  try {
-    const db = await dbOperations.connect();
-    var collection = db.collection(input_collection);
-    if (input_collection === "UserProfiles" && input_document.password) {
-      input_document.password = await hash(input_document.password);
-    }
-    // insert document into db
-    const insert_result = await collection.insertOne(input_document)
-    console.log(`Document inserted with _id: ${insert_result.insertedId}`);
-    return true;
-  } catch(error) {
-    console.log(error);
-    throw error;
-  }
-},
-  update: async function(input_collection, input_query, input_update) {
+  },
+  insert: async function(input_database, input_collection, input_document) {
     try {
-      const db = await dbOperations.connect();
+      const db = await dbOperations.connect(input_database);
+      var collection = db.collection(input_collection);
+      // insert document into db
+      const insert_result = await collection.insertOne(input_document)
+      console.log(`Document inserted with _id: ${insert_result.insertedId}`);
+      return true;
+    } catch(error) {
+      console.log(error);
+      return false;
+    }
+  },
+  update: async function(input_database, input_collection, input_query, input_update) {
+    try {
+      const db = await dbOperations.connect(input_database);
       var collection = db.collection(input_collection);
 
       // update document in db
@@ -107,12 +101,12 @@ insert: async function(input_collection, input_document) {
       return true;
     } catch(error) {
       console.log(error);
-      throw error;
+      return false;
     }
   },
-  delete: async function(input_collection, input_document) {
+  delete: async function(input_database, input_collection, input_document) {
     try {
-      const db = await dbOperations.connect();
+      const db = await dbOperations.connect(input_database);
       var collection = db.collection(input_collection);
       // delete document from collection
       const delete_result = await collection.deleteOne(input_document)
@@ -120,12 +114,12 @@ insert: async function(input_collection, input_document) {
       return true;
     } catch(error) {
       console.log(error);
-      throw error;
+      return false;
     }
   },
-  deleteAll: async function(input_collection) {
+  deleteAll: async function(input_database, input_collection) {
     try {
-      const db = await dbOperations.connect();
+      const db = await dbOperations.connect(input_database);
       var collection = db.collection(input_collection);
       
       // delete all documents from the collection
@@ -135,7 +129,7 @@ insert: async function(input_collection, input_document) {
       return true;
     } catch(error) {
       console.log(error);
-      throw error;
+      return false;
     }
   }
 };
