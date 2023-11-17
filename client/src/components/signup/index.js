@@ -21,7 +21,7 @@ function SignupForm({ onLogin }) {
 
   //post method implement
   try {
-    const response = await fetch('http://localhost:3001/api/signup', { // postman method tried on this link http://localhost:3001/api/signup
+    const response = await fetch('http://localhost:3001/api/signup', { // postman method tried on this link http://localhost:3001/api/signup and api/loginuser for login
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
