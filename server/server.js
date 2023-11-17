@@ -1,7 +1,7 @@
 const cors = require('cors');
 const express = require('express');
 const app = express();
-const port = process.env.PORT || 3001;  
+const PORT = process.env.PORT || 3001;  
 require('./api/connection.js');
 const dbOperations = require('./api/mongoDB.js');
 const flightStatusRoutes = require('./api/Flight/flightStatus.js');
@@ -12,8 +12,9 @@ const flightSearchRoutes = require('./api/Flight/flightSearch.js');
 const hotelListRoutes = require('./api/Hotels/hotelList.js');
 const flightDelayPrediction = require('./api/Flight/flightDelayPrediction.js');
 require("dotenv").config();
+const Vacation = require("./middleware/index.js");
 //const User = require('./schemas/signupdata');
-
+const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const userRoute = require('./routes/signupRoute.js');
 
@@ -22,6 +23,7 @@ const { required } = require('joi');
 
 // Middleware
 app.use(express.json()); // Enable JSON parsing for incoming requests
+app.use(bodyParser.json());
 
 // Enabling CORS
 app.use(cors({ origin: 'http://localhost:3000' })); // This enables all CORS requests
@@ -44,18 +46,41 @@ app.get('/api/googlemapsapikey', (req, res) => {
   res.json({ apiKey });
 });
 
-// Starting the Server
-app.listen(port, () => {
-  console.log(`Server is running on port ${port}`);
-  //dbOperations.insert("UserProfiles", {email:"harrypottter@gmail.com", password:"magic123"})
+
+
+const vacationInstance = new Vacation();
+
+app.post('/push-destination', (req, res) => {
+  try {
+      vacationInstance.pushDestination(req.body.destination);
+      console.log(vacationInstance.getAllDestinations());
+      res.status(200).send('Destination added successfully');
+  } catch (error) {
+      res.status(400).send(error.message);
+  }
 });
 
-/*dbOperations.connect()
-  .then(() => {
-    console.log(`Server is running on port ${port}`);
-    app.listen(port);  // Start the server after ensuring the database is connected.
-  })
-  .catch(error => {
-    console.error('Error while connecting:', error);
-  });
-*/
+app.post('/remove-destination', (req, res) => {
+  try {
+    vacationInstance.removeDestination(req.body.destination);
+    console.log(vacationInstance.getAllDestinations());
+    res.status(200).send("Destination deleted successfully");
+  } catch (error) {
+    res.status(400).send(error.message);
+  }
+})
+
+app.post('/remove-all-destinations', (req, res) => {
+  try {
+    vacationInstance.removeAllDestinations();
+    console.log(vacationInstance.getAllDestinations());
+    res.status(200).send("All destinations deleted successfully");
+  } catch (error) {
+    res.status(400).send(error.message);
+  }
+})
+
+// Starting the Server
+app.listen(PORT, () => {
+  console.log(`Server is running on port ${PORT}`);
+});
