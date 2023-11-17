@@ -1,6 +1,7 @@
 const cors = require('cors');
 const express = require('express');
 const app = express();
+const app=require('./app');
 const PORT = process.env.PORT || 3001;  
 require('./api/connection.js');
 const dbOperations = require('./api/mongoDB.js');
