@@ -1,5 +1,24 @@
 
 export const vacationOperations = {
+    planVacation: async function(locality, startDate, endDate) {
+        try {
+            const response = await fetch('http://localhost:3001/start-planning-vacation', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ locality, startDate, endDate }),
+            });
+            if (response.ok) {
+                console.log('Vacation created');
+                alert('u good')
+            } else {
+                console.error('Failed to create vacation');
+                alert('error1')
+            }
+        } catch (error) {
+            console.error('Error:', error);
+            alert('error2')
+        }
+    },
     addDestination: async function(destination) {
         try {
             const response = await fetch('http://localhost:3001/push-destination', {
@@ -9,10 +28,9 @@ export const vacationOperations = {
             });
             if (response.ok) {
                 console.log('Destination added');
-                alert('ur good');
             } else {
                 console.error('Failed to add destination');
-                alert('erro1')
+                alert('error1')
             }
         } catch (error) {
             console.error('Error:', error);
