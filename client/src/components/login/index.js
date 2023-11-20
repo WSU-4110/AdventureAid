@@ -12,6 +12,7 @@ function LoginForm({ onLogin }) {
   const [password, setPassword] = useState('');
   const [rememberMe, setRememberMe] = useState(false);
   const [errorMsg, setErrorMsg] = useState('');
+  const [passwordVisible,setPasswordVisible] = useState(false);
 
 const handleSubmit = async (e) => {
   e.preventDefault();
@@ -76,7 +77,7 @@ console.log('token recall',response);//for test
             fullWidth
             name="password"
             label="Password"
-            type="password"
+            type={passwordVisible ? "text" : "password"}
             id="password"
             autoComplete="current-password"
             value={password}
@@ -96,6 +97,9 @@ console.log('token recall',response);//for test
           <Button type="submit" variant="contained" className="custom-button" onClick={handleSubmit}>
           Sign In
         </Button>
+        <Button onClick={() => setPasswordVisible(!passwordVisible)}>
+        {passwordVisible ? "Hide" : "Show"} Password
+      </Button>
           <div className="forgot-password">
             <Link href="#">Forgot password?</Link>
           </div>

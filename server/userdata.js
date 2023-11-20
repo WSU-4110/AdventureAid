@@ -3,7 +3,7 @@ const jwt = require('jsonwebtoken');
 const SK = 'HELLO';
 const bcheck = require('./api/bcheck');
 
-
+/*
 const signup = async (req,res) => {
     const {email,password} = req.body;
     let existing;
@@ -24,6 +24,27 @@ const signup = async (req,res) => {
         message: "Registered Successfully"
     });
 }
+*/
+
+
+const signup = async (req, res) => {
+    const { email, password } = req.body;
+    try {
+        const existing = await User.findOne({ email });
+        if (existing) {
+            return res.status(400).json({ message: "User Already exists" });
+        }
+
+        const hashedPassword = await bcheck.hash(password);
+        const user = new User({ email, password: hashedPassword });
+        await user.save();
+
+        return res.status(200).json({ message: "Registered Successfully" });
+    } catch (err) {
+        console.error(err);
+        return res.status(500).json({ message: "Error during user registration" });
+    }
+};
 
 const loginuser = async (req,res) => {
     const {email,password} = req.body;
@@ -37,7 +58,7 @@ const loginuser = async (req,res) => {
         }
         checkpassword = await bcheck.compare(password, existing.password);
         if (!checkpassword) {
-            return res.status(401).json({ message: "Invalid credentials." });
+            return res.status(401).json({ message: "Username and Password not match" });
         }
         const payLoad = {
             userEmail:existing.email,

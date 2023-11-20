@@ -29,7 +29,7 @@ describe('User Authentication Tests', () => {
             bcheck.hash.mockResolvedValue('hashed_password');
 
             const req = {
-                body: { email: 'newuser@gmail.com', password: 'password123' }
+                body: { email: 'newuser@example.com', password: 'password123' }
             };
             const res = mockResponse();
 
@@ -40,10 +40,10 @@ describe('User Authentication Tests', () => {
         });
 
         it('should handle registration with existing email', async () => {
-            User.findOne.mockResolvedValue({ email: 'existinguser@gmail.com' });
+            User.findOne.mockResolvedValue({ email: 'existinguser@example.com' });
 
             const req = {
-                body: { email: 'existinguser@gmail.com', password: 'password123' }
+                body: { email: 'existinguser@example.com', password: 'password123' }
             };
             const res = mockResponse();
 
@@ -58,7 +58,7 @@ describe('User Authentication Tests', () => {
             bcheck.hash.mockRejectedValue(new Error('Hashing failed'));
 
             const req = {
-                body: { email: 'user@gmail.com', password: 'password123' }
+                body: { email: 'user@example.com', password: 'password123' }
             };
             const res = mockResponse();
 
@@ -71,12 +71,12 @@ describe('User Authentication Tests', () => {
 
     describe('loginuser function', () => {
         it('should log in a user successfully', async () => {
-            User.findOne.mockResolvedValue({ email: 'user@gmail.com', password: 'hashed_password' });
+            User.findOne.mockResolvedValue({ email: 'user@example.com', password: 'hashed_password' });
             bcheck.compare.mockResolvedValue(true);
             jwt.sign.mockReturnValue('token');
 
             const req = {
-                body: { email: 'user@gmail.com', password: 'password123' }
+                body: { email: 'user@example.com', password: 'password123' }
             };
             const res = mockResponse();
 
@@ -93,7 +93,7 @@ describe('User Authentication Tests', () => {
             User.findOne.mockResolvedValue(null);
 
             const req = {
-                body: { email: 'nonexisting@gmail.com', password: 'password123' }
+                body: { email: 'nonexisting@example.com', password: 'password123' }
             };
             const res = mockResponse();
 
@@ -104,11 +104,11 @@ describe('User Authentication Tests', () => {
         });
 
         it('should handle login with incorrect password', async () => {
-            User.findOne.mockResolvedValue({ email: 'user@gmail.com', password: 'hashed_password' });
+            User.findOne.mockResolvedValue({ email: 'user@example.com', password: 'hashed_password' });
             bcheck.compare.mockResolvedValue(false);
 
             const req = {
-                body: { email: 'user@gmail.com', password: 'wrongpassword' }
+                body: { email: 'user@example.com', password: 'wrongpassword' }
             };
             const res = mockResponse();
 
@@ -117,5 +117,6 @@ describe('User Authentication Tests', () => {
             expect(res.status).toHaveBeenCalledWith(401);
             expect(res.json).toHaveBeenCalledWith({ message: "Username and Password not match" });
         });
+
     });
 });
