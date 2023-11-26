@@ -83,9 +83,9 @@ insert: async function(input_collection, input_document) {
   try {
     const db = await dbOperations.connect();
     var collection = db.collection(input_collection);
-    if (input_collection === "UserProfiles" && input_document.password) {
-      input_document.password = await hash(input_document.password);
-    }
+    // if (input_collection === "UserProfiles" && input_document.password) {
+    //   input_document.password = await hash(input_document.password);
+    // }
     // insert document into db
     const insert_result = await collection.insertOne(input_document)
     console.log(`Document inserted with _id: ${insert_result.insertedId}`);
