@@ -92,6 +92,24 @@ app.post('/remove-all-destinations', (req, res) => {
   }
 })
 
+app.post('/get-vacation-name', (req,res) => {
+  try {
+    const vacationName = vacationInstance.name;
+    res.status(200).send({vacationName});
+  } catch (error) {
+    res.status(400).send(error.message);
+  }
+})
+
+app.post('/get-vacation-locality', (req,res) => {
+  try {
+    const vacationLocality = vacationInstance.locality;
+    res.status(200).send({vacationLocality});
+  } catch (error) {
+    res.status(400).send(error.message);
+  }
+})
+
 // Starting the Server
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);

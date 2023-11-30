@@ -9,6 +9,7 @@ class Destination {
 class Vacation {
   constructor() {
     this.locality = '';     //string
+    this.name = '';         //string
     this.startDate = null;  //date object
     this.endDate = null;    //date object
     this.destinations = []; //array filled with destination instances
@@ -16,6 +17,7 @@ class Vacation {
 
   planVacation(locality, startDate, endDate) {
     this.locality = locality 
+    this.name = `Trip to ${locality}`;
     //startDate and endDate are provided as date strings from the request, they can be converted to Date objects
     //validation to check the format of the dates
     this.startDate = startDate ? new Date(startDate) : null;
