@@ -1,58 +1,14 @@
 import React, { useState } from 'react';
 import { Container, Grid, Box, Typography, Button } from '@mui/material';
+import { useNavigate } from 'react-router-dom';
 
 import Navbar from '../../components/navbar';
 import { vacationOperations } from '../../components/middleware-apis/vacationOperations';
-import TravelAdvisor from '../../components/travel-advisory';
-import Calendar from '../../components/calendar';
 import "./index.scss";
 
-/*function Home() {
-  const [showCalendar, setShowCalendar] = useState(false);
-  
-
-  const handleStartPlanningClick = () => {
-    setShowCalendar(true); // This will now control the display of both Calendar and TravelAdvisor
-  };
-
-  return (
-    <>
-      <Container maxWidth={false} className='home-container'>
-        <Grid container
-          direction="column"
-          spacing={4}
-        >
-          <Grid item mt="1rem">
-            <Navbar />
-          </Grid>
-          <Grid item>
-            <Box>
-              <Typography variant="body1" className="hero-text">
-                Your Next Adventure Awaits
-              </Typography>
-            </Box>
-          </Grid>
-        </Grid>
-        {!showCalendar && (
-          <Button className="button" onClick={handleStartPlanningClick}>
-            <Typography sx={{ fontWeight: "bold", color: "black" }}>
-              Start Planning
-            </Typography>
-          </Button>
-        )}
-        {showCalendar && (
-          <>
-            
-            <Calendar />
-          </>
-        )}
-      </Container>
-    </>
-  );
-}
-*/
-
 function Home() {
+  const navigate = useNavigate();
+
   const [showCalendar, setShowCalendar] = useState(false);
   const [locality, setLocality] = useState('');
   const [startDate, setStartDate] = useState('');
@@ -76,8 +32,14 @@ function Home() {
       setErrorMessage('End date cannot be before start date.');
       return;
     }
-
-    vacationOperations.planVacation(locality, startDate, endDate);
+    //create a vacation instance using the info provided by user
+    vacationOperations.planVacation(locality, startDate, endDate)
+      .then(() => {
+        navigate('/Destinations');  //move to destinations page for user to add destinations to vacation
+      })
+      .catch(error => {
+        setErrorMessage(error.message);
+      })
   };
 
   return (
