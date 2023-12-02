@@ -12,7 +12,7 @@ const flightSearchRoutes = require('./api/Flight/flightSearch.js');
 const hotelListRoutes = require('./api/Hotels/hotelList.js');
 const flightDelayPrediction = require('./api/Flight/flightDelayPrediction.js');
 require("dotenv").config();
-const Vacation = require("./middleware/index.js");
+const { Destination, Vacation } = require("./middleware/vacation.js");
 //const User = require('./schemas/signupdata');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
@@ -50,9 +50,21 @@ app.get('/api/googlemapsapikey', (req, res) => {
 
 const vacationInstance = new Vacation();
 
+app.post('/start-planning-vacation', (req,res) => {
+  try {
+    const { locality, startDate, endDate } = req.body;
+    vacationInstance.planVacation(locality, startDate, endDate);
+    console.log(vacationInstance);
+    res.status(200).send('Vacation created successfully');
+  } catch (error) {
+    res.status(400).send(error.message);
+  }
+});
+
 app.post('/push-destination', (req, res) => {
   try {
-      vacationInstance.pushDestination(req.body.destination);
+      let destinationInstance = new Destination(req.body.destination)
+      vacationInstance.pushDestination(destinationInstance);
       console.log(vacationInstance.getAllDestinations());
       res.status(200).send('Destination added successfully');
   } catch (error) {
@@ -75,6 +87,24 @@ app.post('/remove-all-destinations', (req, res) => {
     vacationInstance.removeAllDestinations();
     console.log(vacationInstance.getAllDestinations());
     res.status(200).send("All destinations deleted successfully");
+  } catch (error) {
+    res.status(400).send(error.message);
+  }
+})
+
+app.post('/get-vacation-name', (req,res) => {
+  try {
+    const vacationName = vacationInstance.name;
+    res.status(200).send({vacationName});
+  } catch (error) {
+    res.status(400).send(error.message);
+  }
+})
+
+app.post('/get-vacation-locality', (req,res) => {
+  try {
+    const vacationLocality = vacationInstance.locality;
+    res.status(200).send({vacationLocality});
   } catch (error) {
     res.status(400).send(error.message);
   }
