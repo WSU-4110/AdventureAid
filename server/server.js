@@ -19,6 +19,7 @@ const mongoose = require('mongoose');
 const userRoute = require('./routes/signupRoute.js');
 const hotelRating = require('./api/Hotels/hotelRating.js');
 const db = require('./api/mongoDB');
+const categoryRatedAreas = require('./api/Location/categoryRatedAreas.js');
 const { required } = require('joi');
 
 // Middleware
@@ -36,6 +37,7 @@ app.use('/api/hotelList', hotelListRoutes); // Enable the hotel list routes for 
 app.use('/api',userRoute);
 app.use('/api/hotelRating', hotelRating); // Enable the hotel rating routes for the /api/hotelRating endpoint
 app.use('/api/flightDelayPrediction', flightDelayPrediction); // Enable the flight delay prediction routes for the /api/flightDelayPrediction endpoint
+app.use('/api/categoryRatedAreas', categoryRatedAreas); // Enable the category rated areas routes for the /api/categoryRatedAreas endpoint
 // Root Endpoint
 app.get('/', (req, res) => {
   res.send('Hello, Travel Planner!');
