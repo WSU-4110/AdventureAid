@@ -6,12 +6,14 @@ import WeatherComponent from '../../components/weather';
 import Map from "../../components/maps/googlemaps.js"
 import SimpleSearchBar from '../../components/autocomplete/autocomplete.js';
 import "./index.scss";
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import MapComponent from '../../components/maps/googlemaps.js';
+import { vacationOperations } from '../../components/middleware-apis/vacationOperations.js';
 
 
 function Destinations() {
     // Share user place search between the SimpleSearchBar and MapComponent components for combined functionality
+    const [vacationName, setVacationName] = useState('');
     const [searchPlaceInput, setPlaceSearchInput] = useState('');
     const [searchLocationInput, setLocationSearchInput] = useState('');
     const handlePlaceSearch = (input) => {
@@ -20,6 +22,19 @@ function Destinations() {
     const handleLocationSearch = (input) => {
       setLocationSearchInput(input);
     };
+
+    useEffect(() => {
+      const fetchVacationName = async () => {
+        try {
+          const name = await vacationOperations.getName();
+          setVacationName(name);
+        } catch (error) {
+          console.error('Error fetching vacation name:', error);
+        }
+      };
+
+      fetchVacationName();
+    }, []);
 
   return (
     <>
@@ -31,11 +46,15 @@ function Destinations() {
           <Grid item mt="1rem">
             <Navbar />
           </Grid>
-          <Grid item>
-            <WeatherComponent />
-          </Grid>
-          <Grid item>
+        </Grid>
+        <Grid container
+          direction="row"
+        >
+          <Grid item xs={6}> {/* Left side for UI */}
+            <h1>{vacationName}</h1>
             <SimpleSearchBar onPlaceSearch={handlePlaceSearch} onLocationSearch={handleLocationSearch} />
+          </Grid>
+          <Grid item xs={6}> {/* Right side for map */}
             <MapComponent searchPlaceInput={searchPlaceInput} searchLocationInput={searchLocationInput} />
           </Grid>
         </Grid>
