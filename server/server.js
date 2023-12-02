@@ -17,7 +17,7 @@ const { Destination, Vacation } = require("./middleware/vacation.js");
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const userRoute = require('./routes/signupRoute.js');
-
+const hotelRating = require('./api/Hotels/hotelRating.js');
 const db = require('./api/mongoDB');
 const { required } = require('joi');
 
@@ -34,6 +34,7 @@ app.use('/api/flightStatus', flightStatusRoutes); // Enable the flight status ro
 app.use('/api/flightSearch', flightSearchRoutes); // Enable the flight search routes for the /api/flightSearch endpoint
 app.use('/api/hotelList', hotelListRoutes); // Enable the hotel list routes for the /api/hotelList endpoint
 app.use('/api',userRoute);
+app.use('/api/hotelRating', hotelRating); // Enable the hotel rating routes for the /api/hotelRating endpoint
 app.use('/api/flightDelayPrediction', flightDelayPrediction); // Enable the flight delay prediction routes for the /api/flightDelayPrediction endpoint
 // Root Endpoint
 app.get('/', (req, res) => {
