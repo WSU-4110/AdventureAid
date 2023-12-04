@@ -78,13 +78,28 @@ export const googleMapsOperations = {
         markers.push(marker);
     },
 
-    initalizeMap: function() {    
-        mapInstance = new window.google.maps.Map(document.getElementById("map"), {  //initializes the map
-            center: { lat: 40.730610, lng: -73.935242 },
-            zoom: 12,
-        });
-        return mapInstance; // returns the created map instance
-        
+    initalizeMap: async function(defaultLocalityName) {    
+        // Initialize the geocoder
+        const geocoder = new window.google.maps.Geocoder();
+        try {
+            // Geocode the location name to get latitude and longitude
+            const geocodeResult = await geocoder.geocode({ address: defaultLocalityName });
+            const location = geocodeResult.results[0].geometry.location;
+    
+            // Initialize the map with the geocoded location as the center
+            const mapInstance = new window.google.maps.Map(document.getElementById("map"), {
+                center: { lat: location.lat(), lng: location.lng() },
+                zoom: 12,
+            });
+    
+            return mapInstance; // Return the created map instance
+        } catch (error) {
+            mapInstance = new window.google.maps.Map(document.getElementById("map"), {  //initializes the map
+                center: { lat: 40.730610, lng: -73.935242 },    // if defaultLocalityName parameter doesn't work, google maps will center at New york city
+                zoom: 12,
+            });
+            return mapInstance; // returns the created map instance
+        }
     },
     handleLocationError: function(browserHasGeolocation, infoWindow, pos) {
         infoWindow.setPosition(pos);
