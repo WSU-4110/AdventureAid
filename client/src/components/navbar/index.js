@@ -16,7 +16,7 @@ export default function Navbar() {
   const drawer = (
     <Box>
       <List>
-        {['Home', 'Destinations', 'About', 'Blog'].map((text) => (
+        {['Home', 'Destinations', 'Budget', 'About', 'Blog'].map((text) => (
           <ListItem key={text}>
             <ListItemButton component={Link} to={text === 'Home' ? '/' : `/${text.toLowerCase()}`}>
               <ListItemText primary={text} />
@@ -43,7 +43,7 @@ export default function Navbar() {
 
           {/* Desktop view - ListItems */}
           <Box sx={{ display: { xs: 'none', md: 'flex' } }} color="black" columnGap={8}>
-            {['Home', 'Destinations', 'About', 'Blog'].map((text) => (
+            {['Home', 'Destinations', 'Budget', 'About', 'Blog'].map((text) => (
               <Button color="inherit" key={text} component={Link} to={text === 'Home' ? '/' : `/${text.toLowerCase()}`}>{text}</Button>
             ))}
           </Box>
