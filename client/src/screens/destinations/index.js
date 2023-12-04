@@ -9,6 +9,7 @@ import "./index.scss";
 import React, { useState, useEffect } from 'react';
 import MapComponent from '../../components/maps/googlemaps.js';
 import { vacationOperations } from '../../components/middleware-apis/vacationOperations.js';
+import Calendar from '../../components/calendar/index.js';
 
 
 function Destinations() {
@@ -51,8 +52,9 @@ function Destinations() {
           direction="row"
         >
           <Grid item xs={6}> {/* Left side for UI */}
-            <h1>{vacationName}</h1>
+            <h1><center>{vacationName}</center></h1>
             <SimpleSearchBar onPlaceSearch={handlePlaceSearch} onLocationSearch={handleLocationSearch} />
+            <Calendar />
           </Grid>
           <Grid item xs={6}> {/* Right side for map */}
             <MapComponent searchPlaceInput={searchPlaceInput} searchLocationInput={searchLocationInput} />

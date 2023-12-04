@@ -51,6 +51,38 @@ export const vacationOperations = {
             throw error;
           }
     },
+    getStartDate: async function() {
+      try {
+        const response = await fetch('http://localhost:3001/get-vacation-startdate', {
+              method: 'POST',
+              headers: {'Content-Type': 'application/json'}
+            });
+            if (!response.ok) {
+              throw new Error('Network response was not ok');
+            }
+            const data = await response.json();
+            return data.vacationStartDate;
+      } catch (error) {
+        console.error('Error fetching vacation start date:', error);
+        throw error;
+      }
+    },
+    getEndDate: async function() {
+      try {
+        const response = await fetch('http://localhost:3001/get-vacation-enddate', {
+              method: 'POST',
+              headers: {'Content-Type': 'application/json'}
+            });
+            if (!response.ok) {
+              throw new Error('Network response was not ok');
+            }
+            const data = await response.json();
+            return data.vacationEndDate;
+      } catch (error) {
+        console.error('Error fetching vacation end date:', error);
+        throw error;
+      }
+    },
     addDestination: async function(destination) {
         try {
             const response = await fetch('http://localhost:3001/push-destination', {
