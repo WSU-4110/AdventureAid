@@ -6,6 +6,7 @@ import SignUpScreen from '../screens/signup';
 
 import Home from '../screens/home/index';
 import Destinations from '../screens/destinations';
+import Budget from '../screens/budget';
 import About from '../screens/about';
 import Blog from '../screens/blog';
 // ... import other page components
@@ -23,6 +24,7 @@ export default function App() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/destinations" element={<Destinations />} />
+          <Route path="/budget" element={<Budget />} />
           <Route path="/about" element={<About />} />
           <Route path="/blog" element={<Blog />} />
           {/* ... add other routes here */}
