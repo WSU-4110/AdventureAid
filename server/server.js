@@ -110,6 +110,24 @@ app.post('/get-vacation-locality', (req,res) => {
   }
 })
 
+app.post('/get-vacation-startdate', (req,res) => {
+  try {
+    const vacationStartDate = vacationInstance.startDate;
+    res.status(200).send({vacationStartDate});
+  } catch (error) {
+    res.status(400).send(error.message);
+  }
+})
+
+app.post('/get-vacation-enddate', (req,res) => {
+  try {
+    const vacationEndDate = vacationInstance.endDate;
+    res.status(200).send({vacationEndDate});
+  } catch (error) {
+    res.status(400).send(error.message);
+  }
+})
+
 // Starting the Server
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
