@@ -15,6 +15,10 @@ function About() {
         >
           <Grid item mt="1rem">
             <Navbar />
+<<<<<<< HEAD
+=======
+            
+>>>>>>> 1bf4b7d9dccd457f3242032dfdf44f2d2740d54e
           </Grid>
           <Grid item>
             <Typography variant="h1" fontSize={{ xs: "3rem", md: "5rem" }} textAlign="center">

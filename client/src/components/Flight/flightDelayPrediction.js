@@ -14,7 +14,6 @@ const FlightDelayPredictionComponent = () => {
     flightNumber: '',
     duration: ''
   });
-  
   const [predictionResult, setPredictionResult] = useState(null);
 
   const handleChange = (e) => {

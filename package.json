@@ -12,6 +12,7 @@
     "@testing-library/user-event": "^13.5.0",
     "axios": "^1.6.1",
     "concurrently": "^8.2.2",
+    "dayjs": "^1.11.10",
     "cors": "^2.8.5",
     "dayjs": "^1.11.10",
     "joi": "^17.11.0",
