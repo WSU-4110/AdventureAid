@@ -18,8 +18,9 @@ const { Destination, Vacation } = require("./middleware/vacation.js");
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const userRoute = require('./routes/signupRoute.js');
-
+const hotelRating = require('./api/Hotels/hotelRating.js');
 const db = require('./api/mongoDB');
+const categoryRatedAreas = require('./api/Location/categoryRatedAreas.js');
 const { required } = require('joi');
 
 // Middleware
@@ -36,7 +37,9 @@ app.use('/api/flightSearch', flightSearchRoutes); // Enable the flight search ro
 app.use('/api/hotelList', hotelListRoutes); // Enable the hotel list routes for the /api/hotelList endpoint
 app.use('/api/hotelNameAutocomplete', hotelNameAutocompleteRoutes); // Enable the hotel name autocomplete routes for the /api/hotelNameAutocomplete endpoint
 app.use('/api',userRoute);
+app.use('/api/hotelRating', hotelRating); // Enable the hotel rating routes for the /api/hotelRating endpoint
 app.use('/api/flightDelayPrediction', flightDelayPrediction); // Enable the flight delay prediction routes for the /api/flightDelayPrediction endpoint
+app.use('/api/categoryRatedAreas', categoryRatedAreas); // Enable the category rated areas routes for the /api/categoryRatedAreas endpoint
 // Root Endpoint
 app.get('/', (req, res) => {
   res.send('Hello, Travel Planner!');
@@ -107,6 +110,24 @@ app.post('/get-vacation-locality', (req,res) => {
   try {
     const vacationLocality = vacationInstance.locality;
     res.status(200).send({vacationLocality});
+  } catch (error) {
+    res.status(400).send(error.message);
+  }
+})
+
+app.post('/get-vacation-startdate', (req,res) => {
+  try {
+    const vacationStartDate = vacationInstance.startDate;
+    res.status(200).send({vacationStartDate});
+  } catch (error) {
+    res.status(400).send(error.message);
+  }
+})
+
+app.post('/get-vacation-enddate', (req,res) => {
+  try {
+    const vacationEndDate = vacationInstance.endDate;
+    res.status(200).send({vacationEndDate});
   } catch (error) {
     res.status(400).send(error.message);
   }
