@@ -11,6 +11,7 @@ const weatherRoutes = require('./api/Weather/weather.js');
 //const signupRoute = require('./routes/signupRoute');
 const flightSearchRoutes = require('./api/Flight/flightSearch.js');
 const hotelListRoutes = require('./api/Hotels/hotelList.js');
+const hotelNameAutocompleteRoutes = require('./api/Hotels/hotelNameAutocomplete.js');
 const flightDelayPrediction = require('./api/Flight/flightDelayPrediction.js');
 require("dotenv").config();
 const { Destination, Vacation } = require("./middleware/vacation.js");
@@ -35,6 +36,7 @@ app.use('/api/weather', weatherRoutes); // Enable the weather routes for the /ap
 app.use('/api/flightStatus', flightStatusRoutes); // Enable the flight status routes for the /api/flightStatus endpoint
 app.use('/api/flightSearch', flightSearchRoutes); // Enable the flight search routes for the /api/flightSearch endpoint
 app.use('/api/hotelList', hotelListRoutes); // Enable the hotel list routes for the /api/hotelList endpoint
+app.use('/api/hotelNameAutocomplete', hotelNameAutocompleteRoutes); // Enable the hotel name autocomplete routes for the /api/hotelNameAutocomplete endpoint
 app.use('/api',userRoute);
 app.use('/api/hotelRating', hotelRating); // Enable the hotel rating routes for the /api/hotelRating endpoint
 app.use('/api/flightDelayPrediction', flightDelayPrediction); // Enable the flight delay prediction routes for the /api/flightDelayPrediction endpoint
