@@ -54,6 +54,7 @@
   integrity sha512-Jg+msLuNuCJDyBvFv5+OKOUjWMZgd85bKjbICd3zWrKAo+bJ49HJufi7CQE0q0uR8NGyO6xkCACScNqyjHSZew==
 =======
 "@babel/core@^7.0.0", "@babel/core@^7.0.0-0", "@babel/core@^7.0.0-0 || ^8.0.0-0 <8.0.0", "@babel/core@^7.1.0", "@babel/core@^7.11.0", "@babel/core@^7.11.1", "@babel/core@^7.12.0", "@babel/core@^7.12.3", "@babel/core@^7.13.0", "@babel/core@^7.16.0", "@babel/core@^7.4.0 || ^8.0.0-0 <8.0.0", "@babel/core@^7.7.2", "@babel/core@^7.8.0":
+>>>>>>> 1bf4b7d9dccd457f3242032dfdf44f2d2740d54e
 "@babel/core@^7.1.0", "@babel/core@^7.11.1", "@babel/core@^7.12.3", "@babel/core@^7.16.0", "@babel/core@^7.7.2", "@babel/core@^7.8.0":
   version "7.22.17"
   resolved "https://registry.npmjs.org/@babel/core/-/core-7.22.17.tgz"
@@ -4348,6 +4349,9 @@ dayjs@^1.11.10:
   resolved "https://registry.yarnpkg.com/dayjs/-/dayjs-1.11.10.tgz#68acea85317a6e164457d6d6947564029a6a16a0"
   integrity sha512-vjAczensTgRcqDERK0SR2XMwsF/tSvnvlv6VcF2GIhg6Sx4yOIt/irsr1RDJsKiIyBzJDpCoXiWWq28MqH2cnQ==
 
+<<<<<<< HEAD
+debug@2.6.9, debug@^2.6.0:
+=======
 debug@2.6.9, debug@2.6.9, debug@^2.6.0:
 >>>>>>> 1bf4b7d9dccd457f3242032dfdf44f2d2740d54e
   version "2.6.9"
