@@ -1,0 +1,19 @@
+{
+  "name": "JestApp",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "MIT",
+  "devDependencies": {
+    "jest": "^29.7.0"
+  },
+  "dependencies": {
+    "dotenv": "^16.3.1",
+    "mongodb-memory-server": "^9.1.1"
+  }
+}
