@@ -277,5 +277,22 @@ export const googleMapsOperations = {
                 window.alert("Directions request failed due to " + status);
             }
         });
+    },
+
+    fetchTopPlacesForLocation: async function(locationName) {
+        // Replace with the actual URL or endpoint you need to hit to get the top places for a location
+        const url = `http://localhost:3001/api/topplaces/${locationName}`;
+        try {
+            const response = await fetch(url);
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            const topPlaces = await response.json();
+            return topPlaces;
+        } catch (error) {
+            console.error('Failed to fetch top places:', error);
+            return []; // Return an empty array in case of an error
+        }
     }
+    
 }
