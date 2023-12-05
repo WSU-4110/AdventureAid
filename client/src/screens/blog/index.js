@@ -34,6 +34,7 @@ function Blog() {
         >
           <Grid item mt="1rem">
             <Navbar />
+            
           </Grid>
           <Grid item>
             <Typography variant="h1" fontSize={{ xs: "3rem", md: "5rem" }} textAlign="center">
