@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom'; 
 import { Container, Typography, TextField, Checkbox, FormControlLabel, Button, Link, CssBaseline, Paper} from '@mui/material';
 import Helmet from 'react-helmet';
-import axios from 'axios';
+//import axios from 'axios';
 
 import './index.scss';
 
@@ -11,11 +11,12 @@ function LoginForm({ onLogin }) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [rememberMe, setRememberMe] = useState(false);
-  const [errorMsg, setErrorMsg] = useState('');
+ // const [errorMsg, setErrorMsg] = useState('');
+  const [passwordVisible,setPasswordVisible] = useState(false);
 
 const handleSubmit = async (e) => {
   e.preventDefault();
-  setErrorMsg(''); 
+  /*setErrorMsg(''); 
   try {
     const response = await axios.post('http://localhost:3001/api/loginuser', {
       email,
@@ -40,7 +41,14 @@ console.log('token recall',response);//for test
     } else {
       setErrorMsg('Login failed: An error occurred.');
     }
-  }
+  } 
+  
+  in  line 64 insert {errorMsg && <div className="error-message">{errorMsg}</div>}
+  
+  */
+
+  if (onLogin) onLogin();
+  navigate('/'); // Navigate to the home page
 };
 
   return (
@@ -53,7 +61,7 @@ console.log('token recall',response);//for test
 
       <Paper elevation={3} className="login-paper">
         <Typography variant="h5">Sign in</Typography>
-        {errorMsg && <div className="error-message">{errorMsg}</div>}
+        
         <form className="login-form" onSubmit={handleSubmit}>
           <TextField
             variant="outlined"
@@ -76,7 +84,7 @@ console.log('token recall',response);//for test
             fullWidth
             name="password"
             label="Password"
-            type="password"
+            type={passwordVisible ? "text" : "password"}
             id="password"
             autoComplete="current-password"
             value={password}
@@ -96,6 +104,9 @@ console.log('token recall',response);//for test
           <Button type="submit" variant="contained" className="custom-button" onClick={handleSubmit}>
           Sign In
         </Button>
+        <Button onClick={() => setPasswordVisible(!passwordVisible)}>
+        {passwordVisible ? "Hide" : "Show"} Password
+      </Button>
           <div className="forgot-password">
             <Link href="#">Forgot password?</Link>
           </div>
@@ -106,3 +117,7 @@ console.log('token recall',response);//for test
 }
 
 export default LoginForm;
+
+
+
+/* for the testing purpose i had disable post method to bring it back uncomment the lines 5, 14, 19-44 and insert the line that is on 46 */
