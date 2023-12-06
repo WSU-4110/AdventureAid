@@ -1,4 +1,4 @@
-import { Container, Grid } from '@mui/material';
+import { Box, Container, Grid } from '@mui/material';
 
 
 import Navbar from '../../components/navbar';
@@ -57,10 +57,10 @@ function Destinations() {
         <Grid container
           direction="row"
         >
-          <Grid item xs={6}> {/* Left side for UI */}
+          <Grid className="planning-filter-container" item xs={6}> {/* Left side for UI */}
             <h1><center>{vacationName}</center></h1>
-            <SimpleSearchBar onPlaceSearch={handlePlaceSearch} onLocationSearch={handleLocationSearch} />
             <Calendar />
+            <SimpleSearchBar onPlaceSearch={handlePlaceSearch} onLocationSearch={handleLocationSearch} />
           </Grid>
           <Grid item xs={6}> {/* Right side for map */}
             <MapComponent searchPlaceInput={searchPlaceInput} searchLocationInput={searchLocationInput} />

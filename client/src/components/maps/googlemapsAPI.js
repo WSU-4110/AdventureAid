@@ -1,8 +1,10 @@
 import { Loader } from "@googlemaps/js-api-loader";
 
+let defaultLat, defaultLong; // global variables to store the vacation's locality lat and long
 let loaderInstance = null;
 let directionsService, directionsRenderer;
-let mapInstance, infoWindow, markers = [];    // store the instance of the map, information window, initialize markers array
+let mapInstance, infoWindow;    // global variables to store mapInstance and infoWindow
+let markers = [];    // store the instance of the map, information window, initialize markers array
 export const googleMapsOperations = {
     displayGoogleMaps: function() {
         // Fetch the Google Maps API key from the server.
@@ -77,18 +79,17 @@ export const googleMapsOperations = {
         // Add the marker to the markers array 
         markers.push(marker);
     },
-
     initalizeMap: async function(defaultLocalityName) {    
-        // Initialize the geocoder
-        const geocoder = new window.google.maps.Geocoder();
         try {
-            // Geocode the location name to get latitude and longitude
-            const geocodeResult = await geocoder.geocode({ address: defaultLocalityName });
+            const geocoder = new window.google.maps.Geocoder();// Initialize the geocoder
+            const geocodeResult = await geocoder.geocode({ address: defaultLocalityName });// Geocode the location name to get latitude and longitude
             const location = geocodeResult.results[0].geometry.location;
     
             // Initialize the map with the geocoded location as the center
-            const mapInstance = new window.google.maps.Map(document.getElementById("map"), {
-                center: { lat: location.lat(), lng: location.lng() },
+            defaultLat = location.lat();
+            defaultLong = location.lng();
+            mapInstance = new window.google.maps.Map(document.getElementById("map"), {
+                center: { lat: defaultLat, lng: defaultLong },
                 zoom: 12,
             });
     

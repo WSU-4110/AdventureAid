@@ -20,8 +20,11 @@ function MapComponent({searchPlaceInput, searchLocationInput, onAttractionsUpdat
         }
     };
 
+        fetchVacationLocality()
+    }, []);
+    
     async function initializeMap(locality) {
-        if (!mapInstanceRef.current && locality) {
+        if (!mapInstanceRef.current) {  //it only initializes the map once, once defaultLocality data is fetched and stored
             try {
                 const response = await fetch('http://localhost:3001/api/googlemapsapikey');
                 const data = await response.json();
@@ -62,17 +65,9 @@ function MapComponent({searchPlaceInput, searchLocationInput, onAttractionsUpdat
     }
 
     useEffect(() => {
-        // Call initializeMap with the fetched locality
-        fetchVacationLocality().then(locality => {
-            if (locality) {
-                initializeMap(locality);
-            }
-        });
-    }, []);
-    
-
-    useEffect(() => {
-        // This effect runs when searchInput changes
+        if (defaultLocality) {
+          initializeMap(defaultLocality);
+        }
         if (mapInstanceRef.current)
         {
             if (searchPlaceInput)
@@ -80,8 +75,7 @@ function MapComponent({searchPlaceInput, searchLocationInput, onAttractionsUpdat
             if (searchLocationInput)
                 googleMapsOperations.searchLocation(searchLocationInput);
         }
-        
-    }, [searchPlaceInput, searchLocationInput]);
+    }, [defaultLocality, searchPlaceInput, searchLocationInput]);
 
     useEffect(() => {
         if (defaultLocality && mapInstanceRef.current) {
