@@ -4,3 +4,10 @@
   margin: 0 auto;
   border-radius: 10px;
 }
+
+.scrollable-container {
+  background-color: #f3f4f5;
+  max-height: 300px;
+  overflow-y: auto;
+  border-radius: 5px;
+}
