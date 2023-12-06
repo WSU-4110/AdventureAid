@@ -9,6 +9,7 @@ import Destinations from '../screens/destinations';
 import Budget from '../screens/budget';
 import About from '../screens/about';
 import Blog from '../screens/blog';
+import UserProfile from '../screens/user-profile';
 // ... import other page components
 
 export default function App() {
@@ -27,6 +28,7 @@ export default function App() {
           <Route path="/budget" element={<Budget />} />
           <Route path="/about" element={<About />} />
           <Route path="/blog" element={<Blog />} />
+          <Route path="/user-profile" element={<UserProfile />} />
           {/* ... add other routes here */}
         </Routes>
       ) : (

@@ -13,16 +13,24 @@ export default function Navbar() {
     setMobileOpen(!mobileOpen);
   };
 
+  const menuItems = ['Home', 'Destinations', 'Budget', 'About', 'Blog'];
+
   const drawer = (
     <Box>
       <List>
-        {['Home', 'Destinations', 'Budget', 'About', 'Blog'].map((text) => (
+        {menuItems.map((text) => (
           <ListItem key={text}>
             <ListItemButton component={Link} to={text === 'Home' ? '/' : `/${text.toLowerCase()}`}>
               <ListItemText primary={text} />
             </ListItemButton>
           </ListItem>
         ))}
+        {/* User Profile Link in Drawer */}
+        <ListItem>
+          <ListItemButton component={Link} to="/user-profile">
+            <ListItemText primary="User Profile" />
+          </ListItemButton>
+        </ListItem>
       </List>
     </Box>
   );
@@ -43,9 +51,11 @@ export default function Navbar() {
 
           {/* Desktop view - ListItems */}
           <Box sx={{ display: { xs: 'none', md: 'flex' } }} color="black" columnGap={8}>
-            {['Home', 'Destinations', 'Budget', 'About', 'Blog'].map((text) => (
+            {menuItems.map((text) => (
               <Button color="inherit" key={text} component={Link} to={text === 'Home' ? '/' : `/${text.toLowerCase()}`}>{text}</Button>
             ))}
+            {/* User Profile Button */}
+            <Button color="inherit" component={Link} to="/user-profile">User Profile</Button>
           </Box>
 
           {/* Mobile view - Hamburger menu */}
