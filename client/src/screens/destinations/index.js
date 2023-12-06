@@ -24,6 +24,12 @@ function Destinations() {
       setLocationSearchInput(input);
     };
 
+    const [topAttractions, setTopAttractions] = useState([]); // State to store attractions
+
+    const handleAttractionsUpdate = (attractions) => {
+        setTopAttractions(attractions);
+    };
+
     useEffect(() => {
       const fetchVacationName = async () => {
         try {

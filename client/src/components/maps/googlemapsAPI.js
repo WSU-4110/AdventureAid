@@ -277,5 +277,32 @@ export const googleMapsOperations = {
                 window.alert("Directions request failed due to " + status);
             }
         });
-    }
+    },
+
+    findTopAttractions: async function(locality) {
+        if (!mapInstance) {
+          console.error('Map has not been initialized.');
+          return Promise.reject('Map not initialized');
+        }
+      
+        const service = new window.google.maps.places.PlacesService(mapInstance);
+        const request = {
+          location: mapInstance.getCenter(),
+          radius: '5000',
+          type: ['tourist_attraction'], // Adjust this type based on the specific needs
+          rankBy: window.google.maps.places.RankBy.PROMINENCE,
+        };
+      
+        return new Promise((resolve, reject) => {
+          service.nearbySearch(request, (results, status) => {
+            if (status === window.google.maps.places.PlacesServiceStatus.OK) {
+              resolve(results.slice(0, 5)); // Return only the top 5 attractions
+            } else {
+              console.error('Error fetching top attractions:', status);
+              reject(status);
+            }
+          });
+        });
+      }
+      
 }

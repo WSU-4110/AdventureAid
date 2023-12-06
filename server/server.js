@@ -2,6 +2,9 @@ const cors = require('cors');
 const express = require('express');
 const app = express();
 const PORT = process.env.PORT || 3001;  
+
+const https = require('https');
+
 require('./api/connection.js');
 const dbOperations = require('./api/mongoDB.js');
 const flightStatusRoutes = require('./api/Flight/flightStatus.js');
@@ -50,7 +53,88 @@ app.get('/api/googlemapsapikey', (req, res) => {
   const apiKey = process.env.GOOGLE_MAPS_API_KEY;
   res.json({ apiKey });
 });
+/*
+app.get('/api/attractions', (req, res) => {
+  const locality = req.query.locality;
+  const apiKey = process.env.GOOGLE_MAPS_API_KEY;
+  const url = `https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=${locality}&radius=5000&type=tourist_attraction&key=${apiKey}`;
 
+  https.get(url, (apiRes) => {
+    let data = '';
+
+    apiRes.on('data', (chunk) => {
+      data += chunk;
+    });
+
+    apiRes.on('end', () => {
+      try {
+        const parsedData = JSON.parse(data);
+        console.log(parsedData,'parseddata>>>');
+        res.json(parsedData.results);
+      } catch (e) {
+        console.error(e.message);
+        res.status(500).send('Error parsing attractions data');
+      }
+    });
+
+  }).on('error', (e) => {
+    console.error(`Got error: ${e.message}`);
+    res.status(500).send('Error fetching attractions');
+  });
+});*/
+
+
+app.get('/api/attractions', async (req, res) => {
+  const city = req.query.city;
+  const apiKey = process.env.GOOGLE_MAPS_API_KEY;
+
+  if (!city) {
+    return res.status(400).send('City name is required');
+  }
+
+  try {
+    // Step 1: Geocode the city name
+    const geocodeResponse = await fetch(`https://maps.googleapis.com/maps/api/geocode/json?address=${encodeURIComponent(city)}&key=${apiKey}`);
+    const geocodeData = await geocodeResponse.json();
+
+    if (geocodeData.status !== 'OK' || !geocodeData.results[0]) {
+      throw new Error('Geocoding failed');
+    }
+
+    const location = geocodeData.results[0].geometry.location;
+
+    // Step 2: Use the coordinates to query the Places API
+    const placesUrl = `https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=${location.lat},${location.lng}&radius=5000&type=tourist_attraction&key=${apiKey}`;
+    https.get(placesUrl, (placesRes) => {
+      let placesData = '';
+
+      placesRes.on('data', (chunk) => {
+        placesData += chunk;
+      });
+
+      placesRes.on('end', () => {
+        try {
+          const placesResults = JSON.parse(placesData);
+          if (placesResults.status !== 'OK') {
+            throw new Error('Places API search failed');
+          }
+          res.json(placesResults.results);
+        } catch (e) {
+          console.error(e.message);
+          res.status(500).send('Error parsing places data');
+        }
+      });
+
+    }).on('error', (e) => {
+      console.error(`Got error: ${e.message}`);
+      res.status(500).send('Error fetching attractions');
+    });
+
+  } catch (error) {
+    console.error('Error:', error.message);
+    res.status(500).send('Internal Server Error');
+  }
+});
 
 
 const vacationInstance = new Vacation();
