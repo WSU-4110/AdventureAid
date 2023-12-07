@@ -26,29 +26,45 @@ const FlightStatusComponent = () => {
   };
 
   return (
-   <Container maxWidth="sm" className="flight-status-container">
-      <Paper elevation={6} style={{ padding: '20px', marginTop: '20px' }}>
-        <form onSubmit={handleSubmit}>
-          <Grid container spacing={2}>
-            <Grid item xs={12}>
+    <Container maxWidth="sm" className="flight-status-container">
+    <Paper elevation={6} style={{ padding: '20px', marginTop: '20px' }}>
+      <form onSubmit={handleSubmit}>
+        <Grid container spacing={2}>
+          <Grid item xs={12}>
+            <div style={{ display: 'flex', alignItems: 'center' }}>
+              <label htmlFor="carrierCode" style={{ color: 'red', marginRight: '5px' }}>
+                Carrier Code *
+              </label>
               <TextField
                 label="Carrier Code"
                 name="carrierCode"
                 value={formData.carrierCode}
                 onChange={handleChange}
                 fullWidth
+                required
               />
-            </Grid>
-            <Grid item xs={12}>
+            </div>
+          </Grid>
+          <Grid item xs={12}>
+            <div style={{ display: 'flex', alignItems: 'center' }}>
+              <label htmlFor="flightNumber" style={{ color: 'red', marginRight: '5px' }}>
+                Flight Number *
+              </label>
               <TextField
                 label="Flight Number"
                 name="flightNumber"
                 value={formData.flightNumber}
                 onChange={handleChange}
                 fullWidth
+                required
               />
-            </Grid>
-            <Grid item xs={12}>
+            </div>
+          </Grid>
+          <Grid item xs={12}>
+            <div style={{ display: 'flex', alignItems: 'center' }}>
+              <label htmlFor="scheduledDepartureDate" style={{ color: 'red', marginRight: '5px' }}>
+                Scheduled Departure Date *
+              </label>
               <TextField
                 type="date"
                 label="Scheduled Departure Date"
@@ -57,25 +73,29 @@ const FlightStatusComponent = () => {
                 value={formData.scheduledDepartureDate}
                 onChange={handleChange}
                 fullWidth
+                required
               />
-            </Grid>
+            </div>
           </Grid>
-          <Button type="submit" variant="contained" color="primary" style={{ marginTop: '20px' }}>
-            Check Flight Status
-          </Button>
-        </form>
-      </Paper>
+        </Grid>
+        <Button type="submit" variant="contained" color="primary" style={{ marginTop: '20px' }}>
+          Check Flight Status
+        </Button>
+      </form>
+    </Paper>
 
-      {flightStatus && (
-        <Paper elevation={6} style={{ padding: '20px', marginTop: '20px' }}>
-          <Typography component="h2" variant="h6">
-            Flight Status:
-          </Typography>
-          <pre>{JSON.stringify(flightStatus, null, 2)}</pre>
-        </Paper>
-      )}
-    </Container>
+    {flightStatus && (
+      <Paper elevation={6} style={{ padding: '20px', marginTop: '20px' }}>
+        <Typography component="h2" variant="h6">
+          Flight Status:
+        </Typography>
+        <pre>{JSON.stringify(flightStatus, null, 2)}</pre>
+      </Paper>
+    )}
+  </Container>
   );
 };
 
+
 export default FlightStatusComponent;
+

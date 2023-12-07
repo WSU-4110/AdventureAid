@@ -30,22 +30,32 @@ function CategoryRatedAreas() {
                 <form onSubmit={handleSubmit}>
                     <Grid container spacing={2}>
                         <Grid item xs={12}>
-                            <TextField
-                                fullWidth
-                                label="Latitude"
-                                value={latitude}
-                                onChange={(e) => setLatitude(e.target.value)}
-                                required
-                            />
+                            <div style={{ display: 'flex', alignItems: 'center' }}>
+                                <label htmlFor="latitude" style={{ color: 'red', marginRight: '5px' }}>
+                                    Latitude *
+                                </label>
+                                <TextField
+                                    fullWidth
+                                    label="Latitude"
+                                    value={latitude}
+                                    onChange={(e) => setLatitude(e.target.value)}
+                                    required
+                                />
+                            </div>
                         </Grid>
                         <Grid item xs={12}>
-                            <TextField
-                                fullWidth
-                                label="Longitude"
-                                value={longitude}
-                                onChange={(e) => setLongitude(e.target.value)}
-                                required
-                            />
+                            <div style={{ display: 'flex', alignItems: 'center' }}>
+                                <label htmlFor="longitude" style={{ color: 'red', marginRight: '5px' }}>
+                                    Longitude *
+                                </label>
+                                <TextField
+                                    fullWidth
+                                    label="Longitude"
+                                    value={longitude}
+                                    onChange={(e) => setLongitude(e.target.value)}
+                                    required
+                                />
+                            </div>
                         </Grid>
                     </Grid>
                     <Button type="submit" variant="contained" color="primary" style={{ marginTop: '20px' }}>

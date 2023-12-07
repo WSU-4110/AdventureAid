@@ -34,50 +34,86 @@ function HotelSearch() {
     };
 
     return (
-        <Container maxWidth="md" className="hotel-search-container">
-            <Paper elevation={6} style={{ padding: '20px', marginTop: '20px' }}>
-                <Grid container spacing={2}>
-                    {/* Input fields for each parameter */}
-                    {Object.keys(searchParams).map((key) => (
-                        <Grid item xs={12} sm={6} key={key}>
-                            <TextField
-                                fullWidth
-                                label={key.charAt(0).toUpperCase() + key.slice(1)}
-                                name={key}
-                                value={searchParams[key]}
-                                onChange={handleInputChange}
-                                placeholder={key.charAt(0).toUpperCase() + key.slice(1)}
-                            />
-                        </Grid>
-                    ))}
-                </Grid>
-                <Grid container spacing={2} style={{ marginTop: '20px' }}>
-                    {/* Buttons for different search types */}
-                    <Grid item xs={4}>
-                        <Button variant="contained" onClick={() => handleSearch('by-city')}>Search by City</Button>
-                    </Grid>
-                    <Grid item xs={4}>
-                        <Button variant="contained" onClick={() => handleSearch('by-geocode')}>Search by Geocode</Button>
-                    </Grid>
-                    <Grid item xs={4}>
-                        <Button variant="contained" onClick={() => handleSearch('by-hotels')}>Search by Hotel ID</Button>
-                    </Grid>
-                </Grid>
+    <Container maxWidth="md" className="hotel-search-container">
+      <Paper elevation={6} style={{ padding: '20px', marginTop: '20px' }}>
+        <Grid container spacing={2}>
+          {/* Input fields for each parameter */}
+          {Object.keys(searchParams).map((key) => (
+            <Grid item xs={12} sm={6} key={key}>
+              <div style={{ display: 'flex', alignItems: 'center' }}>
+                <label
+                  htmlFor={key}
+                  style={{
+                    color:
+                      key === 'hotelId' ||
+                      key === 'cityCode' ||
+                      key === 'latitude' ||
+                      key === 'longitude'
+                        ? 'red'
+                        : 'inherit',
+                    marginRight: '5px',
+                  }}
+                >
+                  {key.charAt(0).toUpperCase() + key.slice(1)}{' '}
+                  {key === 'hotelId' ||
+                  key === 'cityCode' ||
+                  key === 'latitude' ||
+                  key === 'longitude'
+                    ? '*'
+                    : ''}
+                </label>
+                <TextField
+                  fullWidth
+                  id={key}
+                  name={key}
+                  value={searchParams[key]}
+                  onChange={handleInputChange}
+                  placeholder={
+                    key === 'hotelId' ||
+                    key === 'cityCode' ||
+                    key === 'latitude' ||
+                    key === 'longitude'
+                      ? `${key.charAt(0).toUpperCase() + key.slice(1)} *`
+                      : key.charAt(0).toUpperCase() + key.slice(1)
+                  }
+                />
+              </div>
+            </Grid>
+          ))}
+        </Grid>
+        <Grid container spacing={2} style={{ marginTop: '20px' }}>
+          {/* Buttons for different search types */}
+          <Grid item xs={4}>
+            <Button variant="contained" onClick={() => handleSearch('by-city')}>
+              Search by City
+            </Button>
+          </Grid>
+          <Grid item xs={4}>
+            <Button variant="contained" onClick={() => handleSearch('by-geocode')}>
+              Search by Geocode
+            </Button>
+          </Grid>
+          <Grid item xs={4}>
+            <Button variant="contained" onClick={() => handleSearch('by-hotels')}>
+              Search by Hotel ID
+            </Button>
+          </Grid>
+        </Grid>
 
-                {/* Display results and errors */}
-                {error && (
-                    <Typography color="error" style={{ marginTop: '20px' }}>
-                        {error}
-                    </Typography>
-                )}
-                {results && (
-                    <Typography style={{ marginTop: '20px' }}>
-                        {JSON.stringify(results, null, 2)}
-                    </Typography>
-                )}
-            </Paper>
-        </Container>
-    );
+        {/* Display results and errors */}
+        {error && (
+          <Typography color="error" style={{ marginTop: '20px' }}>
+            {error}
+          </Typography>
+        )}
+        {results && (
+          <Typography style={{ marginTop: '20px' }}>
+            {JSON.stringify(results, null, 2)}
+          </Typography>
+        )}
+      </Paper>
+    </Container>
+  );
 }
 
 export default HotelSearch;
