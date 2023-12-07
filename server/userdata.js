@@ -41,15 +41,46 @@ const loginuser = async (req,res) => {
         }
         const payLoad = {
             userEmail:existing.email,
-            userPass: existing.password
-        }
+            userPass: existing.password,
+            userId:existing._id
+        };
         const accessToken = jwt.sign(payLoad,SK,{ expiresIn: '1h' });
         return res.status(200).json({
             message: "Logged in",
-            Token:accessToken});
+            Token:accessToken,
+            userId: existing._id
+        });
     }catch(err){
         console.log(err);
-    }
-    
+    } 
 }
-module.exports = {signup,loginuser}
+    const userdelete = async (req, res) => {
+        try {
+            const { userId } = req.params;
+            const user = await User.findById(userId);
+    
+            // Ensure the user exists
+            if (!user) {
+                return res.status(404).json({ message: "User not found" });
+            }
+    
+            // Delete the user
+            await User.deleteOne({ _id: userId });
+            res.status(200).json({ message: "User deleted successfully" });
+        } catch (error) {
+            res.status(500).json({ message: "Error deleting user" });
+        }
+    }
+    // const getUserProfile = async (userId) => {
+    //     try {
+    //       const user = await User.findById(userId);
+    //       if (!user) {
+    //         return null;
+    //       }
+    //       // Return only the email for security reasons
+    //       return { email: user.email };
+    //     } catch (error) {
+    //       throw error;
+    //     }
+    //   };
+module.exports = {signup,loginuser,userdelete}

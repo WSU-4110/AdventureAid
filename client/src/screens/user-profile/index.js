@@ -9,9 +9,9 @@ function UserProfile({onSignout}) {
     // Assuming you will fetch these details from your backend or context
     const [userDetails, setUserDetails] = useState({
         email: 'user@example.com',
-        password: '********' // Placeholder text for password
+        userId: 'null' ,// Placeholder text for password
     });
-
+  
 
     return (
             <>
