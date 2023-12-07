@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import HotelCard from './hotelCard'; 
 import { Container, TextField, Button, Grid, Typography, Paper } from '@mui/material';
 
 function HotelSearch() {
@@ -106,11 +107,9 @@ function HotelSearch() {
             {error}
           </Typography>
         )}
-        {results && (
-          <Typography style={{ marginTop: '20px' }}>
-            {JSON.stringify(results, null, 2)}
-          </Typography>
-        )}
+          {results && results.data.slice(0, 10).map(hotel => (
+            <HotelCard key={hotel.hotelId} hotel={hotel} />
+          ))}
       </Paper>
     </Container>
   );

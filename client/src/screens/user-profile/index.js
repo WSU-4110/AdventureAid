@@ -12,40 +12,22 @@ function UserProfile({onSignout}) {
         userId: 'null' ,// Placeholder text for password
     });
 
-    const handleChangePassword = () => {
-        // Logic to change password
-        console.log("Change password requested");
-    };
-
-    const handleDeleteAccount = async () => {
-        // Replace '/api/deleteUser' with your actual backend endpoint for deleting users
-        const response = await fetch(`/api/userdelete/${userDetails.userId}`, {
-            method: 'DELETE',
-            headers: {
-                'Content-Type': 'application/json',
-                // Include any authentication headers your API requires
-            },
-        });
-
-        if (response.ok) {
-            console.log("Account deleted successfully");
-            // Here you can handle the logout process, like clearing user details from state
-            // And redirecting to the login page
-            setUserDetails({ email: '', userId: null });
-            // Redirect to login page or home page as needed
-        } else {
-            console.error("Failed to delete account");
-            // Here you can handle the error, like showing a message to the user
-        }
-    };
-
+    
     return (
-   <UserProfileBox 
-   userEmail={userDetails.email}
-   userPassword="********" // It's unusual to handle passwords this way, this is a placeholder
-   userId={userDetails.userId}
-   onDeleteAccount={handleDeleteAccount}
-   />
+            <>
+        
+
+  <Grid container direction={"column"} className="hero-container">
+        <Grid item>
+          <Box className="logo-col">
+            <Typography variant="h5" component="h2" className="user-profile-text" mb="2rem"> User Profile </Typography>
+          </Box>
+        </Grid>
+        <Grid item xs="auto" className="login-component"> 
+          <UserProfileBox handleSignout={onSignout} />
+        </Grid>
+      </Grid>
+      </>
     );
 }
 
