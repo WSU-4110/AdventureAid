@@ -10,6 +10,7 @@ import Budget from '../screens/budget';
 import About from '../screens/about';
 import Blog from '../screens/blog';
 import UserProfile from '../screens/user-profile';
+import FAQ from '../screens/FAQ/faq';
 // ... import other page components
 
 export default function App() {
@@ -29,6 +30,7 @@ export default function App() {
           <Route path="/about" element={<About />} />
           <Route path="/blog" element={<Blog />} />
           <Route path="/user-profile" element={<UserProfile />} />
+          <Route path="/faq" element={<FAQ />} />
           {/* ... add other routes here */}
         </Routes>
       ) : (
