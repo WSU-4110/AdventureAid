@@ -1,0 +1,78 @@
+.user-profile-container {
+  box-sizing: border-box;
+  padding: 24px; // equivalent to 3 * 8px, as per MUI's spacing scale
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  max-width: 400px;
+  margin: 40px auto 0; // Centering with margin auto and top margin 5 * 8px
+  background-color: #f9f9f9;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+
+  .profile-header {
+    font-size: 1.25rem; // h6 equivalent
+    color: #333;
+    margin-bottom: 16px;
+    text-align: center;
+  }
+
+  .profile-info {
+    font-size: 1rem; // body1 equivalent
+    color: #555;
+    margin-bottom: 16px;
+    line-height: 1.5;
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+
+  .profile-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 16px; // 2 * 8px, as per MUI's spacing scale
+    margin-top: 24px;
+
+    button {
+      border-radius: 4px;
+      border: 1px solid transparent;
+      padding: 8px 16px;
+      text-transform: none; // Removes uppercase transformation
+      transition: background-color 0.3s, color 0.3s, border-color 0.3s;
+
+      &:hover {
+        background-color: #eee;
+        border-color: #ddd;
+      }
+    }
+
+    .primary {
+      color: #1976d2; // MUI primary color
+      border-color: #1976d2;
+
+      &:hover {
+        color: #fff;
+        background-color: #1976d2;
+      }
+    }
+
+    .error {
+      color: #d32f2f; // MUI error color
+      border-color: #d32f2f;
+
+      &:hover {
+        color: #fff;
+        background-color: #d32f2f;
+      }
+    }
+
+    .default {
+      color: #767676;
+      border-color: #ddd;
+
+      &:hover {
+        color: #333;
+        border-color: #bbb;
+      }
+    }
+  }
+}
