@@ -6,6 +6,9 @@ import Navbar from '../../components/navbar';
 import { vacationOperations } from '../../components/middleware-apis/vacationOperations';
 import "./index.scss";
 
+
+import FlightSearchComponent from '../../components/Flight/flightSearch';
+
 function Home() {
   const navigate = useNavigate();
 
@@ -105,7 +108,8 @@ function Home() {
             </form>
           </>
         )}
-       
+
+        <FlightSearchComponent />
       </Container>
     </>
   );
