@@ -24,17 +24,37 @@ function Destinations() {
       setLocationSearchInput(input);
     };
 
+    const [topAttractions, setTopAttractions] = useState([]); // State to store attractions
+
+    const handleAttractionsUpdate = (attractions) => {
+        setTopAttractions(attractions);
+    };
+
     useEffect(() => {
-      const fetchVacationName = async () => {
+    //   // const fetchVacationName = async () => {
+    //   //   try {
+    //   //     const name = await vacationOperations.getName();
+    //   //     console.log('display',name);
+    //   //     setVacationName(name);
+    //   //   } catch (error) {
+    //   //     console.error('Error fetching vacation name:', error);
+    //   //   }
+    //   };
+
+      const fetchPlacesName = async () => {
         try {
-          const name = await vacationOperations.getName();
-          setVacationName(name);
+          console.log(vacationName,'>>>>>>>>>>>>>>>>>>>')
+
+          const name = await vacationOperations.getPlace('jaipur');// need to add dynamic city
+          console.log('display2',name);
+          
         } catch (error) {
           console.error('Error fetching vacation name:', error);
         }
-      };
+      }; 
 
-      fetchVacationName();
+      //fetchVacationName();
+      fetchPlacesName();
     }, []);
 
   return (
