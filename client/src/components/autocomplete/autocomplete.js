@@ -18,6 +18,7 @@ function SimpleSearchBar({onPlaceSearch, onLocationSearch}) {
 
     return (
         <>
+            <h3><center>Search Place Ideas</center></h3>
             <form onSubmit={handlePlaceSubmit} className="search-form">
                 <input
                     className="search-input"
@@ -30,6 +31,7 @@ function SimpleSearchBar({onPlaceSearch, onLocationSearch}) {
                     Search
                 </button>
             </form>
+            <h3><center>Search Localities</center></h3>
             <form onSubmit={handleLocationSubmit} className="search-form">
                 <input
                         className="search-input"

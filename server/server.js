@@ -133,6 +133,17 @@ app.post('/get-vacation-enddate', (req,res) => {
   }
 })
 
+app.post('/create-and-add-destination', (req,res) => {
+  try {
+    let destinationInstance = new Destination(req.body.name, req.body.address, req.body.date, req.body.coordinates)
+    vacationInstance.pushDestination(destinationInstance);
+    console.log(vacationInstance.getAllDestinations());
+    res.status(200).send('Destination added successfully');
+  } catch (error) {
+    res.status(400).send(error.message);
+  }
+})
+
 // Starting the Server
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);

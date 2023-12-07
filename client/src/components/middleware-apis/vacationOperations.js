@@ -83,6 +83,24 @@ export const vacationOperations = {
         throw error;
       }
     },
+    createAndAddDestination: async function(name, address, date, coordinates) {
+      try {
+        const response = await fetch('http://localhost:3001/create-and-add-destination', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ name, address, date, coordinates }),
+        });
+        if (response.ok) {
+            console.log('Destination added');
+        } else {
+            console.error('Failed to add destination');
+            alert('error1')
+        }
+      } catch (error) {
+          console.error('Error:', error);
+          alert('error2')
+      }
+    },
     addDestination: async function(destination) {
         try {
             const response = await fetch('http://localhost:3001/push-destination', {

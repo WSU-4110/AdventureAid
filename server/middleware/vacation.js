@@ -1,8 +1,9 @@
 class Destination {
-  constructor(name) {
+  constructor(name, address, date, coordinates) {
     this.name = name      //string
-    this.date = null      //date object
-    this.coordinates = [] //size 2 array with lat and long
+    this.address = address   //string
+    this.date = date     //date object
+    this.coordinates = coordinates //size 2 array with lat and long
   }
 }
 
