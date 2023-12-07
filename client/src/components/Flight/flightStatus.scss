@@ -1,0 +1,49 @@
+.flight-status-container {
+  .MuiPaper-root {
+    padding: 20px;
+    margin-top: 20px;
+    background-color: #fff; // Adjust the background color as needed
+
+    form {
+      .MuiGrid-container {
+        margin-bottom: 20px; // Spacing below the form grid
+
+        .MuiTextField-root {
+          width: 100%; // Ensures full width for text fields
+
+          &:not(:last-child) {
+            margin-bottom: 15px; // Spacing between text fields
+          }
+        }
+      }
+
+      .MuiButton-root {
+        margin-top: 20px;
+        background-color: #1976d2; // Adjust button color as needed
+        color: #fff;
+
+        &:hover {
+          background-color: darken(#1976d2, 10%); // Darker shade on hover
+        }
+      }
+    }
+  }
+
+  .flight-status-result {
+    .MuiPaper-root {
+      margin-top: 20px;
+
+      .MuiTypography-h6 {
+        margin-bottom: 15px;
+        color: #333; // Adjust the heading color as needed
+      }
+
+      pre {
+        background-color: #f5f5f5; // Light background for the result section
+        padding: 10px;
+        border-radius: 4px;
+        overflow-x: auto; // Allows horizontal scrolling for wider content
+      }
+    }
+  }
+}
