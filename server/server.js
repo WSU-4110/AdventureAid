@@ -12,6 +12,7 @@ const flightSearchRoutes = require('./api/Flight/flightSearch.js');
 const hotelListRoutes = require('./api/Hotels/hotelList.js');
 const hotelNameAutocompleteRoutes = require('./api/Hotels/hotelNameAutocomplete.js');
 const flightDelayPrediction = require('./api/Flight/flightDelayPrediction.js');
+const budgetPlannerRoutes = require('./api/Budget/budgetPlanner.js');
 require("dotenv").config();
 const { Destination, Vacation } = require("./middleware/vacation.js");
 //const User = require('./schemas/signupdata');
@@ -40,6 +41,7 @@ app.use('/api',userRoute);
 app.use('/api/hotelRating', hotelRating); // Enable the hotel rating routes for the /api/hotelRating endpoint
 app.use('/api/flightDelayPrediction', flightDelayPrediction); // Enable the flight delay prediction routes for the /api/flightDelayPrediction endpoint
 app.use('/api/categoryRatedAreas', categoryRatedAreas); // Enable the category rated areas routes for the /api/categoryRatedAreas endpoint
+app.use('/api/budgetPlanner', budgetPlannerRoutes);
 // Root Endpoint
 app.get('/', (req, res) => {
   res.send('Hello, Travel Planner!');
