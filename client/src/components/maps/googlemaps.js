@@ -73,6 +73,7 @@ function MapComponent({searchPlaceInput, searchLocationInput}) {
             if (searchLocationInput)
                 googleMapsOperations.searchLocation(searchLocationInput);
         }
+        
     }, [defaultLocality, searchPlaceInput, searchLocationInput]);
 
 
