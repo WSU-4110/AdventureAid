@@ -1,8 +1,11 @@
 import React, { useState } from 'react';
-import { Container, Box, Typography, Button, TextField, Grid } from '@mui/material';
+import { Container, CssBaseline, Box, Typography, Button, TextField, Grid } from '@mui/material';
 import UserProfileBox from '../../components/user-profile';
 
-function UserProfile() {
+
+import './index.scss';
+
+function UserProfile({onSignout}) {
     // Assuming you will fetch these details from your backend or context
     const [userDetails, setUserDetails] = useState({
         email: 'user@example.com',

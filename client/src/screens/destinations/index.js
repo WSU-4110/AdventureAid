@@ -11,6 +11,12 @@ import MapComponent from '../../components/maps/googlemaps.js';
 import { vacationOperations } from '../../components/middleware-apis/vacationOperations.js';
 import Calendar from '../../components/calendar/index.js';
 
+import HotelSearch from "../../components/Hotels/hotelList.js"
+import HotelSentiments from '../../components/Hotels/hotelRating.js';
+import FlightDelayPredictionComponent from '../../components/Flight/flightDelayPrediction.js';
+import FlightSearchComponent from '../../components/Flight/flightSearch.js';
+import FlightStatusComponent from '../../components/Flight/flightStatus.js';
+import CategoryRatedAreas from '../../components/Location/categoryRatedArea.js';
 
 function Destinations() {
     // Share user place search between the SimpleSearchBar and MapComponent components for combined functionality
@@ -24,17 +30,37 @@ function Destinations() {
       setLocationSearchInput(input);
     };
 
+    const [topAttractions, setTopAttractions] = useState([]); // State to store attractions
+
+    const handleAttractionsUpdate = (attractions) => {
+        setTopAttractions(attractions);
+    };
+
     useEffect(() => {
-      const fetchVacationName = async () => {
+    //   // const fetchVacationName = async () => {
+    //   //   try {
+    //   //     const name = await vacationOperations.getName();
+    //   //     console.log('display',name);
+    //   //     setVacationName(name);
+    //   //   } catch (error) {
+    //   //     console.error('Error fetching vacation name:', error);
+    //   //   }
+    //   };
+
+      const fetchPlacesName = async () => {
         try {
-          const name = await vacationOperations.getName();
-          setVacationName(name);
+          console.log(vacationName,'>>>>>>>>>>>>>>>>>>>')
+
+          const name = await vacationOperations.getPlace('jaipur');// need to add dynamic city
+          console.log('display2',name);
+          
         } catch (error) {
           console.error('Error fetching vacation name:', error);
         }
-      };
+      }; 
 
-      fetchVacationName();
+      //fetchVacationName();
+      fetchPlacesName();
     }, []);
 
   return (
@@ -60,6 +86,13 @@ function Destinations() {
             <MapComponent searchPlaceInput={searchPlaceInput} searchLocationInput={searchLocationInput} />
           </Grid>
         </Grid>
+
+    <HotelSearch />
+    <HotelSentiments />
+    <FlightDelayPredictionComponent />
+    <FlightSearchComponent />
+    <FlightStatusComponent />
+    <CategoryRatedAreas />
       </Container>
     </>
   );

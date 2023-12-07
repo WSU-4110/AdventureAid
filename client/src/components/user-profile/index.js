@@ -1,47 +1,50 @@
 import React from 'react';
-import { Box, Typography, Button, Divider } from '@mui/material';
+import Box from '@mui/material/Box';
+import Typography from '@mui/material/Typography';
+import Divider from '@mui/material/Divider';
+import Button from '@mui/material/Button';
+import './index.scss';
 
-function UserProfileBox({ userEmail, userPassword }) {
-  const handlePasswordChange = () => {
-    // Handle password change logic
-    console.log('Password change requested');
-  };
+import { useNavigate } from 'react-router-dom';
 
-  const handleAccountDeletion = () => {
-    // Handle account deletion logic
-    console.log('Account deletion requested');
-  };
+function UserProfileBox({ userEmail, userPassword, handleSignout, handleAccountDeletion }) {
+
+
+ const navigate = useNavigate();
+
+ const returnToHome = () => {
+  
+    navigate('/');
+  }
+
 
   return (
-    <Box sx={{ p: 3, border: '1px solid #ddd', borderRadius: '8px', maxWidth: 400, margin: 'auto', mt: 5 }}>
-      <Typography variant="h6" gutterBottom>
+    <Box className='user-profile-container'>
+      <Typography variant="h6" gutterBottom className="profile-header">
         User Profile
       </Typography>
       <Divider sx={{ mb: 2 }} />
 
-      <Typography variant="body1" gutterBottom>
+      <Typography variant="body1" gutterBottom className="profile-info">
         Email: {userEmail}
       </Typography>
-      <Typography variant="body1" gutterBottom>
+      <Typography variant="body1" gutterBottom className="profile-info">
         Password: {userPassword}
       </Typography>
 
-      <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2, mt: 3 }}>
-        <Button variant="outlined" color="primary" onClick={handlePasswordChange}>
+      <Box className="profile-actions">
+        <Button variant="outlined" className="primary" onClick={returnToHome}>
           Return to Home Page
         </Button>
-        <Button variant="outlined" color="error" onClick={handleAccountDeletion}>
+        <Button variant="outlined" className="error" onClick={handleAccountDeletion}>
           Delete Account
         </Button>
-        <Button variant="outlined" color="inherit" onClick={handlePasswordChange}>
-            Sign out
+        <Button variant="outlined" className="default" onClick={handleSignout}>
+          Sign out
         </Button>
       </Box>
     </Box>
   );
 }
-
-// Example usage:
-// <UserProfileBox userEmail="user@example.com" />
 
 export default UserProfileBox;

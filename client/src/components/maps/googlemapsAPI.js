@@ -1,4 +1,29 @@
 import { Loader } from "@googlemaps/js-api-loader";
+import { vacationOperations } from "../middleware-apis/vacationOperations";
+
+window.addPlaceToCalendar = function(placeId, placeName, placeAddress, coordinates) { //helper function to add place selected from map marker to calendar
+    const selectedDate = document.getElementById(`datePicker-${placeId}`).value;
+    if (!selectedDate) { //if date is not selected
+        alert('Please select a date.');
+        return;
+    }
+    const coordinatesArr = [];  //put coords in an array to be pushed into vacation instance
+    coordinatesArr.push(coordinates.lat);
+    coordinatesArr.push(coordinates.lng);
+    //alert(`Add ${placeName} (${placeAddress}) to calendar on ${selectedDate} at ${coordinatesArr}`);
+    vacationOperations.createAndAddDestination(placeName, placeAddress, selectedDate, coordinatesArr);
+};
+function escapeHtml(text) { //helper function to ensure that the place name and address are safely encoded when injected into the HTML
+    var map = {
+        '&': '&amp;',
+        '<': '&lt;',
+        '>': '&gt;',
+        '"': '&quot;',
+        "'": '&#039;'
+    };
+    return text.replace(/[&<>"']/g, function(m) { return map[m]; });
+}
+
 
 let defaultLat, defaultLong; // global variables to store the vacation's locality lat and long
 let loaderInstance = null;
@@ -199,6 +224,13 @@ export const googleMapsOperations = {
                     <div>
                         <h3>${place.name}</h3>
                         <p>${place.formatted_address}</p>
+                        <input type="date" id="datePicker-${place.place_id}" name="date">
+                        <button onclick="addPlaceToCalendar('${place.place_id}', 
+                        '${escapeHtml(place.name)}', 
+                        '${escapeHtml(place.formatted_address)}',
+                         {lat: ${place.geometry.location.lat()}, lng: ${place.geometry.location.lng()}})">
+                         Add to Calendar
+                         </button>
                     </div>
                 `;
 
@@ -280,20 +312,33 @@ export const googleMapsOperations = {
         });
     },
 
-    fetchTopPlacesForLocation: async function(locationName) {
-        // Replace with the actual URL or endpoint you need to hit to get the top places for a location
-        const url = `http://localhost:3001/api/topplaces/${locationName}`;
-        try {
-            const response = await fetch(url);
-            if (!response.ok) {
-                throw new Error('Network response was not ok');
-            }
-            const topPlaces = await response.json();
-            return topPlaces;
-        } catch (error) {
-            console.error('Failed to fetch top places:', error);
-            return []; // Return an empty array in case of an error
+    findTopAttractions: async function(locality) {
+        if (!mapInstance) {
+          console.error('Map has not been initialized.');
+          return Promise.reject('Map not initialized');
         }
-    }
-    
+      
+        const service = new window.google.maps.places.PlacesService(mapInstance);
+        const request = {
+          location: mapInstance.getCenter(),
+          radius: '5000',
+          type: ['tourist_attraction'], // Adjust this type based on the specific needs
+          rankBy: window.google.maps.places.RankBy.PROMINENCE,
+        };
+      
+        return new Promise((resolve, reject) => {
+          service.nearbySearch(request, (results, status) => {
+            if (status === window.google.maps.places.PlacesServiceStatus.OK) {
+              resolve(results.slice(0, 5)); // Return only the top 5 attractions
+            } else {
+              console.error('Error fetching top attractions:', status);
+              reject(status);
+            }
+          });
+        });
+      }
+
+      // Testing link:
+      // http://localhost:3001/api/attractions?city=Jaipur
+      
 }
