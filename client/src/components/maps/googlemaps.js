@@ -75,6 +75,7 @@ function MapComponent({searchPlaceInput, searchLocationInput, onAttractionsUpdat
             if (searchLocationInput)
                 googleMapsOperations.searchLocation(searchLocationInput);
         }
+        
     }, [defaultLocality, searchPlaceInput, searchLocationInput]);
 
     useEffect(() => {

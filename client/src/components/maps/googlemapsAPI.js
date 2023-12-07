@@ -1,4 +1,29 @@
 import { Loader } from "@googlemaps/js-api-loader";
+import { vacationOperations } from "../middleware-apis/vacationOperations";
+
+window.addPlaceToCalendar = function(placeId, placeName, placeAddress, coordinates) { //helper function to add place selected from map marker to calendar
+    const selectedDate = document.getElementById(`datePicker-${placeId}`).value;
+    if (!selectedDate) { //if date is not selected
+        alert('Please select a date.');
+        return;
+    }
+    const coordinatesArr = [];  //put coords in an array to be pushed into vacation instance
+    coordinatesArr.push(coordinates.lat);
+    coordinatesArr.push(coordinates.lng);
+    //alert(`Add ${placeName} (${placeAddress}) to calendar on ${selectedDate} at ${coordinatesArr}`);
+    vacationOperations.createAndAddDestination(placeName, placeAddress, selectedDate, coordinatesArr);
+};
+function escapeHtml(text) { //helper function to ensure that the place name and address are safely encoded when injected into the HTML
+    var map = {
+        '&': '&amp;',
+        '<': '&lt;',
+        '>': '&gt;',
+        '"': '&quot;',
+        "'": '&#039;'
+    };
+    return text.replace(/[&<>"']/g, function(m) { return map[m]; });
+}
+
 
 let defaultLat, defaultLong; // global variables to store the vacation's locality lat and long
 let loaderInstance = null;
@@ -199,6 +224,13 @@ export const googleMapsOperations = {
                     <div>
                         <h3>${place.name}</h3>
                         <p>${place.formatted_address}</p>
+                        <input type="date" id="datePicker-${place.place_id}" name="date">
+                        <button onclick="addPlaceToCalendar('${place.place_id}', 
+                        '${escapeHtml(place.name)}', 
+                        '${escapeHtml(place.formatted_address)}',
+                         {lat: ${place.geometry.location.lat()}, lng: ${place.geometry.location.lng()}})">
+                         Add to Calendar
+                         </button>
                     </div>
                 `;
 
@@ -304,6 +336,6 @@ export const googleMapsOperations = {
             }
           });
         });
-      }
+      },
       
 }
