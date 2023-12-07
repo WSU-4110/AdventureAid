@@ -1,7 +1,13 @@
 
+.user-profile-background{
+  min-height: 100vh;
+  background: url("../../assets//img/login/hero2.png");
+  background-size: cover;
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
 
-
-.user-profile-text {
+  .user-profile-text {
 display: flex;
     justify-content: center;
     color: white;
@@ -15,3 +21,7 @@ display: flex;
       text-align: center;
     }
 }
+
+}
+
+
