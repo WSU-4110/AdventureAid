@@ -7,8 +7,6 @@ import { vacationOperations } from '../../components/middleware-apis/vacationOpe
 import "./index.scss";
 
 
-import FlightSearchComponent from '../../components/Flight/flightSearch';
-
 function Home() {
   const navigate = useNavigate();
 
@@ -109,7 +107,7 @@ function Home() {
           </>
         )}
 
-        <FlightSearchComponent />
+      
       </Container>
     </>
   );
