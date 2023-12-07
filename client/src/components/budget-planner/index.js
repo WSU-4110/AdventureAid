@@ -15,38 +15,24 @@ function BudgetPlanner() {
   const [editMode, setEditMode] = useState(true);
 
   useEffect(() => {
-    fetchBudgetData();
+    // Fetch initial data, replace with actual API call
+    // fetchBudgetData();
   }, []);
 
+  // Mock function to simulate fetching data from an API
   const fetchBudgetData = async () => {
-    try {
-      // Replace with actual API call
-      const response = await fetch('/api/budgetPlanner');
-      const data = await response.json();
-      setBudget(data.budget);
-      setExpenses(data.expenses);
-    } catch (error) {
-      console.error('Error fetching budget data:', error);
-    }
+    // Implement actual fetch logic here
+    // const response = await fetch('/api/budgetPlanner');
+    // const data = await response.json();
+    // setBudget(data.budget);
+    // setExpenses(data.expenses);
   };
 
   const handleUpdate = async () => {
-    const totalExpenses = Object.values(expenses).reduce((a, b) => a + b, 0);
-    try {
-      // Replace with actual API call
-      const response = await fetch('/api/budgetPlanner/update', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ budget, expenses: totalExpenses }),
-      });
-      if (response.ok) {
-        setEditMode(false);
-      }
-    } catch (error) {
-      console.error('Error updating budget:', error);
-    }
+    // Implement actual update logic here, like sending data to backend
+    // const response = await fetch('/api/budgetPlanner/update', { ... });
+
+    setEditMode(false); // Switch to view mode
   };
 
   const handleBudgetChange = (e) => {
@@ -57,42 +43,23 @@ function BudgetPlanner() {
     setExpenses({ ...expenses, [category]: Number(e.target.value) });
   };
 
-  // const data = {
-  //   labels: Object.keys(expenses),
-  //   datasets: [
-  //     {
-  //       label: 'Expenses',
-  //       data: Object.values(expenses),
-  //       backgroundColor: [
-  //         '#FF6384',
-  //         '#36A2EB',
-  //         '#FFCE56',
-  //         '#4BC0C0',
-  //         '#9966FF',
-  //       ],
-  //       hoverOffset: 4
-  //     }
-  //   ]
-  // };
-
   const data = {
-    labels: ['Food', 'Travel', 'Entertainment', 'Utilities', 'Other'],
+    labels: Object.keys(expenses),
     datasets: [
       {
         label: 'Expenses',
-        data: [300, 150, 100, 200, 50], // example hardcoded data
+        data: Object.values(expenses),
         backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0', '#9966FF'],
         hoverOffset: 4,
       },
     ],
   };
 
-
   return (
     <Container>
-      <Grid container spacing={2}>
+      <Grid container justifyContent="center" spacing={2} mb="5rem">
         <Grid item xs={12}>
-          <Typography variant="h4">Budget Planner</Typography>
+          <Typography variant="h4" textAlign="center" >Budget Planner</Typography>
         </Grid>
         {editMode ? (
           <Grid item xs={12} md={6}>
@@ -125,8 +92,13 @@ function BudgetPlanner() {
           <Grid item xs={12} md={6}>
             <Paper elevation={3} style={{ padding: '1rem' }}>
               <Typography variant="h6">Budget Overview</Typography>
-              <Pie data={data} key={JSON.stringify(data)} />
-              <Button variant="contained" color="primary" onClick={() => setEditMode(true)} style={{ marginTop: '1rem' }}>
+              <Pie data={data} />
+              <Button
+                variant="contained"
+                color="primary"
+                onClick={() => setEditMode(true)}
+                style={{ marginTop: '1rem' }}
+              >
                 Edit Budget
               </Button>
             </Paper>
