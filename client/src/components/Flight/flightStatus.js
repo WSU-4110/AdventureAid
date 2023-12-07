@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import { Container, Paper, Grid, TextField, Button, Typography } from '@mui/material';
 
 const FlightStatusComponent = () => {
   const [formData, setFormData] = useState({
@@ -25,22 +26,76 @@ const FlightStatusComponent = () => {
   };
 
   return (
-    <div>
+    <Container maxWidth="sm" className="flight-status-container">
+    <Paper elevation={6} style={{ padding: '20px', marginTop: '20px' }}>
       <form onSubmit={handleSubmit}>
-        <input type="text" name="carrierCode" value={formData.carrierCode} onChange={handleChange} placeholder="Carrier Code" />
-        <input type="text" name="flightNumber" value={formData.flightNumber} onChange={handleChange} placeholder="Flight Number" />
-        <input type="date" name="scheduledDepartureDate" value={formData.scheduledDepartureDate} onChange={handleChange} placeholder="Scheduled Departure Date" />
-        <button type="submit">Check Flight Status</button>
+        <Grid container spacing={2}>
+          <Grid item xs={12}>
+            <div style={{ display: 'flex', alignItems: 'center' }}>
+              <label htmlFor="carrierCode" style={{ color: 'red', marginRight: '5px' }}>
+                Carrier Code *
+              </label>
+              <TextField
+                label="Carrier Code"
+                name="carrierCode"
+                value={formData.carrierCode}
+                onChange={handleChange}
+                fullWidth
+                required
+              />
+            </div>
+          </Grid>
+          <Grid item xs={12}>
+            <div style={{ display: 'flex', alignItems: 'center' }}>
+              <label htmlFor="flightNumber" style={{ color: 'red', marginRight: '5px' }}>
+                Flight Number *
+              </label>
+              <TextField
+                label="Flight Number"
+                name="flightNumber"
+                value={formData.flightNumber}
+                onChange={handleChange}
+                fullWidth
+                required
+              />
+            </div>
+          </Grid>
+          <Grid item xs={12}>
+            <div style={{ display: 'flex', alignItems: 'center' }}>
+              <label htmlFor="scheduledDepartureDate" style={{ color: 'red', marginRight: '5px' }}>
+                Scheduled Departure Date *
+              </label>
+              <TextField
+                type="date"
+                label="Scheduled Departure Date"
+                InputLabelProps={{ shrink: true }}
+                name="scheduledDepartureDate"
+                value={formData.scheduledDepartureDate}
+                onChange={handleChange}
+                fullWidth
+                required
+              />
+            </div>
+          </Grid>
+        </Grid>
+        <Button type="submit" variant="contained" color="primary" style={{ marginTop: '20px' }}>
+          Check Flight Status
+        </Button>
       </form>
+    </Paper>
 
-      {flightStatus && (
-        <div>
-          <h2>Flight Status:</h2>
-          <pre>{JSON.stringify(flightStatus, null, 2)}</pre>
-        </div>
-      )}
-    </div>
+    {flightStatus && (
+      <Paper elevation={6} style={{ padding: '20px', marginTop: '20px' }}>
+        <Typography component="h2" variant="h6">
+          Flight Status:
+        </Typography>
+        <pre>{JSON.stringify(flightStatus, null, 2)}</pre>
+      </Paper>
+    )}
+  </Container>
   );
 };
 
+
 export default FlightStatusComponent;
+

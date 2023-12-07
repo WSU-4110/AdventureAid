@@ -35,6 +35,22 @@ export const vacationOperations = {
             throw error;
           }
     },
+    getPlace: async function(destination) {
+      try {
+          const response = await fetch(`http://localhost:3001/api/attractions?city=${destination}`, {
+            method: 'GET',
+            headers: {'Content-Type': 'application/json'}
+          });
+          if (!response.ok) {
+            throw new Error('Network response was not ok');
+          }
+          const data = await response.json();
+          return data;
+        } catch (error) {
+          console.error('Error fetching vacation name:', error);
+          throw error;
+        }
+  },
     getLocality: async function() {
         try {
             const response = await fetch('http://localhost:3001/get-vacation-locality', {
@@ -81,6 +97,24 @@ export const vacationOperations = {
       } catch (error) {
         console.error('Error fetching vacation end date:', error);
         throw error;
+      }
+    },
+    createAndAddDestination: async function(name, address, date, coordinates) {
+      try {
+        const response = await fetch('http://localhost:3001/create-and-add-destination', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ name, address, date, coordinates }),
+        });
+        if (response.ok) {
+            console.log('Destination added');
+        } else {
+            console.error('Failed to add destination');
+            alert('error1')
+        }
+      } catch (error) {
+          console.error('Error:', error);
+          alert('error2')
       }
     },
     addDestination: async function(destination) {

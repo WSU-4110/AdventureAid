@@ -1,5 +1,9 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import "./flightDelayPrediction.scss";
+import { Container, Grid, TextField, Button, Paper, Typography } from '@mui/material';
+
+import "./flightDelayPrediction.scss";
 
 const FlightDelayPredictionComponent = () => {
   const [formData, setFormData] = useState({
@@ -32,21 +36,61 @@ const FlightDelayPredictionComponent = () => {
   };
 
   return (
-    <div>
-      <form onSubmit={handleSubmit}>
-        {/* Form fields for each parameter */}
-        <input type="text" name="originLocationCode" value={formData.originLocationCode} onChange={handleChange} placeholder="Origin Location Code" />
-        {/* ... more inputs for other parameters ... */}
-        <button type="submit">Predict Flight Delay</button>
-      </form>
+    <Container component="main" maxWidth="md" className="flight-delay-prediction-container">
+      <Paper elevation={6} style={{ padding: '20px', marginTop: '20px' }}>
+        <Typography component="h1" variant="h5" style={{ marginBottom: '20px' }}>
+          Flight Delay Prediction
+        </Typography>
+        <form onSubmit={handleSubmit}>
+          <Grid container spacing={2}>
+            {/* Form fields for each parameter */}
+            <Grid item xs={12} sm={6}>
+              <div style={{ display: 'flex', alignItems: 'center' }}>
+                <label htmlFor="originLocationCode" style={{ color: 'red', marginRight: '5px' }}>
+                  Origin Location Code *
+                </label>
+                <TextField
+                  name="originLocationCode"
+                  required
+                  fullWidth
+                  value={formData.originLocationCode}
+                  onChange={handleChange}
+                />
+              </div>
+            </Grid>
+            {/* ... more inputs for other parameters ... */}
+            {/* Example for another field */}
+            <Grid item xs={12} sm={6}>
+              <div style={{ display: 'flex', alignItems: 'center' }}>
+                <label htmlFor="destinationLocationCode" style={{ color: 'red', marginRight: '5px' }}>
+                  Destination Location Code *
+                </label>
+                <TextField
+                  name="destinationLocationCode"
+                  required
+                  fullWidth
+                  value={formData.destinationLocationCode}
+                  onChange={handleChange}
+                />
+              </div>
+            </Grid>
+            {/* Add other fields similarly */}
+          </Grid>
+          <Button type="submit" variant="contained" color="primary" style={{ marginTop: '20px' }}>
+            Predict Flight Delay
+          </Button>
+        </form>
+      </Paper>
 
       {predictionResult && (
-        <div>
-          <h2>Prediction Result:</h2>
+        <Paper elevation={6} style={{ padding: '20px', marginTop: '20px' }}>
+          <Typography component="h2" variant="h6">
+            Prediction Result:
+          </Typography>
           <pre>{JSON.stringify(predictionResult, null, 2)}</pre>
-        </div>
+        </Paper>
       )}
-    </div>
+    </Container>
   );
 };
 

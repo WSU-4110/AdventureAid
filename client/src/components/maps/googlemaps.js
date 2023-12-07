@@ -3,10 +3,12 @@ import { Box } from '@mui/material';
 import { googleMapsOperations } from './googlemapsAPI';
 import { vacationOperations } from '../middleware-apis/vacationOperations';
 
-function MapComponent({searchPlaceInput, searchLocationInput}) {
+function MapComponent({searchPlaceInput, searchLocationInput, onAttractionsUpdate}) {
 
     const [defaultLocality, setDefaultLocality] = useState('');
     const mapInstanceRef = useRef(null);
+
+    const [topAttractions, setTopAttractions] = useState([]);
 
     useEffect(() => {
         async function fetchVacationLocality() {
@@ -73,8 +75,34 @@ function MapComponent({searchPlaceInput, searchLocationInput}) {
             if (searchLocationInput)
                 googleMapsOperations.searchLocation(searchLocationInput);
         }
+        
     }, [defaultLocality, searchPlaceInput, searchLocationInput]);
 
+    useEffect(() => {
+        if (defaultLocality && mapInstanceRef.current) {
+            googleMapsOperations.findTopAttractions(defaultLocality)
+            .then(attractions => {
+                setTopAttractions(attractions);
+            })
+            .catch(error => {
+                console.error('Error fetching top attractions:', error);
+          
+            });
+        }
+    }, [defaultLocality]);
+
+    useEffect(() => {
+        if (defaultLocality && mapInstanceRef.current) {
+            googleMapsOperations.findTopAttractions(defaultLocality)
+            .then(attractions => {
+                setTopAttractions(attractions);
+                onAttractionsUpdate(attractions); // Send the attractions data to the parent
+            })
+            .catch(error => {
+                console.error('Error fetching top attractions:', error);
+            });
+        }
+    }, [defaultLocality, onAttractionsUpdate]);
 
     return (
     <Box
@@ -90,6 +118,13 @@ function MapComponent({searchPlaceInput, searchLocationInput}) {
             <span id="distance"></span>
             <span id="duration"></span>
         </Box>
+
+        <h2>Top 5 Local Attractions:</h2>
+            <ul>
+                {topAttractions.map(attraction => (
+                    <li key={attraction.place_id}>{attraction.name}</li>
+                ))}
+            </ul>
     </Box>
     );
 }

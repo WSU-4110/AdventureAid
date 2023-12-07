@@ -1,0 +1,17 @@
+
+
+
+.user-profile-text {
+display: flex;
+    justify-content: center;
+    color: white;
+    font-family: 'Agbalumo', cursive;
+    font-size: 3.5rem;
+    @media (max-width: 900px) {
+      font-size: 3rem;
+    }
+    @media(max-width: 600px) {
+      font-size: 2rem;
+      text-align: center;
+    }
+}

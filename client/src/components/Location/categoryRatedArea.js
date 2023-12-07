@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import { Container, TextField, Button, Typography, Paper, Grid } from '@mui/material';
+import './categoryRatedAreas.scss'; // Import the SCSS file
 
 function CategoryRatedAreas() {
     const [latitude, setLatitude] = useState('');
@@ -23,28 +25,52 @@ function CategoryRatedAreas() {
     };
 
     return (
-        <div>
-            <form onSubmit={handleSubmit}>
-                <input
-                    type="text"
-                    value={latitude}
-                    onChange={(e) => setLatitude(e.target.value)}
-                    placeholder="Latitude"
-                    required
-                />
-                <input
-                    type="text"
-                    value={longitude}
-                    onChange={(e) => setLongitude(e.target.value)}
-                    placeholder="Longitude"
-                    required
-                />
-                <button type="submit">Get Category Rated Areas</button>
-            </form>
+        <Container maxWidth="sm" className="category-rated-areas-container">
+            <Paper elevation={6} style={{ padding: '20px', marginTop: '20px' }}>
+                <form onSubmit={handleSubmit}>
+                    <Grid container spacing={2}>
+                        <Grid item xs={12}>
+                            <div style={{ display: 'flex', alignItems: 'center' }}>
+                                <label htmlFor="latitude" style={{ color: 'red', marginRight: '5px' }}>
+                                    Latitude *
+                                </label>
+                                <TextField
+                                    fullWidth
+                                    label="Latitude"
+                                    value={latitude}
+                                    onChange={(e) => setLatitude(e.target.value)}
+                                    required
+                                />
+                            </div>
+                        </Grid>
+                        <Grid item xs={12}>
+                            <div style={{ display: 'flex', alignItems: 'center' }}>
+                                <label htmlFor="longitude" style={{ color: 'red', marginRight: '5px' }}>
+                                    Longitude *
+                                </label>
+                                <TextField
+                                    fullWidth
+                                    label="Longitude"
+                                    value={longitude}
+                                    onChange={(e) => setLongitude(e.target.value)}
+                                    required
+                                />
+                            </div>
+                        </Grid>
+                    </Grid>
+                    <Button type="submit" variant="contained" color="primary" style={{ marginTop: '20px' }}>
+                        Get Category Rated Areas
+                    </Button>
+                </form>
 
-            {result && <div><pre>{JSON.stringify(result, null, 2)}</pre></div>}
-            {error && <div>Error: {error}</div>}
-        </div>
+                {result && (
+                    <Typography style={{ marginTop: '20px' }}>
+                        <pre>{JSON.stringify(result, null, 2)}</pre>
+                    </Typography>
+                )}
+                {error && <Typography color="error" style={{ marginTop: '20px' }}>Error: {error}</Typography>}
+            </Paper>
+        </Container>
     );
 }
 

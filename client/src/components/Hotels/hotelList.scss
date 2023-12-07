@@ -1,0 +1,34 @@
+.hotel-search-container {
+  .MuiPaper-root {
+    padding: 20px;
+    margin-top: 20px;
+    background-color: #fff; // Adjust the background color as needed
+
+    .MuiGrid-container {
+      margin-bottom: 20px; // Spacing below the grid
+
+      .MuiTextField-root {
+        width: 100%; // Ensures full width for text fields
+
+        &:not(:last-child) {
+          margin-bottom: 15px; // Spacing between text fields
+        }
+      }
+
+      .MuiButton-root {
+        width: 100%; // Full width buttons for consistency
+        background-color: #1976d2; // Adjust button color as needed
+        color: #fff;
+
+        &:hover {
+          background-color: darken(#1976d2, 10%); // Darker shade on hover
+        }
+      }
+    }
+
+    .MuiTypography-root {
+      margin-top: 20px;
+      color: #333; // Adjust the text color as needed
+    }
+  }
+}
