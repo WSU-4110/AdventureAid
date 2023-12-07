@@ -1,10 +1,23 @@
-import React from 'react';
+import React, { useState } from 'react';
+import './index.scss';
 
-import './index.scss'; // make sure to create a corresponding SCSS file
+const CardComponent = ({ imageUrl, title, description, author, initialLikes = 0, initialViews = 0 }) => {
+  // Ensure that initialLikes and initialViews are numbers
+  const [likes, setLikes] = useState(Number(initialLikes));
+  const [views, setViews] = useState(Number(initialViews));
 
-const CardComponent = ({ imageUrl, title, description, author, likes, views }) => {
+  const handleLike = (event) => {
+    // Prevent the click from triggering handleView on the card
+    event.stopPropagation();
+    setLikes((prevLikes) => prevLikes + 1);
+  };
+
+  const handleView = () => {
+    setViews((prevViews) => prevViews + 1);
+  };
+
   return (
-    <div className="blog-card">
+    <div className="blog-card" onClick={handleView}>
       <div className="card-image-container">
         <img src={imageUrl} alt={title} className="card-image" />
       </div>
@@ -14,7 +27,7 @@ const CardComponent = ({ imageUrl, title, description, author, likes, views }) =
         <div className="card-footer">
           <span className="card-author">{author}</span>
           <div className="card-stats">
-            <span className="card-likes">❤️ {likes}</span>
+            <button className="card-likes" onClick={handleLike}>❤️ {likes}</button>
             <span className="card-views">👁️ {views}</span>
           </div>
         </div>
