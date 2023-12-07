@@ -11,6 +11,12 @@ import MapComponent from '../../components/maps/googlemaps.js';
 import { vacationOperations } from '../../components/middleware-apis/vacationOperations.js';
 import Calendar from '../../components/calendar/index.js';
 
+import HotelSearch from "../../components/Hotels/hotelList.js"
+import HotelSentiments from '../../components/Hotels/hotelRating.js';
+import FlightDelayPredictionComponent from '../../components/Flight/flightDelayPrediction.js';
+import FlightSearchComponent from '../../components/Flight/flightSearch.js';
+import FlightStatusComponent from '../../components/Flight/flightStatus.js';
+import CategoryRatedAreas from '../../components/Location/categoryRatedArea.js';
 
 function Destinations() {
     // Share user place search between the SimpleSearchBar and MapComponent components for combined functionality
@@ -60,6 +66,13 @@ function Destinations() {
             <MapComponent searchPlaceInput={searchPlaceInput} searchLocationInput={searchLocationInput} />
           </Grid>
         </Grid>
+
+    <HotelSearch />
+    <HotelSentiments />
+    <FlightDelayPredictionComponent />
+    <FlightSearchComponent />
+    <FlightStatusComponent />
+    <CategoryRatedAreas />
       </Container>
     </>
   );

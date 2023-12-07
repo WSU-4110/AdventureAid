@@ -45,26 +45,34 @@ const FlightDelayPredictionComponent = () => {
           <Grid container spacing={2}>
             {/* Form fields for each parameter */}
             <Grid item xs={12} sm={6}>
-              <TextField
-                name="originLocationCode"
-                required
-                fullWidth
-                label="Origin Location Code"
-                value={formData.originLocationCode}
-                onChange={handleChange}
-              />
+              <div style={{ display: 'flex', alignItems: 'center' }}>
+                <label htmlFor="originLocationCode" style={{ color: 'red', marginRight: '5px' }}>
+                  Origin Location Code *
+                </label>
+                <TextField
+                  name="originLocationCode"
+                  required
+                  fullWidth
+                  value={formData.originLocationCode}
+                  onChange={handleChange}
+                />
+              </div>
             </Grid>
             {/* ... more inputs for other parameters ... */}
             {/* Example for another field */}
             <Grid item xs={12} sm={6}>
-              <TextField
-                name="destinationLocationCode"
-                required
-                fullWidth
-                label="Destination Location Code"
-                value={formData.destinationLocationCode}
-                onChange={handleChange}
-              />
+              <div style={{ display: 'flex', alignItems: 'center' }}>
+                <label htmlFor="destinationLocationCode" style={{ color: 'red', marginRight: '5px' }}>
+                  Destination Location Code *
+                </label>
+                <TextField
+                  name="destinationLocationCode"
+                  required
+                  fullWidth
+                  value={formData.destinationLocationCode}
+                  onChange={handleChange}
+                />
+              </div>
             </Grid>
             {/* Add other fields similarly */}
           </Grid>

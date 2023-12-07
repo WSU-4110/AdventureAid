@@ -30,9 +30,12 @@ function HotelSentiments() {
             <Paper elevation={6} style={{ padding: '20px', marginTop: '20px' }}>
                 <TextField 
                     fullWidth 
-                    label="Enter Hotel IDs (comma-separated)" 
+                    label="Enter Hotel IDs (comma-separated) *" 
                     value={hotelIds} 
                     onChange={handleInputChange} 
+                    InputLabelProps={{
+                        style: { color: 'red' },
+                    }}
                 />
                 <Button variant="contained" color="primary" onClick={fetchSentiments} style={{ marginTop: '20px' }}>
                     Get Sentiments

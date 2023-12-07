@@ -47,16 +47,40 @@ const FlightSearchComponent = () => {
           <Grid container spacing={2}>
             {/* Form fields for each parameter */}
             <Grid item xs={12} sm={6}>
-              <TextField label="Origin" name="origin" value={formData.origin} onChange={handleChange} fullWidth />
+              <div style={{ display: 'flex', alignItems: 'center' }}>
+                <label htmlFor="origin" style={{ color: 'red', marginRight: '5px' }}>
+                  Origin *
+                </label>
+                <TextField label="Origin" name="origin" value={formData.origin} onChange={handleChange} fullWidth required />
+              </div>
             </Grid>
             <Grid item xs={12} sm={6}>
-              <TextField label="Destination" name="destination" value={formData.destination} onChange={handleChange} fullWidth />
+              <div style={{ display: 'flex', alignItems: 'center' }}>
+                <label htmlFor="destination" style={{ color: 'red', marginRight: '5px' }}>
+                  Destination *
+                </label>
+                <TextField label="Destination" name="destination" value={formData.destination} onChange={handleChange} fullWidth required />
+              </div>
             </Grid>
             <Grid item xs={12} sm={6}>
-              <TextField type="date" label="Departure Date" InputLabelProps={{ shrink: true }} name="departureDate" value={formData.departureDate} onChange={handleChange} fullWidth />
+              <div style={{ display: 'flex', alignItems: 'center' }}>
+                <label htmlFor="departureDate" style={{ color: 'red', marginRight: '5px' }}>
+                  Departure Date *
+                </label>
+                <TextField
+                  type="date"
+                  label="Departure Date"
+                  InputLabelProps={{ shrink: true }}
+                  name="departureDate"
+                  value={formData.departureDate}
+                  onChange={handleChange}
+                  fullWidth
+                  required
+                />
+              </div>
             </Grid>
             <Grid item xs={12} sm={6}>
-              <TextField type="date" label="Return Date" InputLabelProps={{ shrink: true }} name="returnDate" value={formData.returnDate} onChange={handleChange} fullWidth />
+              <TextField label="Return Date" name="returnDate" value={formData.returnDate} onChange={handleChange} fullWidth />
             </Grid>
             <Grid item xs={6} sm={3}>
               <TextField type="number" label="Adults" name="adults" value={formData.adults} onChange={handleChange} fullWidth />
