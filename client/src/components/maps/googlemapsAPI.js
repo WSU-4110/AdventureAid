@@ -336,6 +336,9 @@ export const googleMapsOperations = {
             }
           });
         });
-      },
+      }
+
+      // Testing link:
+      // http://localhost:3001/api/attractions?city=Jaipur
       
 }

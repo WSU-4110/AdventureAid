@@ -10,15 +10,15 @@ function MapComponent({searchPlaceInput, searchLocationInput, onAttractionsUpdat
 
     const [topAttractions, setTopAttractions] = useState([]);
 
-    async function fetchVacationLocality() {
-        try {
-          const locality = await vacationOperations.getLocality();
-          setDefaultLocality(locality);
-          return locality;
-        } catch (error) {
-          console.error('Error fetching vacation locality:', error);
-        }
-    };
+    useEffect(() => {
+        async function fetchVacationLocality() {
+            try {
+                const locality = await vacationOperations.getLocality();
+                setDefaultLocality(locality);
+            } catch (error) {
+                console.error('Error fetching vacation locality:', error);
+            }
+        };
 
         fetchVacationLocality()
     }, []);

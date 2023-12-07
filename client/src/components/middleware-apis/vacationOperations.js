@@ -35,6 +35,22 @@ export const vacationOperations = {
             throw error;
           }
     },
+    getPlace: async function(destination) {
+      try {
+          const response = await fetch(`http://localhost:3001/api/attractions?city=${destination}`, {
+            method: 'GET',
+            headers: {'Content-Type': 'application/json'}
+          });
+          if (!response.ok) {
+            throw new Error('Network response was not ok');
+          }
+          const data = await response.json();
+          return data;
+        } catch (error) {
+          console.error('Error fetching vacation name:', error);
+          throw error;
+        }
+  },
     getLocality: async function() {
         try {
             const response = await fetch('http://localhost:3001/get-vacation-locality', {
