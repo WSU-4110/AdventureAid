@@ -17,7 +17,7 @@ function UserProfile({onSignout}) {
             <>
         
 
-  <Grid container direction={"column"} className="hero-container">
+  <Grid container direction={"column"} className="user-profile-background">
         <Grid item>
           <Box className="logo-col">
             <Typography variant="h5" component="h2" className="user-profile-text" mb="2rem"> User Profile </Typography>
