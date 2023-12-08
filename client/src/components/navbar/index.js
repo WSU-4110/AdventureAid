@@ -13,7 +13,7 @@ export default function Navbar() {
     setMobileOpen(!mobileOpen);
   };
 
-  const menuItems = ['Home', 'Destinations', 'Budget', 'About', 'Blog', 'FAQ'];
+  const menuItems = ['Home', 'Destinations', 'Budget', 'Blog', 'FAQ'];
 
   const drawer = (
     <Box>
