@@ -70,10 +70,11 @@ function Destinations() {
           direction="column"
           spacing={4}
         >
-          <Grid item mt="1rem">
+          <Grid item my="1rem">
             <Navbar />
           </Grid>
         </Grid>
+        <WeatherComponent />
         <Grid container
           direction="row"
         >

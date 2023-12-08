@@ -112,9 +112,9 @@ console.log('token recall',response);//for test
         <Button type="submit" variant="contained" className="custom-button">
           Sign In
         </Button>
-        <div className="forgot-password">
+        {/* <div className="forgot-password">
           <Link href="#" onClick={(e) => e.preventDefault()}>Forgot password?</Link>
-        </div>
+        </div> */}
       </form>
     </Paper>
   </Container>

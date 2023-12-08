@@ -111,7 +111,7 @@ function MapComponent({searchPlaceInput, searchLocationInput, onAttractionsUpdat
         justifyContent="center"
         alignItems="center"
         marginY="3rem"
-        opacity= "0.5"
+        //opacity= "0.5"
     >
         <Box id="map" sx={{ width: '100%', height: '600px' }} />
         <Box id="routeInfo" sx={{ marginTop: '1rem' }}>

@@ -1,8 +1,36 @@
+// HotelSentiments.js
 import React, { useState } from 'react';
 import axios from 'axios';
-import { Container, TextField, Button, Typography, Paper } from '@mui/material';
+import { Container, TextField, Button, Typography, Paper, Grid } from '@mui/material';
 import './hotelSentiments.scss'; // Import the SCSS file
 
+// SentimentData Component
+function SentimentData({ data }) {
+    if (!data) {
+        return null;
+    }
+
+    return (
+        <Paper elevation={3} style={{ padding: '20px', marginTop: '20px' }}>
+            <Typography variant="h6">Hotel Sentiment Analysis</Typography>
+            <Grid container spacing={2} style={{ marginTop: '10px' }}>
+                <Grid item xs={12}>
+                    <Typography><strong>Hotel ID:</strong> {data.hotelId}</Typography>
+                    <Typography><strong>Overall Rating:</strong> {data.overallRating}</Typography>
+                    <Typography><strong>Number of Reviews:</strong> {data.numberOfReviews}</Typography>
+                </Grid>
+                <Grid item xs={12}>
+                    <Typography variant="subtitle1">Sentiments:</Typography>
+                    {Object.entries(data.sentiments).map(([key, value]) => (
+                        <Typography key={key}>{`${key.charAt(0).toUpperCase() + key.slice(1)}: ${value}`}</Typography>
+                    ))}
+                </Grid>
+            </Grid>
+        </Paper>
+    );
+}
+
+// Main HotelSentiments Component
 function HotelSentiments() {
     const [hotelIds, setHotelIds] = useState('');
     const [sentiments, setSentiments] = useState(null);
@@ -28,11 +56,11 @@ function HotelSentiments() {
     return (
         <Container maxWidth="sm" className="hotel-sentiments-container">
             <Paper elevation={6} style={{ padding: '20px', marginTop: '20px' }}>
-                <TextField 
-                    fullWidth 
-                    label="Enter Hotel IDs (comma-separated) *" 
-                    value={hotelIds} 
-                    onChange={handleInputChange} 
+                <TextField
+                    fullWidth
+                    label="Enter Hotel IDs (comma-separated) *"
+                    value={hotelIds}
+                    onChange={handleInputChange}
                     InputLabelProps={{
                         style: { color: 'red' },
                     }}
@@ -42,14 +70,7 @@ function HotelSentiments() {
                 </Button>
 
                 {error && <Typography color="error" style={{ marginTop: '20px' }}>Error: {error}</Typography>}
-                {sentiments && (
-                    <div style={{ marginTop: '20px' }}>
-                        <Typography component="h3" variant="h6">
-                            Sentiment Data:
-                        </Typography>
-                        <pre>{JSON.stringify(sentiments, null, 2)}</pre>
-                    </div>
-                )}
+                {sentiments && <SentimentData data={sentiments.data[0]} />}
             </Paper>
         </Container>
     );

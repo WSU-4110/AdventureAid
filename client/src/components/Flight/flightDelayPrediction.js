@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import "./flightDelayPrediction.scss";
+import FlightOfferCard from './flightCard';
 import { Container, Grid, TextField, Button, Paper, Typography } from '@mui/material';
 
 import "./flightDelayPrediction.scss";
@@ -89,7 +90,7 @@ const FlightDelayPredictionComponent = () => {
           </Typography>
           <pre>{JSON.stringify(predictionResult, null, 2)}</pre>
         </Paper>
-      )}
+      )}   
     </Container>
   );
 };
