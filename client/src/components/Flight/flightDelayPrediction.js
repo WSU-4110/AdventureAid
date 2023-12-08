@@ -44,41 +44,124 @@ const FlightDelayPredictionComponent = () => {
         <form onSubmit={handleSubmit}>
           <Grid container spacing={2}>
             {/* Form fields for each parameter */}
+            {/* Example for originLocationCode */}
             <Grid item xs={12} sm={6}>
-              <div style={{ display: 'flex', alignItems: 'center' }}>
-                <label htmlFor="originLocationCode" style={{ color: 'red', marginRight: '5px' }}>
-                  Origin Location Code *
-                </label>
-                <TextField
-                  name="originLocationCode"
-                  required
-                  fullWidth
-                  value={formData.originLocationCode}
-                  onChange={handleChange}
-                />
-              </div>
+              <TextField
+                label="Origin Location Code"
+                name="originLocationCode"
+                required
+                fullWidth
+                value={formData.originLocationCode}
+                onChange={handleChange}
+              />
             </Grid>
-            {/* ... more inputs for other parameters ... */}
-            {/* Example for another field */}
+            {/* Example for destinationLocationCode */}
             <Grid item xs={12} sm={6}>
-              <div style={{ display: 'flex', alignItems: 'center' }}>
-                <label htmlFor="destinationLocationCode" style={{ color: 'red', marginRight: '5px' }}>
-                  Destination Location Code *
-                </label>
-                <TextField
-                  name="destinationLocationCode"
-                  required
-                  fullWidth
-                  value={formData.destinationLocationCode}
-                  onChange={handleChange}
-                />
-              </div>
+              <TextField
+                label="Destination Location Code"
+                name="destinationLocationCode"
+                required
+                fullWidth
+                value={formData.destinationLocationCode}
+                onChange={handleChange}
+              />
             </Grid>
-            {/* Add other fields similarly */}
+            {/* Other fields */}
+            <Grid item xs={12} sm={6}>
+              <TextField
+                label="Departure Date"
+                name="departureDate"
+                type="date"
+                InputLabelProps={{ shrink: true }}
+                required
+                fullWidth
+                value={formData.departureDate}
+                onChange={handleChange}
+              />
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <TextField
+                label="Departure Time"
+                name="departureTime"
+                type="time"
+                InputLabelProps={{ shrink: true }}
+                required
+                fullWidth
+                value={formData.departureTime}
+                onChange={handleChange}
+              />
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <TextField
+                label="Arrival Date"
+                name="arrivalDate"
+                type="date"
+                InputLabelProps={{ shrink: true }}
+                required
+                fullWidth
+                value={formData.arrivalDate}
+                onChange={handleChange}
+              />
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <TextField
+                label="Arrival Time"
+                name="arrivalTime"
+                type="time"
+                InputLabelProps={{ shrink: true }}
+                required
+                fullWidth
+                value={formData.arrivalTime}
+                onChange={handleChange}
+              />
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <TextField
+                label="Aircraft Code"
+                name="aircraftCode"
+                required
+                fullWidth
+                value={formData.aircraftCode}
+                onChange={handleChange}
+              />
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <TextField
+                label="Carrier Code"
+                name="carrierCode"
+                required
+                fullWidth
+                value={formData.carrierCode}
+                onChange={handleChange}
+              />
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <TextField
+                label="Flight Number"
+                name="flightNumber"
+                required
+                fullWidth
+                value={formData.flightNumber}
+                onChange={handleChange}
+              />
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <TextField
+                label="Duration"
+                name="duration"
+                required
+                fullWidth
+                value={formData.duration}
+                onChange={handleChange}
+              />
+            </Grid>
+
+            <Grid item xs={12}>
+              <Button type="submit" variant="contained" color="primary">
+                Predict Flight Delay
+              </Button>
+            </Grid>
           </Grid>
-          <Button type="submit" variant="contained" color="primary" style={{ marginTop: '20px' }}>
-            Predict Flight Delay
-          </Button>
         </form>
       </Paper>
 
