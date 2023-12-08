@@ -230,6 +230,33 @@ app.post('/create-and-add-destination', (req,res) => {
   }
 })
 
+app.post('/get-destination-name', (req,res) => {
+  try {
+    let destinationName = vacationInstance.getLastDestination().name;
+    res.status(200).send({destinationName});
+  } catch (error) {
+    res.status(400).send(error.message);
+  }
+})
+
+app.post('/get-destination-address', (req,res) => {
+  try {
+    let destinationAddress = vacationInstance.getLastDestination().address;
+    res.status(200).send({destinationAddress});
+  } catch (error) {
+    res.status(400).send(error.message);
+  }
+})
+
+app.post('/get-destination-date', (req,res) => {
+  try {
+    let destinationDate = vacationInstance.getLastDestination().date;
+    res.status(200).send({destinationDate});
+  } catch (error) {
+    res.status(400).send(error.message);
+  }
+})
+
 // Starting the Server
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
