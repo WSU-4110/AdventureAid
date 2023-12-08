@@ -1,6 +1,6 @@
 
 export const vacationOperations = {
-    planVacation: async function(locality, startDate, endDate) {
+    planVacation: async function(locality, startDate, endDate) {  //vacation initialization
         try {
             const response = await fetch('http://localhost:3001/start-planning-vacation', {
                 method: 'POST',
@@ -19,7 +19,7 @@ export const vacationOperations = {
             //alert('error2')
         }
     },
-    getName: async function() {
+    getName: async function() { //getter function for vacation name
         try {
             const response = await fetch('http://localhost:3001/get-vacation-name', {
               method: 'POST',
@@ -35,7 +35,7 @@ export const vacationOperations = {
             throw error;
           }
     },
-    getPlace: async function(destination) {
+    getPlace: async function(destination) { //getter function for destination object by name
       try {
           const response = await fetch(`http://localhost:3001/api/attractions?city=${destination}`, {
             method: 'GET',
@@ -51,7 +51,7 @@ export const vacationOperations = {
           throw error;
         }
   },
-    getLocality: async function() {
+    getLocality: async function() { //getter function for locality name from vacation
         try {
             const response = await fetch('http://localhost:3001/get-vacation-locality', {
               method: 'POST',
@@ -67,7 +67,7 @@ export const vacationOperations = {
             throw error;
           }
     },
-    getStartDate: async function() {
+    getStartDate: async function() {  //getter function for the starting date of vacation
       try {
         const response = await fetch('http://localhost:3001/get-vacation-startdate', {
               method: 'POST',
@@ -83,7 +83,7 @@ export const vacationOperations = {
         throw error;
       }
     },
-    getEndDate: async function() {
+    getEndDate: async function() {  //getter function for the ending date of vacation
       try {
         const response = await fetch('http://localhost:3001/get-vacation-enddate', {
               method: 'POST',
@@ -99,7 +99,7 @@ export const vacationOperations = {
         throw error;
       }
     },
-    createAndAddDestination: async function(name, address, date, coordinates) {
+    createAndAddDestination: async function(name, address, date, coordinates) { //initalize a new destination with given parameters then add it to the vacation
       try {
         const response = await fetch('http://localhost:3001/create-and-add-destination', {
             method: 'POST',
@@ -117,7 +117,7 @@ export const vacationOperations = {
           alert('error2')
       }
     },
-    getDestinationName: async function() {
+    getDestinationName: async function() {  //getter function for the name of the last destination added to the vacation
       try {
         const response = await fetch('http://localhost:3001/get-destination-name', {
           method: 'POST',
@@ -133,7 +133,7 @@ export const vacationOperations = {
         throw error;
       }
     },
-    getDestinationAddress: async function() {
+    getDestinationAddress: async function() { //getter function of the address of the last destination added to the vacation
       try {
         const response = await fetch('http://localhost:3001/get-destination-address', {
           method: 'POST',
@@ -149,7 +149,7 @@ export const vacationOperations = {
         throw error;
       }
     },
-    getDestinationDate: async function() {
+    getDestinationDate: async function() {  //getter function for the date of the last destination added to vacation
       try {
         const response = await fetch('http://localhost:3001/get-destination-date', {
           method: 'POST',
@@ -165,7 +165,7 @@ export const vacationOperations = {
         throw error;
       }
     },
-    addDestination: async function(destination) {
+    addDestination: async function(destination) { //request server to add new destination to the vacation by object
         try {
             const response = await fetch('http://localhost:3001/push-destination', {
                 method: 'POST',
@@ -183,7 +183,7 @@ export const vacationOperations = {
             alert('error2')
         }
     },
-    removeDestination: async function(destination) {
+    removeDestination: async function(destination) {  //request server to remove a specific destination from vacation, called by name
         try {
           const response = await fetch('http://localhost:3001/remove-destination', {
             method: 'POST',
@@ -199,7 +199,7 @@ export const vacationOperations = {
           console.error('Error:', error);
         }
     },
-    removeAllDestinations: async function() {
+    removeAllDestinations: async function() { //request server to remove all destinations from vacation
         try {
             const response = await fetch('http://localhost:3001/remove-all-destinations', {
                 method: 'POST',

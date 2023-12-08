@@ -1,7 +1,7 @@
 import { Loader } from "@googlemaps/js-api-loader";
 import { vacationOperations } from "../middleware-apis/vacationOperations";
 
-export var trigger = true;
+export var trigger = true; //tripline variable activated only when a new destination has been added to vacation
 
 window.addPlaceToCalendar = function(placeId, placeName, placeAddress, coordinates) { //helper function to add place selected from map marker to calendar
     const selectedDate = document.getElementById(`datePicker-${placeId}`).value;
@@ -16,8 +16,8 @@ window.addPlaceToCalendar = function(placeId, placeName, placeAddress, coordinat
     //alert(`Add ${placeName} (${placeAddress}) to calendar on ${selectedDate} at ${coordinatesArr}`);
     vacationOperations.createAndAddDestination(placeName, placeAddress, selectedDate, coordinatesArr);
 
+    //send the trigger variable update to Calendar component for calendar cards info updating
     trigger = !trigger;
-    // Dispatch a custom event
     const event = new CustomEvent('triggerChanged', { detail: trigger });
     window.dispatchEvent(event);
 };
