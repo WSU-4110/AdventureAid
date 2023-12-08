@@ -45,6 +45,10 @@ class Vacation {
     this.destinations = [];
   }
 
+  getLastDestination() {
+    return this.destinations[this.getNumOfDestinations()-1];
+  }
+
   getAllDestinations() {
     return this.destinations;
   }

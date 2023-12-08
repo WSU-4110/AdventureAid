@@ -117,6 +117,54 @@ export const vacationOperations = {
           alert('error2')
       }
     },
+    getDestinationName: async function() {
+      try {
+        const response = await fetch('http://localhost:3001/get-destination-name', {
+          method: 'POST',
+          headers: {'Content-Type': 'application/json'}
+        });
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+        const data = await response.json();
+        return data.destinationName;
+      } catch (error) {
+        console.error('Error fetching destination name:', error);
+        throw error;
+      }
+    },
+    getDestinationAddress: async function() {
+      try {
+        const response = await fetch('http://localhost:3001/get-destination-address', {
+          method: 'POST',
+          headers: {'Content-Type': 'application/json'}
+        });
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+        const data = await response.json();
+        return data.destinationAddress;
+      } catch (error) {
+        console.error('Error fetching destination address:', error);
+        throw error;
+      }
+    },
+    getDestinationDate: async function() {
+      try {
+        const response = await fetch('http://localhost:3001/get-destination-date', {
+          method: 'POST',
+          headers: {'Content-Type': 'application/json'}
+        });
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+        const data = await response.json();
+        return data.destinationDate;
+      } catch (error) {
+        console.error('Error fetching destination date:', error);
+        throw error;
+      }
+    },
     addDestination: async function(destination) {
         try {
             const response = await fetch('http://localhost:3001/push-destination', {

@@ -31,16 +31,15 @@ function Destinations() {
     };
 
     useEffect(() => {
-    //   // const fetchVacationName = async () => {
-    //   //   try {
-    //   //     const name = await vacationOperations.getName();
-    //   //     console.log('display',name);
-    //   //     setVacationName(name);
-    //   //   } catch (error) {
-    //   //     console.error('Error fetching vacation name:', error);
-    //   //   }
-    //   };
-
+      const fetchVacationName = async () => {
+        try {
+          const name = await vacationOperations.getName();
+          console.log('display',name);
+          setVacationName(name);
+        } catch (error) {
+          console.log(error);
+        }
+      }
       const fetchPlacesName = async () => {
         try {
           console.log(vacationName,'>>>>>>>>>>>>>>>>>>>')
@@ -53,7 +52,7 @@ function Destinations() {
         }
       }; 
 
-      //fetchVacationName();
+      fetchVacationName();
       fetchPlacesName();
     }, []);
 

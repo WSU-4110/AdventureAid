@@ -23,7 +23,10 @@ export const calendarOperations = {
         };
 
         for (let iterateDate = new Date(startDate); iterateDate <= endDate; iterateDate = new Date(iterateDate.getFullYear(), iterateDate.getMonth(), iterateDate.getDate() + 1)) {
-            formattedDates.push(formatDate(new Date(iterateDate)));
+            formattedDates.push({
+                dateString: formatDate(new Date(iterateDate)),
+                events: ["yooo"] // Initially no events
+            });
         }
     
         setDates(formattedDates);
