@@ -1,10 +1,12 @@
-import React, { useState } from 'react';
-import axios from 'axios';
-import { Container, Paper, Grid, TextField, Button, Typography, Switch, FormControlLabel, Divider } from '@mui/material';
-import './flightSearch.scss';
+import React, { useState } from 'react'; // import useState
+import axios from 'axios'; // import axios
+import { Container, Paper, Grid, TextField, Button, Typography, Switch, FormControlLabel, Divider } from '@mui/material'; // import the Material UI components
+import './flightSearch.scss'; // import the stylesheet
 
-const FlightSearchComponent = () => {
+// import the stylesheet 
+const FlightSearchComponent = () => { // define the FlightSearchComponent functional component
   const [formData, setFormData] = useState({
+    // initialize the formData state variable
     origin: '',
     destination: '',
     departureDate: '',
@@ -20,8 +22,9 @@ const FlightSearchComponent = () => {
     maxPrice: '',
     max: ''
   });
+  // const [formData, setFormData] = useState({}); // initialize the formData state variable
   const [flightOffers, setFlightOffers] = useState(null);
-
+  // const [flightOffers, setFlightOffers] = useState(null); // initialize the flightOffers state variable
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
     setFormData(prevState => ({
@@ -30,6 +33,7 @@ const FlightSearchComponent = () => {
     }));
   };
 
+  // const handleChange = (e) => { // define the handleChange function to update the formData state variable when the user types in the form fields
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
@@ -40,6 +44,7 @@ const FlightSearchComponent = () => {
     }
   };
 
+  // const handleSubmit = async (e) => { // define the handleSubmit function to send the form data to the server when the user clicks the Search Flights button
   const renderFlightOffer = (offer, index) => {
     return (
       <React.Fragment key={offer.id}>
@@ -56,7 +61,8 @@ const FlightSearchComponent = () => {
     );
   };
 
-  return (
+  // const renderFlightOffer = (offer, index) => { // define the renderFlightOffer function to render the flight offer details
+  return ( // return the FlightSearchComponent JSX code to render the form fields and the flight offers
     <Container component="main" maxWidth="md" className="flight-search-container">
       <Paper elevation={6}>
         <form onSubmit={handleSubmit}>
@@ -202,7 +208,7 @@ const FlightSearchComponent = () => {
           </Grid>
         </form>
       </Paper>
-
+      
       {flightOffers && (
         <Paper elevation={6} className="flight-offers">
           <Typography component="h2" variant="h6">
@@ -214,5 +220,5 @@ const FlightSearchComponent = () => {
     </Container>
   );
 };
-
+// return the FlightSearchComponent JSX code to render the form fields and the flight offers
 export default FlightSearchComponent;

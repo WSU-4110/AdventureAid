@@ -1,12 +1,13 @@
 
-import React, { useState } from 'react';
-import axios from 'axios';
-
-function HotelAutocomplete() {
+import React, { useState } from 'react'; // import useState
+import axios from 'axios'; // import axios
+function HotelAutocomplete() { // define the HotelAutocomplete functional component
+    // initialize the keyword and subType state variables
     const [keyword, setKeyword] = useState('');
     const [subType, setSubType] = useState('HOTEL_LEISURE');
     const [autocompleteResults, setAutocompleteResults] = useState([]);
 
+    // const [keyword, setKeyword] = useState(''); // initialize the keyword state variable
     const fetchAutocompleteResults = async () => {
         try {
             const response = await axios.get(`http://localhost:3001/api/hotelNameAutocomplete/hotels/autocomplete?keyword=${keyword}&subType=${subType}`);
@@ -18,7 +19,7 @@ function HotelAutocomplete() {
         }
     };
 
-    return (
+    return ( // return the HotelAutocomplete JSX code to render the form fields and the autocomplete results
         <div>
             <input 
                 type="text" 

@@ -1,14 +1,16 @@
-import React, { useState } from 'react';
-import axios from 'axios';
-import { Container, TextField, Button, Typography, Paper, Grid } from '@mui/material';
-import './categoryRatedAreas.scss';
+import React, { useState } from 'react'; // import useState
+import axios from 'axios'; // import axios
+import { Container, TextField, Button, Typography, Paper, Grid } from '@mui/material'; // import the Material UI components
+import './categoryRatedAreas.scss'; // import the stylesheet
 
-function CategoryRatedAreas() {
+function CategoryRatedAreas() { // define the CategoryRatedAreas functional component
+    // const [latitude, setLatitude] = useState(''); // initialize the latitude state variable
     const [latitude, setLatitude] = useState('');
     const [longitude, setLongitude] = useState('');
     const [result, setResult] = useState(null);
     const [error, setError] = useState('');
 
+    // const [longitude, setLongitude] = useState(''); // initialize the longitude state variable
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
@@ -23,6 +25,7 @@ function CategoryRatedAreas() {
         }
     };
 
+    // const handleSubmit = async (e) => { // define the handleSubmit function to send the form data to the server when the user clicks the Get Category Rated Areas button
     const renderResult = () => {
         if (!result || !result.data) return null;
         return result.data.map((area, index) => (
@@ -39,7 +42,7 @@ function CategoryRatedAreas() {
         ));
     };
 
-    return (
+    return ( // return the CategoryRatedAreas JSX code to render the form fields and the category rated areas
         <Container maxWidth="sm" className="category-rated-areas-container">
             <Paper elevation={6} style={{ padding: '20px', marginTop: '20px' }}>
                 <form onSubmit={handleSubmit}>
@@ -77,4 +80,5 @@ function CategoryRatedAreas() {
     );
 }
 
-export default CategoryRatedAreas;
+export default CategoryRatedAreas; // export the CategoryRatedAreas functional component
+ 

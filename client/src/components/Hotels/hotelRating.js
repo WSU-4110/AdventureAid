@@ -1,6 +1,6 @@
 // HotelSentiments.js
-import React, { useState } from 'react';
-import axios from 'axios';
+import React, { useState } from 'react'; // import useState
+import axios from 'axios'; // import axios
 import { Container, TextField, Button, Typography, Paper, Grid } from '@mui/material';
 import './hotelSentiments.scss'; // Import the SCSS file
 
@@ -10,7 +10,7 @@ function SentimentData({ data }) {
         return null;
     }
 
-    return (
+    return ( // return the SentimentData JSX code to render the sentiment analysis results
         <Paper elevation={3} style={{ padding: '20px', marginTop: '20px' }}>
             <Typography variant="h6">Hotel Sentiment Analysis</Typography>
             <Grid container spacing={2} style={{ marginTop: '10px' }}>
@@ -32,14 +32,17 @@ function SentimentData({ data }) {
 
 // Main HotelSentiments Component
 function HotelSentiments() {
+    // Declare the state variables
     const [hotelIds, setHotelIds] = useState('');
     const [sentiments, setSentiments] = useState(null);
     const [error, setError] = useState('');
 
+    // Define the handleInputChange function to update the hotelIds state variable when the user types in the form field
     const handleInputChange = (e) => {
         setHotelIds(e.target.value);
     };
 
+    // Define the fetchSentiments function to send the hotelIds to the server when the user clicks the Get Sentiments button
     const fetchSentiments = async () => {
         try {
             const response = await axios.get(`http://localhost:3001/api/hotelRating/hotel-sentiments`, {
@@ -53,7 +56,7 @@ function HotelSentiments() {
         }
     };
 
-    return (
+    return ( // return the HotelSentiments JSX code to render the form field and the sentiment analysis results
         <Container maxWidth="sm" className="hotel-sentiments-container">
             <Paper elevation={6} style={{ padding: '20px', marginTop: '20px' }}>
                 <TextField
@@ -76,4 +79,4 @@ function HotelSentiments() {
     );
 }
 
-export default HotelSentiments;
+export default HotelSentiments; // export the HotelSentiments component

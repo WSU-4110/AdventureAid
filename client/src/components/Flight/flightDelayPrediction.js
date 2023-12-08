@@ -1,11 +1,12 @@
-import React, { useState } from 'react';
-import axios from 'axios';
-import "./flightDelayPrediction.scss";
-import FlightOfferCard from './flightCard';
-import { Container, Grid, TextField, Button, Paper, Typography } from '@mui/material';
+import React, { useState } from 'react'; // import useState
+import axios from 'axios'; // import axios
+import "./flightDelayPrediction.scss"; // import the stylesheet
+import FlightOfferCard from './flightCard'; // import the FlightOfferCard component
+import { Container, Grid, TextField, Button, Paper, Typography } from '@mui/material'; // import the Material UI components
 
-import "./flightDelayPrediction.scss";
+import "./flightDelayPrediction.scss"; // import the stylesheet
 
+// import the FlightOfferCard component
 const FlightDelayPredictionComponent = () => {
   const [formData, setFormData] = useState({
     originLocationCode: '',
@@ -19,6 +20,7 @@ const FlightDelayPredictionComponent = () => {
     flightNumber: '',
     duration: ''
   });
+  // const [formData, setFormData] = useState({}); // initialize the formData state variable
   const [predictionResult, setPredictionResult] = useState(null);
 
   const handleChange = (e) => {
@@ -26,6 +28,7 @@ const FlightDelayPredictionComponent = () => {
     setFormData(prevState => ({ ...prevState, [name]: value }));
   };
 
+  // const handleChange = (e) => { // define the handleChange function to update the formData state variable when the user types in the form fields 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
@@ -36,7 +39,8 @@ const FlightDelayPredictionComponent = () => {
     }
   };
 
-  return (
+  // const handleSubmit = async (e) => { // define the handleSubmit function to send the form data to the server when the user clicks the Predict Flight Delay button
+  return ( // return the FlightDelayPredictionComponent JSX code to render the form fields and the prediction result  
     <Container component="main" maxWidth="md" className="flight-delay-prediction-container">
       <Paper elevation={6} style={{ padding: '20px', marginTop: '20px' }}>
         <Typography component="h1" variant="h5" style={{ marginBottom: '20px' }}>
@@ -177,5 +181,6 @@ const FlightDelayPredictionComponent = () => {
     </Container>
   );
 };
+// export the FlightDelayPredictionComponent
 
 export default FlightDelayPredictionComponent;
