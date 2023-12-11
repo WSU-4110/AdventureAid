@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import { calendarOperations } from './calendarOperation';
 import { vacationOperations } from '../middleware-apis/vacationOperations';
 import { trigger } from '../maps/googlemapsAPI';
 import Box from '@mui/material/Box';
@@ -10,18 +9,15 @@ import Collapse from '@mui/material/Collapse';
 import "./index.scss";
 
 function Calendar() {
-  const [lock, setLock] = useState(false);
-  const [triggerState, setTriggerState] = useState(trigger);
-  const [destinationName, setDestinationName] = useState('');
-  const [destinationAddress, setDestinationAddress] = useState('');
-  const [destinationDate, setDestinationDate] = useState('');
-  const [startDate, setStartDate] = useState('');
-  const [endDate, setEndDate] = useState('');
-  const [dates, setDates] = useState([]);
-  const [expandedId, setExpandedId] = useState(null); // Track expanded card
+  const [lock, setLock] = useState(false);   //lock to prevent multiple initalizations of calendar cards
+  const [triggerState, setTriggerState] = useState(trigger);  //trigger variable to indicate new destination has been added to vacation
+  const [startDate, setStartDate] = useState(''); //starting date of vacation fetched from server
+  const [endDate, setEndDate] = useState(''); //ending date of vacation fetched from server
+  const [dates, setDates] = useState([]); //array containing calendar cards info
+  const [expandedId, setExpandedId] = useState(null); //array for tracking expanded card
 
   useEffect(() => {
-    async function fetchDates() {
+    async function fetchDates() { //function to fetch starting and ending dates of vacation
       try {
         const fetchedStartDate = await vacationOperations.getStartDate();
         setStartDate(fetchedStartDate);
@@ -36,8 +32,8 @@ function Calendar() {
   }, []);
 
   useEffect(() => {
-    const handleTriggerChange = (event) => {
-      setTriggerState(event.detail);
+    const handleTriggerChange = (event) => {  //function handling the trigger updating when destination is added to vacation
+      setTriggerState(event.detail);  
     };
 
     window.addEventListener('triggerChanged', handleTriggerChange);
@@ -48,62 +44,89 @@ function Calendar() {
   }, []);
 
   useEffect(() => {
-    if ((startDate && endDate) && lock === false) {
-      calendarOperations.initializeCalendar(startDate, endDate, setDates);
-      setLock(true);
+    if ((startDate && endDate) && lock === false) { //initializeCalendar call only in very beginnging and when startDate and endDate have been retrived
+      function initializeCalendar(startDateStr, endDateStr) {
+        //helper function to create a Date object from a date string in local time
+        const createDateAsLocal = (dateStr) => {
+            const [year, month, day] = dateStr.split('-').map(num => parseInt(num, 10));
+            return new Date(year, month - 1, day);
+        };
+
+        const startDate = createDateAsLocal(startDateStr);
+        const endDate = createDateAsLocal(endDateStr);
+        const formattedDates = [];
+
+        const formatDate = (date) => {  //helper function to format the date
+            const daysOfWeek = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+            const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+
+            const dayOfWeek = daysOfWeek[date.getDay()];
+            const month = months[date.getMonth()];
+            const dayNumber = date.getDate();
+
+            return `${dayOfWeek}, ${month} ${dayNumber}`;
+        };
+
+        for (let iterateDate = new Date(startDate); iterateDate <= endDate; iterateDate = new Date(iterateDate.getFullYear(), iterateDate.getMonth(), iterateDate.getDate() + 1)) {
+            formattedDates.push({
+                dateString: formatDate(new Date(iterateDate)),
+                events: [] //initially no events
+            });
+        }
+        setDates(formattedDates);
+      }
+      initializeCalendar(startDate, endDate);
+      setLock(true);  //lock is set to true to prevent future calls from happening
     }
     if (lock === true && triggerState !== null) {
-      async function fetchDestinationInfo() {
+      async function fetchDestinationInfo() { //retrive info from destination when triggered from trigger variable
         try {
           const fetchedDestinationName = await vacationOperations.getDestinationName();
           const fetchedDestinationAddress = await vacationOperations.getDestinationAddress();
           const fetchedDestinationDate = await vacationOperations.getDestinationDate();
-          setDestinationName(fetchedDestinationName);
-          setDestinationAddress(fetchedDestinationAddress);
-          setDestinationDate(fetchedDestinationDate);
+          addEventToDate(fetchedDestinationDate, fetchedDestinationName, fetchedDestinationAddress);  //add the destinaion info to the calendar cards cooresponding date
           //alert(`${destinationName} and ${destinationAddress} and ${destinationDate}`)
         } catch (error) {
           console.error('Error fetching dates:', error);
         }
       }
-      function addEventToDate(dateString, eventName, eventDescription) {
-        setDates(prevDates => {
-          const newDates = [...prevDates];
-          const dateIndex = newDates.findIndex(d => d.dateString === dateString);
-    
-          if (dateIndex >= 0) {
-            newDates[dateIndex].events.push({ name: eventName, description: eventDescription });
-          } else {
-            console.error('Date not found in calendar');
-          }
-    
-          return newDates;
-        });
-      }
       fetchDestinationInfo();
     }
   }, [startDate, endDate, triggerState]);
 
-  useEffect(() => {
-    function addEventToDate(dateString, eventName, eventDescription) {
-      setDates(prevDates => {
-        const newDates = [...prevDates];
-        const dateIndex = newDates.findIndex(d => d.dateString === dateString);
-
-        if (dateIndex >= 0) {
-          newDates[dateIndex].events.push({ name: eventName, description: eventDescription });
-        } else {
-          console.error('Date not found in calendar');
-        }
-
-        return newDates;
+  function addEventToDate(dateString, eventName, eventDescription) {
+    setDates(prevDates => {
+      const newDates = [...prevDates];
+      const dateIndex = newDates.findIndex(d => {
+        // Monday, December 13 != 2023-12-13
+        const createDateAsLocal = (dateStr) => {
+          const [year, month, day] = dateStr.split('-').map(num => parseInt(num, 10));
+          return new Date(year, month - 1, day);
+        };
+        const formatDate = (date) => {
+          const daysOfWeek = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+          const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+          const dayOfWeek = daysOfWeek[date.getDay()];
+          const month = months[date.getMonth()];
+          const dayNumber = date.getDate();
+          return `${dayOfWeek}, ${month} ${dayNumber}`;
+        };
+        let dateToBeCompared = formatDate(createDateAsLocal(dateString));
+        //alert(`${d.dateString} != ${dateToBeCompared}`);
+        return d.dateString === dateToBeCompared;
       });
-    }
-
-    if (destinationName && destinationAddress && destinationDate) {
-      addEventToDate(destinationDate, destinationName, destinationAddress);
-    }
-  }, [destinationName, destinationAddress, destinationDate]);
+  
+      if (dateIndex >= 0) {
+        newDates[dateIndex].events.push({ name: eventName, description: eventDescription });
+      } else {
+        alert('Date not found in your calendar');
+      }
+  
+      return newDates;
+    });
+  }
+  
+  
 
   const handleExpandClick = (index) => {
     setExpandedId(expandedId === index ? null : index);
@@ -118,7 +141,6 @@ function Calendar() {
           </CardContent>
           <Collapse in={expandedId === index} timeout="auto" unmountOnExit>
             <CardContent>
-              <Typography paragraph>Details for {dateObj.dateString}</Typography>
               {dateObj.events.length > 0 ? (
                 dateObj.events.map((event, eventIndex) => (
                   <Typography key={eventIndex} paragraph>
