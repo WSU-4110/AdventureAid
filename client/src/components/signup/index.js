@@ -19,7 +19,7 @@ function SignupForm({ onLogin }) {
 
   setError('');
 
-  //post method implement
+  //post method implement and endpoint
   try {
     const response = await fetch('http://localhost:3001/api/signup', { // postman method tried on this link http://localhost:3001/api/signup and api/loginuser for login
       method: 'POST',
