@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+const mongoose = require('mongoose'); // needs to import this for testing
 require('dotenv').config();
 
 (async () => {
@@ -7,7 +7,7 @@ require('dotenv').config();
         useNewUrlParser: true,
         useUnifiedTopology: true,
       });
-  
+  // console .log will help in testing and debugging
       console.log(
         `ENV : Mongodb connection successfully created.`
       );
@@ -20,7 +20,7 @@ require('dotenv').config();
         console.log('Mongoose disconnected from database');
       });
   
-      // Gracefully close connections when the process is terminated
+      // close connections when the process is stopped
       process.on('SIGINT', () => {
         mongoose.connection.close(() => {
           console.log(

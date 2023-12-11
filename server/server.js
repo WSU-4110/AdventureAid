@@ -9,8 +9,6 @@ require('./api/connection.js');
 const dbOperations = require('./api/mongoDB.js');
 const flightStatusRoutes = require('./api/Flight/flightStatus.js');
 const weatherRoutes = require('./api/Weather/weather.js');
-//const mongoose = require('mongoose');
-//const signupRoute = require('./routes/signupRoute');
 const flightSearchRoutes = require('./api/Flight/flightSearch.js');
 const hotelListRoutes = require('./api/Hotels/hotelList.js');
 const hotelNameAutocompleteRoutes = require('./api/Hotels/hotelNameAutocomplete.js');
@@ -18,7 +16,6 @@ const flightDelayPrediction = require('./api/Flight/flightDelayPrediction.js');
 const budgetPlannerRoutes = require('./api/Budget/budgetPlanner.js');
 require("dotenv").config();
 const { Destination, Vacation } = require("./middleware/vacation.js");
-//const User = require('./schemas/signupdata');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const userRoute = require('./routes/signupRoute.js');
@@ -40,7 +37,7 @@ app.use('/api/flightStatus', flightStatusRoutes); // Enable the flight status ro
 app.use('/api/flightSearch', flightSearchRoutes); // Enable the flight search routes for the /api/flightSearch endpoint
 app.use('/api/hotelList', hotelListRoutes); // Enable the hotel list routes for the /api/hotelList endpoint
 app.use('/api/hotelNameAutocomplete', hotelNameAutocompleteRoutes); // Enable the hotel name autocomplete routes for the /api/hotelNameAutocomplete endpoint
-app.use('/api',userRoute);
+app.use('/api',userRoute); // Enable the user route for signup/login endpoint.
 app.use('/api/hotelRating', hotelRating); // Enable the hotel rating routes for the /api/hotelRating endpoint
 app.use('/api/flightDelayPrediction', flightDelayPrediction); // Enable the flight delay prediction routes for the /api/flightDelayPrediction endpoint
 app.use('/api/categoryRatedAreas', categoryRatedAreas); // Enable the category rated areas routes for the /api/categoryRatedAreas endpoint

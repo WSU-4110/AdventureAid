@@ -1,6 +1,6 @@
-const bcrypt = require('bcryptjs');
+const bcrypt = require('bcryptjs'); // need to install bcrypt if you are running
 
-async function hash(password){
+async function hash(password){ //function
     let hashedPassword;
     try{
         hashedPassword = await bcrypt.hash(password, 10); //await function will wait
@@ -18,7 +18,7 @@ async function compare(password,userPassword){
         console.log(err);
     }
 }
-
+//export
 module.exports = {
     hash,
     compare

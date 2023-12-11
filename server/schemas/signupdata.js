@@ -1,7 +1,8 @@
-const mongoose = require('mongoose');
+const mongoose = require('mongoose'); // needs to import mongoose 
 const Schema = mongoose.Schema;
 const Joi = require('joi');
 
+//Schema will make sure the requirement
 
 const signupSchema = new Schema({
     
@@ -15,7 +16,7 @@ const signupSchema = new Schema({
         require:true
     }
 });
-
+// validating the email and password by string only
 const validation = Joi.object({
     email: Joi.string().email().required(),
     password: Joi.string().required()
