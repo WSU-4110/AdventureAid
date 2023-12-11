@@ -1,6 +1,6 @@
 # AdventureAid - Travel Planner Web App
 
-Welcome to AdventureAid, a comprehensive travel planner web application, similar in function to Expedia, designed to consolidate basic travel planning features into one intuitive platform. This React project leverages JavaScript, Node.js, and Express.js to deliver a seamless user experience for your travel planning needs.
+Welcome to AdventureAid, a comprehensive travel planner web application designed to consolidate basic travel planning features into one intuitive platform. This React project leverages JavaScript, Node.js, and Express.js to deliver a seamless user experience for your travel planning needs.
 
 ## Getting Started
 
