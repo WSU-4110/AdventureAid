@@ -3,23 +3,28 @@ import { Box } from '@mui/material';
 import { googleMapsOperations } from './googlemapsAPI';
 import { vacationOperations } from '../middleware-apis/vacationOperations';
 
-function MapComponent({searchPlaceInput, searchLocationInput}) {
+function MapComponent({searchPlaceInput, searchLocationInput, onAttractionsUpdate}) {
 
     const [defaultLocality, setDefaultLocality] = useState('');
     const mapInstanceRef = useRef(null);
 
-    async function fetchVacationLocality() {
-        try {
-          const locality = await vacationOperations.getLocality();
-          setDefaultLocality(locality);
-          return locality;
-        } catch (error) {
-          console.error('Error fetching vacation locality:', error);
-        }
-    };
+    const [topAttractions, setTopAttractions] = useState([]);
 
+    useEffect(() => {
+        async function fetchVacationLocality() {
+            try {
+                const locality = await vacationOperations.getLocality();
+                setDefaultLocality(locality);
+            } catch (error) {
+                console.error('Error fetching vacation locality:', error);
+            }
+        };
+
+        fetchVacationLocality()
+    }, []);
+    
     async function initializeMap(locality) {
-        if (!mapInstanceRef.current && locality) {
+        if (!mapInstanceRef.current) {  //it only initializes the map once, once defaultLocality data is fetched and stored
             try {
                 const response = await fetch('http://localhost:3001/api/googlemapsapikey');
                 const data = await response.json();
@@ -60,17 +65,9 @@ function MapComponent({searchPlaceInput, searchLocationInput}) {
     }
 
     useEffect(() => {
-        // Call initializeMap with the fetched locality
-        fetchVacationLocality().then(locality => {
-            if (locality) {
-                initializeMap(locality);
-            }
-        });
-    }, []);
-    
-
-    useEffect(() => {
-        // This effect runs when searchInput changes
+        if (defaultLocality) {
+          initializeMap(defaultLocality);
+        }
         if (mapInstanceRef.current)
         {
             if (searchPlaceInput)
@@ -79,8 +76,33 @@ function MapComponent({searchPlaceInput, searchLocationInput}) {
                 googleMapsOperations.searchLocation(searchLocationInput);
         }
         
-    }, [searchPlaceInput, searchLocationInput]);
+    }, [defaultLocality, searchPlaceInput, searchLocationInput]);
 
+    useEffect(() => {
+        if (defaultLocality && mapInstanceRef.current) {
+            googleMapsOperations.findTopAttractions(defaultLocality)
+            .then(attractions => {
+                setTopAttractions(attractions);
+            })
+            .catch(error => {
+                console.error('Error fetching top attractions:', error);
+          
+            });
+        }
+    }, [defaultLocality]);
+
+    useEffect(() => {
+        if (defaultLocality && mapInstanceRef.current) {
+            googleMapsOperations.findTopAttractions(defaultLocality)
+            .then(attractions => {
+                setTopAttractions(attractions);
+                onAttractionsUpdate(attractions); // Send the attractions data to the parent
+            })
+            .catch(error => {
+                console.error('Error fetching top attractions:', error);
+            });
+        }
+    }, [defaultLocality, onAttractionsUpdate]);
 
     return (
     <Box
@@ -89,13 +111,20 @@ function MapComponent({searchPlaceInput, searchLocationInput}) {
         justifyContent="center"
         alignItems="center"
         marginY="3rem"
-        opacity= "0.5"
+        //opacity= "0.5"
     >
         <Box id="map" sx={{ width: '100%', height: '600px' }} />
         <Box id="routeInfo" sx={{ marginTop: '1rem' }}>
             <span id="distance"></span>
             <span id="duration"></span>
         </Box>
+
+        <h2>Top 5 Local Attractions:</h2>
+            <ul>
+                {topAttractions.map(attraction => (
+                    <li key={attraction.place_id}>{attraction.name}</li>
+                ))}
+            </ul>
     </Box>
     );
 }

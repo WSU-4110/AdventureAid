@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom'; 
-import { Container, Typography, TextField, Checkbox, FormControlLabel, Button, Link, CssBaseline, Paper} from '@mui/material';
+import { Container, Typography, TextField, Checkbox, FormControlLabel, Button, Link, CssBaseline, Paper, InputAdornment,IconButton } from '@mui/material';
 import Helmet from 'react-helmet';
-//import axios from 'axios';
+import axios from 'axios';
+import Visibility from '@mui/icons-material/Visibility';
+import VisibilityOff from '@mui/icons-material/VisibilityOff';
 
 import './index.scss';
 
@@ -11,29 +13,30 @@ function LoginForm({ onLogin }) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [rememberMe, setRememberMe] = useState(false);
- // const [errorMsg, setErrorMsg] = useState('');
-  const [passwordVisible,setPasswordVisible] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
+  const [errorMsg, setErrorMsg] = useState('');
 
 const handleSubmit = async (e) => {
   e.preventDefault();
-  /*setErrorMsg(''); 
-  try {
+  setErrorMsg(''); 
+  try { //below implemented the endpoint of login
     const response = await axios.post('http://localhost:3001/api/loginuser', {
       email,
       password,
     });
     
-    const { Token } = response.data;
+    const { Token, userId } = response.data;
 console.log('token recall',response);//for test
 
-    if (Token) { //
+    if (Token) { //storing the token and validating
       localStorage.setItem('authToken', Token);
+      localStorage.setItem('userId', userId);
       if (onLogin) onLogin();
       navigate('/'); // Navigate to the home page
     } else {
       setErrorMsg('Login failed: No token received.');
     }
-  } catch (error) {
+  } catch (error) { // if there is an error it will show the error message.
     if (error.response) {
       setErrorMsg(`Login failed: ${error.response.data.message}`);
     } else if (error.request) {
@@ -76,48 +79,53 @@ console.log('token recall',response);//for test
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             className="custom-textfield"
-          />
-          <TextField
-            variant="outlined"
-            margin="normal"
-            required
-            fullWidth
-            name="password"
-            label="Password"
-            type={passwordVisible ? "text" : "password"}
-            id="password"
-            autoComplete="current-password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            className="custom-textfield"
-          />
-          <FormControlLabel
-            control={
-              <Checkbox
-                value={rememberMe}
-                onChange={(e) => setRememberMe(e.target.checked)}
-                color="primary"
-              />
-            }
-            label={<Typography className="checkbox-label">Remember me</Typography>}
-          />
-          <Button type="submit" variant="contained" className="custom-button" onClick={handleSubmit}>
+          /><TextField
+          variant="outlined"
+          margin="normal"
+          required
+          fullWidth
+          name="password"
+          label="Password"
+          type={showPassword ? 'text' : 'password'}
+          id="password"
+          autoComplete="current-password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          className="custom-textfield"
+          InputProps={{
+            endAdornment: (
+              <InputAdornment position="end">
+                <IconButton
+                  aria-label="toggle password visibility"
+                  onClick={() => setShowPassword(!showPassword)}
+                  edge="end"
+                >
+                  {showPassword ? <VisibilityOff /> : <Visibility />}
+                </IconButton>
+              </InputAdornment>
+            ),
+          }}
+        />
+        <FormControlLabel
+          control={
+            <Checkbox
+              value={rememberMe}
+              onChange={(e) => setRememberMe(e.target.checked)}
+              color="primary"
+            />
+          }
+          label={<Typography className="checkbox-label">Remember me</Typography>}
+        />
+        <Button type="submit" variant="contained" className="custom-button">
           Sign In
         </Button>
-        <Button onClick={() => setPasswordVisible(!passwordVisible)}>
-        {passwordVisible ? "Hide" : "Show"} Password
-      </Button>
-          <div className="forgot-password">
-            <Link href="#">Forgot password?</Link>
-          </div>
-        </form>
-      </Paper>
-    </Container>
-  );
+        {/* <div className="forgot-password">
+          <Link href="#" onClick={(e) => e.preventDefault()}>Forgot password?</Link>
+        </div> */}
+      </form>
+    </Paper>
+  </Container>
+);
 }
 
 export default LoginForm;
-
-
-
-/* for the testing purpose i had disable post method to bring it back uncomment the lines 5, 14, 19-44 and insert the line that is on 46 */

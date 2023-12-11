@@ -1,8 +1,44 @@
 import { Loader } from "@googlemaps/js-api-loader";
+import { vacationOperations } from "../middleware-apis/vacationOperations";
 
+export var trigger = true; //tripline variable activated only when a new destination has been added to vacation
+
+window.addPlaceToCalendar = function(placeId, placeName, placeAddress, coordinates) { //helper function to add place selected from map marker to calendar
+    const selectedDate = document.getElementById(`datePicker-${placeId}`).value;
+    if (!selectedDate) { //if date is not selected
+        alert('Please select a date.');
+        return;
+    }
+
+    const coordinatesArr = [];  //put coords in an array to be pushed into vacation instance
+    coordinatesArr.push(coordinates.lat);
+    coordinatesArr.push(coordinates.lng);
+    //alert(`Add ${placeName} (${placeAddress}) to calendar on ${selectedDate} at ${coordinatesArr}`);
+    vacationOperations.createAndAddDestination(placeName, placeAddress, selectedDate, coordinatesArr);
+
+    //send the trigger variable update to Calendar component for calendar cards info updating
+    trigger = !trigger;
+    const event = new CustomEvent('triggerChanged', { detail: trigger });
+    window.dispatchEvent(event);
+};
+
+function escapeHtml(text) { //helper function to ensure that the place name and address are safely encoded when injected into the HTML
+    var map = {
+        '&': '&amp;',
+        '<': '&lt;',
+        '>': '&gt;',
+        '"': '&quot;',
+        "'": '&#039;'
+    };
+    return text.replace(/[&<>"']/g, function(m) { return map[m]; });
+}
+
+
+let defaultLat, defaultLong; // global variables to store the vacation's locality lat and long
 let loaderInstance = null;
 let directionsService, directionsRenderer;
-let mapInstance, infoWindow, markers = [];    // store the instance of the map, information window, initialize markers array
+let mapInstance, infoWindow;    // global variables to store mapInstance and infoWindow
+let markers = [];    // store the instance of the map, information window, initialize markers array
 export const googleMapsOperations = {
     displayGoogleMaps: function() {
         // Fetch the Google Maps API key from the server.
@@ -77,18 +113,17 @@ export const googleMapsOperations = {
         // Add the marker to the markers array 
         markers.push(marker);
     },
-
     initalizeMap: async function(defaultLocalityName) {    
-        // Initialize the geocoder
-        const geocoder = new window.google.maps.Geocoder();
         try {
-            // Geocode the location name to get latitude and longitude
-            const geocodeResult = await geocoder.geocode({ address: defaultLocalityName });
+            const geocoder = new window.google.maps.Geocoder();// Initialize the geocoder
+            const geocodeResult = await geocoder.geocode({ address: defaultLocalityName });// Geocode the location name to get latitude and longitude
             const location = geocodeResult.results[0].geometry.location;
     
             // Initialize the map with the geocoded location as the center
-            const mapInstance = new window.google.maps.Map(document.getElementById("map"), {
-                center: { lat: location.lat(), lng: location.lng() },
+            defaultLat = location.lat();
+            defaultLong = location.lng();
+            mapInstance = new window.google.maps.Map(document.getElementById("map"), {
+                center: { lat: defaultLat, lng: defaultLong },
                 zoom: 12,
             });
     
@@ -198,6 +233,13 @@ export const googleMapsOperations = {
                     <div>
                         <h3>${place.name}</h3>
                         <p>${place.formatted_address}</p>
+                        <input type="date" id="datePicker-${place.place_id}" name="date">
+                        <button onclick="addPlaceToCalendar('${place.place_id}', 
+                        '${escapeHtml(place.name)}', 
+                        '${escapeHtml(place.formatted_address)}',
+                         {lat: ${place.geometry.location.lat()}, lng: ${place.geometry.location.lng()}})">
+                         Add to Calendar
+                         </button>
                     </div>
                 `;
 
@@ -278,7 +320,6 @@ export const googleMapsOperations = {
             }
         });
     },
-
     fetchTopPlacesForLocation: async function(locationName) {
         // Replace with the actual URL or endpoint you need to hit to get the top places for a location
         const url = `http://localhost:3001/api/topplaces/${locationName}`;
@@ -294,5 +335,4 @@ export const googleMapsOperations = {
             return []; // Return an empty array in case of an error
         }
     }
-    
 }

@@ -1,11 +1,11 @@
-const express = require('express');
-const axios = require('axios');
-const querystring = require('querystring');
-require('dotenv').config();
+const express = require('express'); // Express web server framework
+const axios = require('axios'); // Axios HTTP client
+const querystring = require('querystring'); // Node query string module
+require('dotenv').config(); // Dotenv module to load environment variables from .env file
 
-const router = express.Router();
-const AMADEUS_API_KEY = process.env.AMADEUS_API_KEY;
-const AMADEUS_API_SECRET = process.env.AMADEUS_API_SECRET;
+const router = express.Router(); // Express router
+const AMADEUS_API_KEY = process.env.AMADEUS_API_KEY; // Amadeus API key
+const AMADEUS_API_SECRET = process.env.AMADEUS_API_SECRET; // Amadeus API secret
 
 // Same function to retrieve the Amadeus API token
 async function getAmadeusToken() {
@@ -15,20 +15,21 @@ async function getAmadeusToken() {
         grant_type: 'client_credentials'
     });
 
-    try {
+    try { // Send a POST request to the Amadeus API server to retrieve the token
         const tokenResponse = await axios.post('https://test.api.amadeus.com/v1/security/oauth2/token', authData, {
             headers: {
                 'Content-Type': 'application/x-www-form-urlencoded'
             }
         });
         return tokenResponse.data.access_token;
-    } catch (error) {
+    } catch (error) { // Handle errors
         console.error("Error fetching Amadeus token:", error);
         throw error;
     }
     
 }
 
+// Endpoint to retrieve flight delay prediction from Amadeus API server using the parameters received from the query string
 function constructHotelSearchURL(endpoint, params) {
     let url = `https://test.api.amadeus.com/v1/reference-data/locations/${endpoint}?`;
 
@@ -49,6 +50,7 @@ router.get('/hotels/by-hotels', async (req, res) => {
         return res.status(400).send({ message: 'Required parameter: hotelId.' });
     }
 
+    // Retrieve the Amadeus API token from the Amadeus API server using the API key and secret
     let token;
     try {
         token = await getAmadeusToken();
@@ -76,6 +78,7 @@ router.get('/hotels/by-city', async (req, res) => {
         return res.status(400).send({ message: 'Required parameter: cityCode.' });
     }
 
+    // Retrieve the Amadeus API token from the Amadeus API server using the API key and secret
     const queryParams = {
         cityCode,
         radius: radius || 5,
@@ -97,6 +100,7 @@ router.get('/hotels/by-geocode', async (req, res) => {
         return res.status(400).send({ message: 'Required parameters: latitude, longitude.' });
     }
 
+    // Retrieve the Amadeus API token from the Amadeus API server using the API key and secret
     const queryParams = {
         latitude,
         longitude,
@@ -111,16 +115,16 @@ router.get('/hotels/by-geocode', async (req, res) => {
     await fetchHotelData(res, 'hotels/by-geocode', queryParams);
 });
 
-
+// Search Hotels using Geocode and radius and radiusUnit and chainCodes and amenities and ratings and hotelSource
 async function fetchHotelData(res, endpoint, queryParams) { // fetch hotel data from Amadeus
     let token;
-    try {
+    try { // Retrieve the Amadeus API token from the Amadeus API server using the API key and secret
         token = await getAmadeusToken();
     } catch (error) {
         return res.status(500).send({ message: 'Failed to authenticate with Amadeus', error: error.message });
     }
 
-    try {
+    try { // Send a GET request to the Amadeus API server to retrieve the flight delay prediction
         const hotelResponse = await axios.get(constructHotelSearchURL(endpoint, queryParams), {
             headers: {
                 'Authorization': `Bearer ${token}`

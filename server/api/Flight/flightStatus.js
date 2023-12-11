@@ -1,12 +1,13 @@
-const express = require('express');
-const axios = require('axios');
+const express = require('express'); // 1. Add this for Express
+const axios = require('axios'); // 1. Add this for making HTTP requests
 const querystring = require('querystring'); // 1. Add this for formatting
-require('dotenv').config();
+require('dotenv').config(); // 1. Add this to load environment variables from .env file
 
-const router = express.Router();
-const AMADEUS_API_KEY = process.env.AMADEUS_API_KEY;
-const AMADEUS_API_SECRET = process.env.AMADEUS_API_SECRET;
+const router = express.Router(); // 1. Add this for Express
+const AMADEUS_API_KEY = process.env.AMADEUS_API_KEY; // 1. Add this for Amadeus API key
+const AMADEUS_API_SECRET = process.env.AMADEUS_API_SECRET; // 1. Add this for Amadeus API secret
 
+// 2. Add this endpoint to retrieve flight status from Amadeus API server using the parameters received from the query string
 router.get('/flight-status', async (req, res) => {
     const { carrierCode, flightNumber, scheduledDepartureDate } = req.query;
 
@@ -24,6 +25,7 @@ router.get('/flight-status', async (req, res) => {
         grant_type: 'client_credentials'
     });
 
+    // Send a POST request to the Amadeus API server to retrieve the token
     try {
         const tokenResponse = await axios.post('https://test.api.amadeus.com/v1/security/oauth2/token', authData, {
             headers: {
@@ -39,14 +41,14 @@ router.get('/flight-status', async (req, res) => {
     // Step 2: Use the token to fetch flight status
     const url = `https://test.api.amadeus.com/v2/schedule/flights?carrierCode=${carrierCode}&flightNumber=${flightNumber}&scheduledDepartureDate=${scheduledDepartureDate}`;
 
-    try {
+    try { // Send a GET request to the Amadeus API server to retrieve the flight status
         const flightStatusResponse = await axios.get(url, {
             headers: {
                 'Authorization': `Bearer ${token}`
             }
         });
         res.send(flightStatusResponse.data);
-    } catch (error) {
+    } catch (error) { // Handle errors
         if (error.response) {
             return res.status(error.response.status).send({ message: 'Error retrieving flight status', error: error.response.data });
         } else {

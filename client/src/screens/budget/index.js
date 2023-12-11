@@ -1,7 +1,7 @@
 import { Typography, Grid, Container } from '@mui/material';
 
 import Navbar from '../../components/navbar';
-
+import BudgetPlanner from '../../components/budget-planner/index.js';
 import './index.scss';
 
 
@@ -20,6 +20,9 @@ function About() {
             <Typography variant="h1" fontSize={{ xs: "3rem", md: "5rem" }} textAlign="center">
               Budget
             </Typography>
+          </Grid>
+          <Grid item>
+            <BudgetPlanner />
           </Grid>
         </Grid>
       </Container>

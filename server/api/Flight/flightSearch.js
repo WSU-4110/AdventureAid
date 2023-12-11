@@ -1,11 +1,11 @@
-const express = require('express');
-const axios = require('axios');
-const querystring = require('querystring');
-require('dotenv').config();
+const express = require('express'); // Express web server framework 
+const axios = require('axios'); // Axios HTTP client
+const querystring = require('querystring'); // Node query string module
+require('dotenv').config(); // Dotenv module to load environment variables from .env file
 
-const router = express.Router();
-const AMADEUS_API_KEY = process.env.AMADEUS_API_KEY;
-const AMADEUS_API_SECRET = process.env.AMADEUS_API_SECRET;
+const router = express.Router(); // Express router
+const AMADEUS_API_KEY = process.env.AMADEUS_API_KEY; // Amadeus API key
+const AMADEUS_API_SECRET = process.env.AMADEUS_API_SECRET; // Amadeus API secret
 
 // Function to retrieve the Amadeus API token
 async function getAmadeusToken() {
@@ -15,12 +15,13 @@ async function getAmadeusToken() {
         grant_type: 'client_credentials'
     });
 
+    // Send a POST request to the Amadeus API server to retrieve the token
     try {
         const tokenResponse = await axios.post('https://test.api.amadeus.com/v1/security/oauth2/token', authData, {
             headers: {
                 'Content-Type': 'application/x-www-form-urlencoded'
             }
-        });
+        }); // Send a POST request to the Amadeus API server to retrieve the token
         return tokenResponse.data.access_token;
     } catch (error) {
         console.error("Error fetching Amadeus token:", error);
@@ -28,16 +29,19 @@ async function getAmadeusToken() {
     }
 }
 
+// Endpoint to retrieve flight delay prediction from Amadeus API server using the parameters received from the query string
 router.get('/flight-offers', async (req, res) => {
     const {
         origin, destination, departureDate, adults, returnDate, children, infants,
         travelClass, includedAirlineCodes, excludedAirlineCodes,  nonStop, currencyCode, maxPrice, max
     } = req.query;
 
+    // Validate required parameters
     if (!origin || !destination || !departureDate || !adults) {
         return res.status(400).send({ message: 'Required parameters: origin, destination, departureDate.' });
     }
 
+    // Retrieve the Amadeus API token from the Amadeus API server using the API key and secret
     let token;
     try {
         token = await getAmadeusToken();
@@ -45,8 +49,9 @@ router.get('/flight-offers', async (req, res) => {
         return res.status(500).send({ message: 'Failed to authenticate with Amadeus', error: error.message });
     }
 
+    // Construct the request URL with the parameters received from the query string
     let url = `https://test.api.amadeus.com/v2/shopping/flight-offers?originLocationCode=${origin}&destinationLocationCode=${destination}&departureDate=${departureDate}&adults=${adults}`;
-
+    // Add optional parameters to the request URL
     if (returnDate) url += `&returnDate=${returnDate}`;
     if (children) url += `&children=${children}`;
     if (infants) url += `&infants=${infants}`;
@@ -58,6 +63,7 @@ router.get('/flight-offers', async (req, res) => {
     if (maxPrice) url += `&maxPrice=${maxPrice}`; // the maximum price for the flight offers
     if (max) url += `&max=${max}`; // the maximum number of flight offers to return
 
+    // Send a GET request to the Amadeus API server to retrieve the flight delay prediction
     try {
         const flightOffersResponse = await axios.get(url, {
             headers: {
@@ -65,7 +71,7 @@ router.get('/flight-offers', async (req, res) => {
             }
         });
         res.send(flightOffersResponse.data);
-    } catch (error) {
+    } catch (error) { // Handle errors
         if (error.response) {
             return res.status(error.response.status).send({ message: 'Error retrieving flight offers', error: error.response.data });
         } else {

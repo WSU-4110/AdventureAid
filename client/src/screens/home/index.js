@@ -6,6 +6,7 @@ import Navbar from '../../components/navbar';
 import { vacationOperations } from '../../components/middleware-apis/vacationOperations';
 import "./index.scss";
 
+
 function Home() {
   const navigate = useNavigate();
 
@@ -105,6 +106,10 @@ function Home() {
             </form>
           </>
         )}
+
+
+
+      
       </Container>
     </>
   );

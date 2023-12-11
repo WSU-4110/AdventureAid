@@ -1,0 +1,27 @@
+
+.user-profile-background{
+  min-height: 100vh;
+  background: url("../../assets//img/login/hero2.png");
+  background-size: cover;
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+
+  .user-profile-text {
+display: flex;
+    justify-content: center;
+    color: white;
+    font-family: 'Agbalumo', cursive;
+    font-size: 3.5rem;
+    @media (max-width: 900px) {
+      font-size: 3rem;
+    }
+    @media(max-width: 600px) {
+      font-size: 2rem;
+      text-align: center;
+    }
+}
+
+}
+
+
