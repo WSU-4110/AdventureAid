@@ -1,10 +1,11 @@
-import React, { useState } from 'react';
-import axios from 'axios';
-import HotelCard from './hotelCard'; 
-import { Container, TextField, Button, Grid, Typography, Paper } from '@mui/material';
+import React, { useState } from 'react'; // import useState
+import axios from 'axios'; // import axios
+import HotelCard from './hotelCard';  // import the HotelCard component
+import { Container, TextField, Button, Grid, Typography, Paper } from '@mui/material'; // import the Material UI components
 
-function HotelSearch() {
-    const [searchParams, setSearchParams] = useState({
+function HotelSearch() { // define the HotelSearch functional component
+    const [searchParams, setSearchParams] = useState({  
+      // initialize the searchParams state variable
         cityCode: '',
         latitude: '',
         longitude: '',
@@ -16,13 +17,16 @@ function HotelSearch() {
         hotelSource: 'ALL',
         hotelId: '',
     });
+    // const [searchParams, setSearchParams] = useState({}); // initialize the searchParams state variable
     const [results, setResults] = useState(null);
     const [error, setError] = useState('');
 
+    // const [results, setResults] = useState(null); // initialize the results state variable
     const handleInputChange = (e) => {
         setSearchParams({ ...searchParams, [e.target.name]: e.target.value });
     };
 
+    // const handleInputChange = (e) => { // define the handleInputChange function to update the searchParams state variable when the user types in the form fields
     const handleSearch = async (endpoint) => {
         try {
             const response = await axios.get(`http://localhost:3001/api/hotelList/hotels/${endpoint}`, {
@@ -34,7 +38,7 @@ function HotelSearch() {
         }
     };
 
-    return (
+    return ( // return the HotelSearch JSX code to render the form fields and the search results
     <Container maxWidth="md" className="hotel-search-container">
       <Paper elevation={6} style={{ padding: '20px', marginTop: '20px' }}>
         <Grid container spacing={2}>
@@ -115,4 +119,4 @@ function HotelSearch() {
   );
 }
 
-export default HotelSearch;
+export default HotelSearch; // export the HotelSearch functional component for use in other components

@@ -1,13 +1,14 @@
-import React, { useState } from 'react';
-import axios from 'axios';
-import { Container, Paper, Grid, TextField, Button, Typography } from '@mui/material';
+import React, { useState } from 'react'; // import useState
+import axios from 'axios'; // import axios
+import { Container, Paper, Grid, TextField, Button, Typography } from '@mui/material'; // import the Material UI components
 
-const FlightStatusComponent = () => {
+const FlightStatusComponent = () => { // define the FlightStatusComponent functional component
   const [formData, setFormData] = useState({
     carrierCode: '',
     flightNumber: '',
     scheduledDepartureDate: ''
   });
+  // const [formData, setFormData] = useState({}); // initialize the formData state variable
   const [flightStatus, setFlightStatus] = useState(null);
 
   const handleChange = (e) => {
@@ -15,6 +16,7 @@ const FlightStatusComponent = () => {
     setFormData(prevState => ({ ...prevState, [name]: value }));
   };
 
+  // const handleChange = (e) => { // define the handleChange function to update the formData state variable when the user types in the form fields
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
@@ -25,6 +27,7 @@ const FlightStatusComponent = () => {
     }
   };
 
+  // const handleSubmit = async (e) => { // define the handleSubmit function to send the form data to the server when the user clicks the Check Flight Status button
   const formatFlightData = (data) => {
     if (!data || !data.data) return null;
     return data.data.map(flight => ({
@@ -36,7 +39,7 @@ const FlightStatusComponent = () => {
     }));
   };
 
-  return (
+  return ( // return the FlightStatusComponent JSX code to render the form fields and the flight status
     <Container maxWidth="sm" className="flight-status-container">
       <Paper elevation={6} style={{ padding: '20px', marginTop: '20px' }}>
         <form onSubmit={handleSubmit}>
@@ -99,5 +102,4 @@ const FlightStatusComponent = () => {
     </Container>
   );
 };
-
-export default FlightStatusComponent;
+export default FlightStatusComponent; // export the FlightStatusComponent functional component for use in other components

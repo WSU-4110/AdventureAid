@@ -1,20 +1,22 @@
-const express = require('express');
-const axios = require('axios');
-const querystring = require('querystring');
-require('dotenv').config();
+const express = require('express'); // Express web server framework
+const axios = require('axios'); // Axios HTTP client
+const querystring = require('querystring'); // Node query string module
+require('dotenv').config(); // Dotenv module to load environment variables from .env file
 
-const router = express.Router();
-const AMADEUS_API_KEY = process.env.AMADEUS_API_KEY;
-const AMADEUS_API_SECRET = process.env.AMADEUS_API_SECRET;
+const router = express.Router(); // Express router
+const AMADEUS_API_KEY = process.env.AMADEUS_API_KEY; // Amadeus API key
+const AMADEUS_API_SECRET = process.env.AMADEUS_API_SECRET; // Amadeus API secret
 
 // Function to retrieve the Amadeus API token
 async function getAmadeusToken() {
+    // Construct the request body with the API key, secret and grant type
     const authData = querystring.stringify({
         client_id: AMADEUS_API_KEY,
         client_secret: AMADEUS_API_SECRET,
         grant_type: 'client_credentials'
     });
 
+    // Send a POST request to the Amadeus API server to retrieve the token
     try {
         const tokenResponse = await axios.post('https://test.api.amadeus.com/v1/security/oauth2/token', authData, {
             headers: {
@@ -46,10 +48,12 @@ function constructHotelSearchURL(endpoint, params) {
 router.get('/hotels/autocomplete', async (req, res) => {
     const { keyword, subType } = req.query;
 
+    // Validate required parameters
     if (!keyword) {
         return res.status(400).send({ message: 'Required parameter: keyword.' });
     }
 
+    // Validate subType parameter
     if(!subType) {
         return res.status(400).send({ message: 'Required parameter: subType.' });
     }
@@ -60,10 +64,12 @@ router.get('/hotels/autocomplete', async (req, res) => {
     const allowedSubTypes = ['HOTEL_LEISURE', 'HOTEL_GDS'];
     subTypes = subTypes.filter(type => allowedSubTypes.includes(type));
 
+    // Validate subTypes array to contain at least one value
     if (subTypes.length === 0) {
         return res.status(400).send({ message: 'Invalid subType parameter. Must be "HOTEL_LEISURE" or "HOTEL_GDS".' });
     }
 
+    // Retrieve the Amadeus API token from the Amadeus API server using the API key and secret
     let token;
     try {
         token = await getAmadeusToken();
@@ -71,11 +77,13 @@ router.get('/hotels/autocomplete', async (req, res) => {
         return res.status(500).send({ message: 'Failed to authenticate with Amadeus', error: error.message });
     }
 
+    // Construct the request URL with the parameters received from the query string
     const queryParams = {
         keyword,
         subType: subTypes.join(','), // Convert array to comma-separated string
     };
 
+    // Send a GET request to the Amadeus API server to retrieve the hotel name autocomplete results
     try {
         const hotelResponse = await axios.get(constructHotelSearchURL('hotel', queryParams), {  // 'autocomplete' replaced with 'hotel'
             headers: {
@@ -83,7 +91,7 @@ router.get('/hotels/autocomplete', async (req, res) => {
             }
         });
         res.send(hotelResponse.data);
-    } catch (error) {
+    } catch (error) { // Handle errors
         handleError(res, error);
     }
 });
