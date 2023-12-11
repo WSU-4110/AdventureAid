@@ -19,7 +19,7 @@ function LoginForm({ onLogin }) {
 const handleSubmit = async (e) => {
   e.preventDefault();
   setErrorMsg(''); 
-  try {
+  try { //below implemented the endpoint of login
     const response = await axios.post('http://localhost:3001/api/loginuser', {
       email,
       password,
@@ -28,7 +28,7 @@ const handleSubmit = async (e) => {
     const { Token, userId } = response.data;
 console.log('token recall',response);//for test
 
-    if (Token) { //
+    if (Token) { //storing the token and validating
       localStorage.setItem('authToken', Token);
       localStorage.setItem('userId', userId);
       if (onLogin) onLogin();
@@ -36,7 +36,7 @@ console.log('token recall',response);//for test
     } else {
       setErrorMsg('Login failed: No token received.');
     }
-  } catch (error) {
+  } catch (error) { // if there is an error it will show the error message.
     if (error.response) {
       setErrorMsg(`Login failed: ${error.response.data.message}`);
     } else if (error.request) {
