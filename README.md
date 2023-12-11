@@ -1,3 +1,27 @@
+# AdventureAid - Travel Planner Web App
+
+Welcome to AdventureAid, a comprehensive travel planner web application, similar in function to Expedia, designed to consolidate basic travel planning features into one intuitive platform. This React project leverages JavaScript, Node.js, and Express.js to deliver a seamless user experience for your travel planning needs.
+
+## Getting Started
+
+This project is developed using the [Create React App](https://github.com/facebook/create-react-app) framework. Follow the instructions below to set up the project on your local machine for development and testing purposes.
+
+### Prerequisites
+
+Before running the project, ensure you have the following installed:
+- Node.js
+- npm (Node Package Manager)
+
+### Installation
+
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/your-username/AdventureAid.git
+
+2. Navigate to the project directory
+   - cd AdventureAid
+   - yarn install
+
 ### Running the Application
 
 In the project directory, you can run several commands:
