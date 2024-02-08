@@ -1,17 +1,30 @@
-//setting up Express app
-
 const express = require('express');
-const app = express();
 const dotenv = require('dotenv');
-const signupRoute = require('./routes/signupRoutes');
+const cors = require('cors');
+const bodyParser = require('body-parser');
+const signupRoute = require('./routes/signupRoute');
+const flightStatusRoutes = require('./api/Flight/flightStatus');
+const flightSearchRoutes = require('./api/Flight/flightSearch');
+const flightDelayPrediction = require('./api/Flight/flightDelayPrediction');
+const weatherRoutes = require('./api/Weather/weather');
+const hotelListRoutes = require('./api/Hotels/hotelList');
+// Add any other routes you have
 
 dotenv.config();
+const app = express();
 
+// Middleware
 app.use(express.json());
-app.use(signupRoute);
+app.use(cors({ origin: 'http://localhost:3000' }));
+app.use(bodyParser.json());
 
-const PORT = process.env.PORT || 3001;
-app.listen(PORT, () => {
-    console.log(`Server started on port ${PORT}`);
-});
+// Route registrations
+app.use('/api/flightStatus', flightStatusRoutes);
+app.use('/api/flightSearch', flightSearchRoutes);
+app.use('/api/flightDelayPrediction', flightDelayPrediction);
+app.use('/api/weather', weatherRoutes);
+app.use('/api/hotelList', hotelListRoutes);
+app.use('/api', signupRoute);
+// Add any other routes here
 
+module.exports = app; // Export the app

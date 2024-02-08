@@ -20,7 +20,7 @@ require('dotenv').config();
         console.log('Mongoose disconnected from database');
       });
   
-      // Gracefully close connections when the process is terminated
+      //  close connections when the process is terminated
       process.on('SIGINT', () => {
         mongoose.connection.close(() => {
           console.log(

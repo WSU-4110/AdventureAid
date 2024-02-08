@@ -44,7 +44,14 @@ console.log('token recall',response);//for test
     } else {
       setErrorMsg('Login failed: An error occurred.');
     }
-  }
+  } 
+  
+  in  line 64 insert {errorMsg && <div className="error-message">{errorMsg}</div>}
+  
+  */
+
+  if (onLogin) onLogin();
+  navigate('/'); // Navigate to the home page
 };
 
   return (
@@ -57,7 +64,7 @@ console.log('token recall',response);//for test
 
       <Paper elevation={3} className="login-paper">
         <Typography variant="h5">Sign in</Typography>
-        {errorMsg && <div className="error-message">{errorMsg}</div>}
+        
         <form className="login-form" onSubmit={handleSubmit}>
           <TextField
             variant="outlined"
